@@ -1,0 +1,10 @@
+const COLORS = {
+  MAIN: "#E0B4A4",
+  SECONDARY: "#B2BCBB",
+  TEXT1: "#22404A",
+  TEXT2: "#4C6A78",
+  BACKGROUND: "#E4DCCF",
+  INVERTEDFROMMAIN: "#1f4b5b",
+};
+
+export default COLORS;

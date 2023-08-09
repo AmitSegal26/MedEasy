@@ -1,0 +1,7 @@
+.star-to-choose {
+  display: inline-block;
+}
+.star-to-choose:hover {
+  border: 3px solid transparent;
+  cursor: pointer;
+}

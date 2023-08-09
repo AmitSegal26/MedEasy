@@ -1,0 +1,7 @@
+.navbarMain {
+  cursor: pointer;
+}
+
+.navLink:hover {
+  box-shadow: inset 0 -10px 0px #5b95a9;
+}
