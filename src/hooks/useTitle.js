@@ -11,10 +11,10 @@ const useTitle = () => {
       }
       document.title =
         locationOfRRD.pathname == ROUTES.HOME
-          ? `Forniturize ${makeTitle(locationOfRRD.pathname.split("/")[1])}`
+          ? `MedEasy ${makeTitle(locationOfRRD.pathname.split("/")[1])}`
           : locationOfRRD.pathname.includes(ROUTES.SPECIFICPRODUCT)
-          ? `Forniturize`
-          : `Forniturize - ${makeTitle(locationOfRRD.pathname.split("/")[1])}`;
+          ? `MedEasy`
+          : `MedEasy - ${makeTitle(locationOfRRD.pathname.split("/")[1])}`;
     } else {
       document.title = makeTitle(newTitle);
     }

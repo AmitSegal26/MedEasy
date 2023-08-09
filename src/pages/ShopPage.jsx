@@ -28,6 +28,7 @@ import RateSpecificProduct from "./specificProduct/RateSpecificProduct";
 import { useSelector } from "react-redux";
 import BreakpointsInd from "../devTools/BreakpointsInd";
 import DialogBox from "../components/DialogBox";
+import AddIcon from "@mui/icons-material/Add";
 const ProductsPage = () => {
   const mediaQ = useMediaQuery("(max-width:1200px)");
   const navigate = useNavigate();
@@ -42,10 +43,11 @@ const ProductsPage = () => {
         );
         if (!data || !data.length) {
           toast.error(
-            "no fornitures for sale at the moment, please come back again later!"
+            "no meds for sale at the moment, please come back again later!"
           );
           navigate(ROUTES.HOME);
         }
+        data.push({ ignore: null });
         setProductsArr(data);
       } catch (err) {
         toast.error("something wrong, try again later");
@@ -96,15 +98,8 @@ const ProductsPage = () => {
         return;
       }
       let titleOfCard = ev.target.id.split("||")[0];
-      console.log(
-        "🚀 ~ file: ShopPage.jsx:99 ~ handleAddToCartClick ~ titleOfCard:",
-        titleOfCard
-      );
       let idOfCard = ev.target.id.split("||")[1];
-      console.log(
-        "🚀 ~ file: ShopPage.jsx:101 ~ handleAddToCartClick ~ idOfCard:",
-        idOfCard
-      );
+
       if (!payload) {
         toast.warning(
           `Before adding '${makeTitle(
@@ -125,219 +120,255 @@ const ProductsPage = () => {
   const handleCardClick = (ev) => {
     navigate(`${ROUTES.SPECIFICPRODUCT}/${ev.target.id}`);
   };
+
+  const handleCreateCardClick = () => {
+    navigate(ROUTES.CREATE);
+  };
   if (!productsArr.length) {
     return <CircularProgress />;
   }
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>
-        {productsArr.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.title}>
-            <Card
-              sx={{
-                backgroundColor: COLORS.SECONDARY,
-                border: "0.05rem solid black",
-                height: "650px",
-                p: 2,
-              }}
-            >
-              <CardHeader title={makeTitle(item.title)} />
-              <CardActionArea>
-                <CardMedia
-                  id={item._id}
-                  sx={{ borderRadius: 1 }}
-                  component="img"
-                  height="250"
-                  alt={item.image.alt || "Default Image Of Forniture"}
-                  image={makeALegitStringForImage(item)}
-                  onClick={handleCardClick}
-                />
-              </CardActionArea>
-              <CardContent
+        {productsArr.map((item) =>
+          !item.hasOwnProperty("ignore") ? (
+            <Grid item xs={12} sm={6} md={4} key={item.title}>
+              <Card
                 sx={{
-                  height: "85px",
-                  marginBlock: 3,
-                  overflowY: "scroll",
+                  backgroundColor: COLORS.SECONDARY,
+                  border: "0.05rem solid black",
+                  height: "650px",
+                  p: 2,
                 }}
               >
-                {makeTitle(item.description)}
-              </CardContent>
-              <Grid container spacing={2}>
-                <DialogBox
-                  idOfComponent={item._id}
-                  openStateProp={openDialogState}
-                  setOpenFunc={setOpenDialogState}
-                  title={`Delete '${makeTitle(item.title)}'?`}
-                  description={`Are you sure you want to delete '${makeTitle(
-                    item.title
-                  )}'? This action would be non-reversible!`}
-                  agreeText={"Delete"}
-                  colorOfAgreeBtn="success"
-                  colorOfDisagreeBtn="error"
-                  agreeFunc={handleDeleteClick}
-                />
-                <Grid item xs={12}>
-                  {item &&
-                  item.rating &&
-                  item.rating.ratingUsers &&
-                  item.rating.hasOwnProperty("ratingTotalScore") ? (
-                    item.rating.ratingTotalScore == 0 ? (
-                      <RateSpecificProduct
-                        forShopPage={true}
-                        payloadProp={payload}
-                        numOfStarsProp={0}
-                      />
+                <CardHeader title={makeTitle(item.title)} />
+                <CardActionArea>
+                  <CardMedia
+                    id={item._id}
+                    sx={{ borderRadius: 1 }}
+                    component="img"
+                    height="250"
+                    alt={item.image.alt || "Default Image Of Meds"}
+                    image={makeALegitStringForImage(item)}
+                    onClick={handleCardClick}
+                  />
+                </CardActionArea>
+                <CardContent
+                  sx={{
+                    height: "85px",
+                    marginBlock: 3,
+                    overflowY: "scroll",
+                  }}
+                >
+                  {makeTitle(item.description)}
+                </CardContent>
+                <Grid container spacing={2}>
+                  <DialogBox
+                    idOfComponent={item._id}
+                    openStateProp={openDialogState}
+                    setOpenFunc={setOpenDialogState}
+                    title={`Delete '${makeTitle(item.title)}'?`}
+                    description={`Are you sure you want to delete '${makeTitle(
+                      item.title
+                    )}'? This action would be non-reversible!`}
+                    agreeText={"Delete"}
+                    colorOfAgreeBtn="success"
+                    colorOfDisagreeBtn="error"
+                    agreeFunc={handleDeleteClick}
+                  />
+                  <Grid item xs={12}>
+                    {item &&
+                    item.rating &&
+                    item.rating.ratingUsers &&
+                    item.rating.hasOwnProperty("ratingTotalScore") ? (
+                      item.rating.ratingTotalScore == 0 ? (
+                        <RateSpecificProduct
+                          forShopPage={true}
+                          payloadProp={payload}
+                          numOfStarsProp={0}
+                        />
+                      ) : (
+                        <RateSpecificProduct
+                          forShopPage={true}
+                          payloadProp={payload}
+                          numOfStarsProp={Math.floor(
+                            item.rating.ratingTotalScore /
+                              item.rating.ratingUsers.length
+                          )}
+                        />
+                      )
                     ) : (
-                      <RateSpecificProduct
-                        forShopPage={true}
-                        payloadProp={payload}
-                        numOfStarsProp={Math.floor(
-                          item.rating.ratingTotalScore /
-                            item.rating.ratingUsers.length
-                        )}
-                      />
-                    )
+                      ""
+                    )}
+                  </Grid>
+                  <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
+                    <Tooltip
+                      enterDelay={500}
+                      disableHoverListener={!mediaQ}
+                      title="add item to cart"
+                    >
+                      <Button
+                        id={item.title + "||" + item._id}
+                        fullWidth={mediaQ}
+                        sx={{ p: 1, m: 1, height: "80px" }}
+                        variant="contained"
+                        color="success"
+                        onClick={handleAddToCartClick}
+                      >
+                        <Box
+                          id={item.title + "||" + item._id}
+                          component="p"
+                          sx={{ display: { xs: "none", lg: "block" } }}
+                        >
+                          Add To Cart
+                        </Box>
+                        <AddShoppingCartIcon
+                          id={item.title + "||" + item._id}
+                          sx={{
+                            display: { xs: "inline", lg: "none" },
+                            fontSize: "2.5rem",
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  </Grid>
+
+                  {payload && payload.isAdmin ? (
+                    <Grid item xs={6} lg={3}>
+                      <Tooltip
+                        enterDelay={500}
+                        disableHoverListener={!mediaQ}
+                        title="delete item"
+                      >
+                        <Button
+                          id={item._id}
+                          onClick={() => {
+                            setOpenDialogState(true);
+                          }}
+                          fullWidth={mediaQ}
+                          sx={{ p: 1, m: 1, height: "80px" }}
+                          variant="contained"
+                          color="error"
+                        >
+                          <Box
+                            component="p"
+                            sx={{ display: { xs: "none", lg: "block" } }}
+                          >
+                            Delete Item
+                          </Box>
+                          <DeleteForeverIcon
+                            sx={{
+                              display: { xs: "inline", lg: "none" },
+                              fontSize: "2.5rem",
+                            }}
+                          />
+                        </Button>
+                      </Tooltip>
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
+                  <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
+                    <Tooltip
+                      enterDelay={500}
+                      disableHoverListener={!mediaQ}
+                      title="read more"
+                    >
+                      <Button
+                        fullWidth={mediaQ}
+                        variant="contained"
+                        color="info"
+                        onClick={handleCardClick}
+                        id={item._id}
+                        sx={{
+                          p: 1,
+                          m: 1,
+                          height: "80px",
+                        }}
+                      >
+                        <Box
+                          id={item._id}
+                          component="p"
+                          sx={{ display: { xs: "none", lg: "block" } }}
+                        >
+                          Read more
+                        </Box>
+                        <PreviewIcon
+                          id={item._id}
+                          sx={{
+                            display: { xs: "inline", lg: "none" },
+                            fontSize: "2.5rem",
+                          }}
+                        />
+                      </Button>
+                    </Tooltip>
+                  </Grid>
+                  {payload && payload.isAdmin ? (
+                    <Grid item xs={6} lg={3}>
+                      <Tooltip
+                        enterDelay={500}
+                        disableHoverListener={!mediaQ}
+                        title="edit item"
+                      >
+                        <Button
+                          fullWidth={mediaQ}
+                          sx={{ p: 1, m: 1, height: "80px" }}
+                          variant="contained"
+                          color="warning"
+                        >
+                          <Box
+                            component="p"
+                            sx={{ display: { xs: "none", lg: "block" } }}
+                          >
+                            Edit Item
+                          </Box>
+                          <EditNoteIcon
+                            sx={{
+                              display: { xs: "inline", lg: "none" },
+                              fontSize: "2.5rem",
+                            }}
+                          />
+                        </Button>
+                      </Tooltip>
+                    </Grid>
                   ) : (
                     ""
                   )}
                 </Grid>
-                <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                  <Tooltip
-                    enterDelay={500}
-                    disableHoverListener={!mediaQ}
-                    title="add item to cart"
-                  >
-                    <Button
-                      id={item.title + "||" + item._id}
-                      fullWidth={mediaQ}
-                      sx={{ p: 1, m: 1, height: "80px" }}
-                      variant="contained"
-                      color="success"
-                      onClick={handleAddToCartClick}
-                    >
-                      <Box
-                        id={item.title + "||" + item._id}
-                        component="p"
-                        sx={{ display: { xs: "none", lg: "block" } }}
-                      >
-                        Add To Cart
-                      </Box>
-                      <AddShoppingCartIcon
-                        id={item.title + "||" + item._id}
-                        sx={{
-                          display: { xs: "inline", lg: "none" },
-                          fontSize: "2.5rem",
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                </Grid>
+              </Card>
+            </Grid>
+          ) : payload && payload.isAdmin ? (
+            <Grid item xs={12} sm={6} md={4} key="extraCard">
+              <Card
+                onClick={handleCreateCardClick}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  backgroundColor: COLORS.BACKGROUND,
+                  border: "0.05rem solid black",
+                  height: { xs: "200px", sm: "650px" },
+                  p: 2,
+                  transition: "0.2s all cubic-bezier(0.25, 0.1, 0.25, 0.6)",
+                  cursor: "pointer",
 
-                {payload && payload.isAdmin ? (
-                  <Grid item xs={6} lg={3}>
-                    <Tooltip
-                      enterDelay={500}
-                      disableHoverListener={!mediaQ}
-                      title="delete item"
-                    >
-                      <Button
-                        id={item._id}
-                        onClick={() => {
-                          setOpenDialogState(true);
-                        }}
-                        fullWidth={mediaQ}
-                        sx={{ p: 1, m: 1, height: "80px" }}
-                        variant="contained"
-                        color="error"
-                      >
-                        <Box
-                          component="p"
-                          sx={{ display: { xs: "none", lg: "block" } }}
-                        >
-                          Delete Item
-                        </Box>
-                        <DeleteForeverIcon
-                          sx={{
-                            display: { xs: "inline", lg: "none" },
-                            fontSize: "2.5rem",
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-                <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                  <Tooltip
-                    enterDelay={500}
-                    disableHoverListener={!mediaQ}
-                    title="read more"
-                  >
-                    <Button
-                      fullWidth={mediaQ}
-                      variant="contained"
-                      color="info"
-                      onClick={handleCardClick}
-                      id={item._id}
-                      sx={{
-                        p: 1,
-                        m: 1,
-                        height: "80px",
-                      }}
-                    >
-                      <Box
-                        id={item._id}
-                        component="p"
-                        sx={{ display: { xs: "none", lg: "block" } }}
-                      >
-                        Read more
-                      </Box>
-                      <PreviewIcon
-                        id={item._id}
-                        sx={{
-                          display: { xs: "inline", lg: "none" },
-                          fontSize: "2.5rem",
-                        }}
-                      />
-                    </Button>
-                  </Tooltip>
-                </Grid>
-                {payload && payload.isAdmin ? (
-                  <Grid item xs={6} lg={3}>
-                    <Tooltip
-                      enterDelay={500}
-                      disableHoverListener={!mediaQ}
-                      title="edit item"
-                    >
-                      <Button
-                        fullWidth={mediaQ}
-                        sx={{ p: 1, m: 1, height: "80px" }}
-                        variant="contained"
-                        color="warning"
-                      >
-                        <Box
-                          component="p"
-                          sx={{ display: { xs: "none", lg: "block" } }}
-                        >
-                          Edit Item
-                        </Box>
-                        <EditNoteIcon
-                          sx={{
-                            display: { xs: "inline", lg: "none" },
-                            fontSize: "2.5rem",
-                          }}
-                        />
-                      </Button>
-                    </Tooltip>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-              </Grid>
-            </Card>
-          </Grid>
-        ))}
+                  ":hover": {
+                    // border: `6px  solid ${COLORS.MAIN}`,
+                    boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
+                    backgroundColor: COLORS.TEXT2,
+                  },
+                }}
+              >
+                <AddIcon
+                  onClick={handleCreateCardClick}
+                  sx={{ fontSize: "20rem", color: "#4099ff" }}
+                />
+              </Card>
+            </Grid>
+          ) : (
+            ""
+          )
+        )}
       </Grid>
       <BreakpointsInd />
     </Container>

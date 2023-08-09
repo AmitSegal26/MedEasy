@@ -6,6 +6,7 @@ const ROUTES = {
   LOGIN: "/login",
   LOGOUT: "/logout",
   SHOP: "/shop",
+  CREATE: "/create",
   SPECIFICPRODUCT: "/spec-product",
   GALLERY: "/gallery",
   CONTACTUS: "/contactus",

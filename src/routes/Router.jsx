@@ -49,6 +49,12 @@ const Router = () => {
         path={ROUTES.CRM}
         element={<ProtectedRouteForAdmin element={<CRMPage />} />}
       />
+      <Route
+        path={ROUTES.CREATE}
+        element={
+          <ProtectedRouteForAdmin element={<h1>edit in Router.jsx</h1>} />
+        }
+      />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route
         path={`${ROUTES.SPECIFICPRODUCT}/:id`}

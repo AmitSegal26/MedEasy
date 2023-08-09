@@ -1,23 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import validateIdSchema from "../../validations/idValidate";
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
 import {
-  Box,
   Button,
   CircularProgress,
   Container,
   Grid,
-  IconButton,
   Paper,
   Typography,
 } from "@mui/material";
 import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
 import makeTitle from "../../utils/makeATitle";
 import COLORS from "../../colors/COLORS";
-import StockComponent from "./StockComponent";
 import RateSpecificProduct from "./RateSpecificProduct";
 import { useSelector } from "react-redux";
 import useTitle from "../../hooks/useTitle";
@@ -53,8 +50,7 @@ const SpecificProductPage = () => {
         if (
           data.rating &&
           data.rating.ratingUsers &&
-          data.rating.ratingTotalScore &&
-          payload
+          data.rating.ratingTotalScore
         ) {
           for (const idOfUser of data.rating.ratingUsers) {
             if (payload && idOfUser == payload._id) {
@@ -150,7 +146,7 @@ const SpecificProductPage = () => {
         border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
       }}
     >
-      <Grid container maxWidth="lg">
+      <Grid container maxWidth="lg" sx={{ m: 5 }}>
         {" "}
         <Grid item xs={1}>
           <Button
@@ -176,7 +172,6 @@ const SpecificProductPage = () => {
           >
             {makeTitle(cardData.title)}
           </Typography>
-
           <Typography
             component="p"
             sx={{
@@ -189,7 +184,6 @@ const SpecificProductPage = () => {
           >
             {makeTitle(cardData.description)}
           </Typography>
-          <StockComponent cardDataProp={cardData} payloadProp={payload} />
           <RateSpecificProduct
             idOfCard={cardData && cardData._id}
             numOfStarsProp={numOfStars}
@@ -209,6 +203,21 @@ const SpecificProductPage = () => {
               }}
             />
           </Grid>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography component="h4" variant="h6">
+            Each Pack Contains: {cardData && cardData.contains}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography component="h4" variant="h6">
+            {cardData && cardData.stock} Left In Stock
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography component="h4" variant="h6">
+            ${cardData && cardData.price}
+          </Typography>
         </Grid>
       </Grid>
     </Container>

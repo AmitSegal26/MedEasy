@@ -5,17 +5,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
-import UIcon from "../../assets/imgs/letter-u_10150099.png";
 import defaultMale from "../../assets/imgs/maleAvatar.jpg";
 import defaultFemale from "../../assets/imgs/femaleAvatarpng.jpg";
 import defaultOther from "../../assets/imgs/otherAvatar.jpg";
+import errorImg from "../../assets/imgs/cancelIMG.png";
 import NavbarLinkComponent from "./NavbarLinkComponent";
 import COLORS from "../../colors/COLORS";
 import ProfileComponent from "./ProfileComponent";
 import HamburgerMenu from "./HamburgerMenu";
-import LogoComponent from "./LogoComponent";
 import { useSelector } from "react-redux";
 import WelcomeStrAndIcon from "./WelcomeStrAndIcon";
+import logoOfWeb from "../../assets/imgs/logoForNavbar.png";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -58,7 +58,7 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const handleIconClick = () => {
+  const handleLogoClick = () => {
     navigate(ROUTES.HOME);
   };
 
@@ -100,7 +100,17 @@ const Navbar = () => {
               )
             )}
           </Box>
-          <LogoComponent handleIconClickFunc={handleIconClick} />
+          <img
+            onClick={handleLogoClick}
+            src={logoOfWeb}
+            alt='Logo Of Website written "MedEasy"'
+            style={{
+              width: "7%",
+              maxHeight: "50px",
+              borderRadius: "50px",
+              cursor: "pointer",
+            }}
+          />
           {/* main navbar on desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
             {pages2ndHalf.map((page) =>
@@ -135,7 +145,7 @@ const Navbar = () => {
                 ? defaultFemale
                 : payload && payload.gender == "other"
                 ? defaultOther
-                : UIcon
+                : errorImg
             }
           />
         </Toolbar>
