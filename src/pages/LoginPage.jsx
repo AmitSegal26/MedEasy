@@ -74,7 +74,7 @@ const LoginPage = () => {
         </Typography>
         <Box component="span" sx={{ margin: "1.25rem" }} />
         <Typography fontWeight="bold" component="h1" variant="h4">
-          Insert your details and start shopping in Forniturize!
+          Insert your details and start shopping in MedEasy!
         </Typography>
         <Box component="form" noValidate sx={{ mt: 3 }}>
           <Box component="span" sx={{ margin: "1.25rem" }} />

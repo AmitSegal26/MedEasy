@@ -6,7 +6,7 @@ import pillsPic from "../assets/imgs/cardDefImg.png";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 
-const ForniturizeDescription = () => {
+const AboutPage = () => {
   const navigate = useNavigate();
   const sxForTypography = {
     color: COLORS.TEXT1,
@@ -108,4 +108,4 @@ const ForniturizeDescription = () => {
   );
 };
 
-export default ForniturizeDescription;
+export default AboutPage;

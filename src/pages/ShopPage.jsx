@@ -349,11 +349,10 @@ const ProductsPage = () => {
                   border: "0.05rem solid black",
                   height: { xs: "200px", sm: "650px" },
                   p: 2,
-                  transition: "0.2s all cubic-bezier(0.25, 0.1, 0.25, 0.6)",
+                  transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
                   cursor: "pointer",
 
                   ":hover": {
-                    // border: `6px  solid ${COLORS.MAIN}`,
                     boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
                     backgroundColor: COLORS.TEXT2,
                   },
