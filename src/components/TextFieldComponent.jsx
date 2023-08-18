@@ -1,6 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeyIcon from "@mui/icons-material/Key";

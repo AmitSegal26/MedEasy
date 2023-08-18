@@ -16,6 +16,7 @@ import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
 import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
 //* title hook
 import useTitle from "../hooks/useTitle";
+import ContactPage from "../pages/ContactPage";
 
 const Router = () => {
   useTitle()();
@@ -68,6 +69,7 @@ const Router = () => {
         }
       />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
+      <Route path={ROUTES.CONTACTUS} element={<ContactPage />} />
       <Route path={ROUTES.GALLERY} element={<GalleryPage />} />
       <Route
         path={`${ROUTES.SPECIFICPRODUCT}/:id`}
