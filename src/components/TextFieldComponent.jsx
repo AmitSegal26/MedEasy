@@ -1,5 +1,6 @@
-import { Alert, Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
+import { Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeyIcon from "@mui/icons-material/Key";
@@ -103,17 +104,6 @@ const TextFieldComponent = ({
           )
         }
       />
-      {/* {inputErrors &&
-        inputErrors[inputType] &&
-        !inputErrors[inputType].find(
-          (item) => item && item.includes("is not allowed to be empty")
-        ) && (
-          <Alert variant="filled" severity="error" sx={{ marginTop: "0.2rem" }}>
-            {inputErrors[inputType].map((item) => (
-              <div key={inputType + "-errors" + item}>{item}</div>
-            ))}
-          </Alert>
-        )} */}
     </Grid>
   );
 };

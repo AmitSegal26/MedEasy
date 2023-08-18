@@ -26,22 +26,12 @@ const RegisterPage = () => {
     last: "",
     email: "",
     password: "",
-    image: {},
   });
   const [inputsErrorState, setInputsErrorState] = React.useState({});
   const [gender, setGender] = React.useState("");
   const [disableBtn, setDisableBtn] = React.useState(true);
   const [alertFile, setAlertFile] = React.useState(false);
   const [fileSize, setFileSize] = React.useState(0);
-  React.useEffect(() => {
-    setInputState({
-      first: "",
-      last: "",
-      email: "",
-      password: "",
-      image: {},
-    });
-  }, []);
 
   React.useEffect(() => {
     if (!gender) {
@@ -108,7 +98,6 @@ const RegisterPage = () => {
         );
         return;
       }
-      console.log(err);
       if (err && err.response && err.response.status == 413) {
         toast.error("image file is too large!");
       } else {
@@ -122,6 +111,9 @@ const RegisterPage = () => {
   };
 
   const handleInputChange = (ev) => {
+    if (!ev.target) {
+      return;
+    }
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
@@ -143,9 +135,15 @@ const RegisterPage = () => {
     setInputsErrorState(joiResponse);
   };
   const handleGenderChange = (ev) => {
+    if (!ev.target) {
+      return;
+    }
     setGender(ev.target.value);
   };
   const handleFileUpload = (ev) => {
+    if (!ev.target) {
+      return;
+    }
     let reader = new FileReader();
     reader.onload = () => {
       const file = ev.target.files[0];

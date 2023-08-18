@@ -6,7 +6,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
 const DialogBox = ({
   openStateProp,

@@ -32,6 +32,7 @@ import AddIcon from "@mui/icons-material/Add";
 const ProductsPage = () => {
   const mediaQ = useMediaQuery("(max-width:1200px)");
   const navigate = useNavigate();
+  const [dialogItemState, setDialogItemState] = useState({});
   const [productsArr, setProductsArr] = useState([]);
   const [openDialogState, setOpenDialogState] = useState(false);
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
@@ -92,6 +93,19 @@ const ProductsPage = () => {
     }
   };
 
+  const handleDeleteClickBeforeConfirm = (ev) => {
+    if (ev && !ev.target) {
+      return;
+    }
+    for (let card of productsArr) {
+      if (card._id == ev.target.id) {
+        setDialogItemState({ id: card._id, title: card.title });
+        setOpenDialogState(true);
+        break;
+      }
+    }
+  };
+
   const handleAddToCartClick = async (ev) => {
     try {
       if (!ev || !ev.target) {
@@ -120,6 +134,9 @@ const ProductsPage = () => {
   const handleCardClick = (ev) => {
     navigate(`${ROUTES.SPECIFICPRODUCT}/${ev.target.id}`);
   };
+  const handleEditClick = (ev) => {
+    navigate(`${ROUTES.EDIT}/${ev.target.id}`);
+  };
 
   const handleCreateCardClick = () => {
     navigate(ROUTES.CREATE);
@@ -129,6 +146,19 @@ const ProductsPage = () => {
   }
   return (
     <Container maxWidth="lg">
+      <DialogBox
+        idOfComponent={dialogItemState.id}
+        openStateProp={openDialogState}
+        setOpenFunc={setOpenDialogState}
+        title={`Delete '${makeTitle(dialogItemState.title)}'?`}
+        description={`Are you sure you want to delete '${makeTitle(
+          dialogItemState.title
+        )}'? This action would be non-reversible!`}
+        agreeText={"Delete"}
+        colorOfAgreeBtn="success"
+        colorOfDisagreeBtn="error"
+        agreeFunc={handleDeleteClick}
+      />
       <Grid container spacing={2}>
         {productsArr.map((item) =>
           !item.hasOwnProperty("ignore") ? (
@@ -163,19 +193,6 @@ const ProductsPage = () => {
                   {makeTitle(item.description)}
                 </CardContent>
                 <Grid container spacing={2}>
-                  <DialogBox
-                    idOfComponent={item._id}
-                    openStateProp={openDialogState}
-                    setOpenFunc={setOpenDialogState}
-                    title={`Delete '${makeTitle(item.title)}'?`}
-                    description={`Are you sure you want to delete '${makeTitle(
-                      item.title
-                    )}'? This action would be non-reversible!`}
-                    agreeText={"Delete"}
-                    colorOfAgreeBtn="success"
-                    colorOfDisagreeBtn="error"
-                    agreeFunc={handleDeleteClick}
-                  />
                   <Grid item xs={12}>
                     {item &&
                     item.rating &&
@@ -236,27 +253,28 @@ const ProductsPage = () => {
                   {payload && payload.isAdmin ? (
                     <Grid item xs={6} lg={3}>
                       <Tooltip
+                        id={item._id}
                         enterDelay={500}
                         disableHoverListener={!mediaQ}
                         title="delete item"
                       >
                         <Button
                           id={item._id}
-                          onClick={() => {
-                            setOpenDialogState(true);
-                          }}
+                          onClick={handleDeleteClickBeforeConfirm}
                           fullWidth={mediaQ}
                           sx={{ p: 1, m: 1, height: "80px" }}
                           variant="contained"
                           color="error"
                         >
                           <Box
+                            id={item._id}
                             component="p"
                             sx={{ display: { xs: "none", lg: "block" } }}
                           >
                             Delete Item
                           </Box>
                           <DeleteForeverIcon
+                            id={item._id}
                             sx={{
                               display: { xs: "inline", lg: "none" },
                               fontSize: "2.5rem",
@@ -306,23 +324,28 @@ const ProductsPage = () => {
                   {payload && payload.isAdmin ? (
                     <Grid item xs={6} lg={3}>
                       <Tooltip
+                        id={item._id}
                         enterDelay={500}
                         disableHoverListener={!mediaQ}
                         title="edit item"
                       >
                         <Button
+                          id={item._id}
+                          onClick={handleEditClick}
                           fullWidth={mediaQ}
                           sx={{ p: 1, m: 1, height: "80px" }}
                           variant="contained"
                           color="warning"
                         >
                           <Box
+                            id={item._id}
                             component="p"
                             sx={{ display: { xs: "none", lg: "block" } }}
                           >
                             Edit Item
                           </Box>
                           <EditNoteIcon
+                            id={item._id}
                             sx={{
                               display: { xs: "inline", lg: "none" },
                               fontSize: "2.5rem",

@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import ROUTES from "./ROUTES";
+//* pages
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import AboutPage from "../pages/AboutPage";
@@ -9,8 +10,11 @@ import LogOut from "../components/LogOut";
 import CRMPage from "../pages/CRMPage";
 import ProductsPage from "../pages/ShopPage";
 import SpecificProductPage from "../pages/specificProduct/SpecificProductPage";
+import GalleryPage from "../pages/GalleryPage/GalleryPage";
+//* protection
 import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
 import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
+//* title hook
 import useTitle from "../hooks/useTitle";
 
 const Router = () => {
@@ -50,12 +54,21 @@ const Router = () => {
         element={<ProtectedRouteForAdmin element={<CRMPage />} />}
       />
       <Route
+        path={ROUTES.EDIT + "/:id"}
+        element={
+          <ProtectedRouteForAdmin element={<h1>Edit in Router.js EDIT</h1>} />
+        }
+      />
+      <Route
         path={ROUTES.CREATE}
         element={
-          <ProtectedRouteForAdmin element={<h1>edit in Router.jsx</h1>} />
+          <ProtectedRouteForAdmin
+            element={<h1>edit in Router.jsx CREATE</h1>}
+          />
         }
       />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
+      <Route path={ROUTES.GALLERY} element={<GalleryPage />} />
       <Route
         path={`${ROUTES.SPECIFICPRODUCT}/:id`}
         element={<SpecificProductPage />}
