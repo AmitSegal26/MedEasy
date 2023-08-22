@@ -5,9 +5,9 @@ import {
   Menu,
   MenuItem,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import React from "react";
+import NavLinkComponent from "./NavbarLinkComponent";
 
 const ProfileComponent = (props) => {
   let base64String = null;
@@ -49,9 +49,11 @@ const ProfileComponent = (props) => {
         open={Boolean(props.anchorElProp)}
         onClose={props.handleCloseUMProp}
       >
-        {props.profileComponentNav.map((setting) => (
-          <MenuItem key={setting} onClick={props.handleCloseUMProp}>
-            <Typography textAlign="center">{setting}</Typography>
+        {props.profileComponentNav.map((page) => (
+          <MenuItem key={page.url} onClick={props.handleCloseUMProp}>
+            <NavLinkComponent url={page.url} label={page.label}>
+              {page.label}
+            </NavLinkComponent>
           </MenuItem>
         ))}
       </Menu>

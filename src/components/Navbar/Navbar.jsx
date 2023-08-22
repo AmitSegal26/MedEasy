@@ -19,29 +19,36 @@ import logoOfWeb from "../../assets/imgs/logoForNavbar.png";
 import "./navbar.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const navigate = useNavigate();
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
-  const pagesOrg = [
-    payload
-      ? { label: "profile", url: ROUTES.PROFILE }
-      : { label: "register", url: ROUTES.REGISTER },
-    payload
-      ? { label: "log out", url: ROUTES.LOGOUT }
-      : { label: "login", url: ROUTES.LOGIN },
-    payload && payload.isAdmin
-      ? { label: "CRM", url: ROUTES.CRM }
-      : { label: "ignore", url: ROUTES.CRM },
+  let tempArrPages = [];
+  const adminPages = [{ label: "CRM", url: ROUTES.CRM }];
+  const notAuthedPages = [
+    { label: "login", url: ROUTES.LOGIN },
+    { label: "register", url: ROUTES.REGISTER },
+  ];
+  const allPages = [
+    { label: "about", url: ROUTES.ABOUT },
     { label: "shop", url: ROUTES.SHOP },
     { label: "gallery", url: ROUTES.GALLERY },
     { label: "contact us", url: ROUTES.CONTACTUS },
-    { label: "about", url: ROUTES.ABOUT },
   ];
-  let pages1stHalf = JSON.parse(JSON.stringify(pagesOrg));
-  pages1stHalf = pages1stHalf.filter((page) => page.label != "ignore");
+  if (!payload) {
+    tempArrPages = [...notAuthedPages, ...allPages];
+  } else if (payload && !payload.isAdmin) {
+    tempArrPages = [...allPages];
+  } else if (payload && payload.isAdmin) {
+    tempArrPages = [...allPages, ...adminPages];
+  }
+  let pages1stHalf = JSON.parse(JSON.stringify(tempArrPages));
   const pages2ndHalf = pages1stHalf.splice(Math.floor(pages1stHalf.length / 2));
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
+  const profilePages = [
+    { label: "profile", url: ROUTES.PROFILE },
+    { label: "cart", url: ROUTES.CART },
+    { label: "log out", url: ROUTES.LOGOUT },
+  ];
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -87,18 +94,14 @@ const Navbar = () => {
               flexDirection: "row-reverse",
             }}
           >
-            {pages1stHalf.map((page) =>
-              page.label == "ignore" ? (
-                ""
-              ) : (
-                <NavbarLinkComponent
-                  key={page.url}
-                  label={page.label}
-                  url={page.url}
-                  {...page}
-                />
-              )
-            )}
+            {pages1stHalf.map((page) => (
+              <NavbarLinkComponent
+                key={page.url}
+                label={page.label}
+                url={page.url}
+                {...page}
+              />
+            ))}
           </Box>
           <img
             onClick={handleLogoClick}
@@ -113,28 +116,24 @@ const Navbar = () => {
           />
           {/* main navbar on desktop */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", lg: "flex" } }}>
-            {pages2ndHalf.map((page) =>
-              page.label == "ignore" ? (
-                ""
-              ) : (
-                <NavbarLinkComponent
-                  key={page.url}
-                  label={page.label}
-                  url={page.url}
-                  {...page}
-                />
-              )
-            )}
+            {pages2ndHalf.map((page) => (
+              <NavbarLinkComponent
+                key={page.url}
+                label={page.label}
+                url={page.url}
+                {...page}
+              />
+            ))}
           </Box>
           <HamburgerMenu
             handleOpenNMProp={handleOpenNavMenu}
             handleCloseNMProp={handleCloseNavMenu}
             anchorElNavProp={anchorElNav}
-            pagesProp={pagesOrg}
+            pagesProp={tempArrPages}
           />
           <ProfileComponent
             imageProp={payload && payload.image}
-            profileComponentNav={settings}
+            profileComponentNav={profilePages}
             anchorElProp={anchorElUser}
             handleCloseUMProp={handleCloseUserMenu}
             handleOpenUMProp={handleOpenUserMenu}

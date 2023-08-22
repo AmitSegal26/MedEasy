@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 const ProtectedRouteForAdmin = ({ element }) => {
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
   if (!payload) {
-    toast.error("no payload?");
+    toast.error("access denied");
     return <Navigate to={ROUTES.HOME} />;
   }
   if (payload && payload.isAdmin) {

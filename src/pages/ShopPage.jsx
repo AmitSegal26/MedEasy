@@ -10,6 +10,7 @@ import {
   Container,
   Grid,
   Tooltip,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
@@ -122,10 +123,25 @@ const ProductsPage = () => {
         );
         navigate(ROUTES.LOGIN);
       }
-      let { data } = await axios.patch(
-        "http://localhost:8181/api/cards/cart/" + idOfCard
-      );
-      console.log(data);
+      let {
+        data: { data },
+        data: { addedToCart },
+      } = await axios.patch("http://localhost:8181/api/cards/cart/" + idOfCard);
+      if (!data) {
+        return;
+      }
+      let newProductsArr = JSON.parse(JSON.stringify(productsArr));
+      for (let i = 0; i < newProductsArr.length; i++) {
+        if (newProductsArr[i]._id == data._id) {
+          newProductsArr[i] = { ...data };
+        }
+      }
+      setProductsArr(newProductsArr);
+      if (addedToCart) {
+        toast.success(`${makeTitle(data.title)} has been added to cart`);
+      } else {
+        toast.info(`${makeTitle(data.title)} has been removed from cart`);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -167,7 +183,7 @@ const ProductsPage = () => {
                 sx={{
                   backgroundColor: COLORS.SECONDARY,
                   border: "0.05rem solid black",
-                  height: "650px",
+                  height: { xs: "790px", lg: "650px" },
                   p: 2,
                 }}
               >
@@ -187,10 +203,10 @@ const ProductsPage = () => {
                   sx={{
                     height: "85px",
                     marginBlock: 3,
-                    overflowY: "scroll",
                   }}
                 >
-                  {makeTitle(item.description)}
+                  <Typography component="h6">Stock: {item.stock}</Typography>
+                  <Typography component="h6">$ {item.price}</Typography>
                 </CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
@@ -370,11 +386,10 @@ const ProductsPage = () => {
                   alignItems: "center",
                   backgroundColor: COLORS.BACKGROUND,
                   border: "0.05rem solid black",
-                  height: { xs: "200px", sm: "650px" },
+                  height: { xs: "200px", sm: "790px", lg: "650px" },
                   p: 2,
                   transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
                   cursor: "pointer",
-
                   ":hover": {
                     boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
                     backgroundColor: COLORS.TEXT2,

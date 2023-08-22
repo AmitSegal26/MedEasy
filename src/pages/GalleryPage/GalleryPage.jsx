@@ -41,13 +41,11 @@ const GalleryPage = () => {
     setOpenPopup(false);
   };
   const handleOpenPopUp = (ev) => {
-    console.log(ev);
     if (ev && !ev.target) {
       return;
     }
     for (let pic of imageList) {
       if (pic.id == ev.target.id) {
-        console.log(pic);
         setDialogItemState({
           imgSrc: pic.imageSrc,
           title: makeTitle(pic.imageAlt.split("/")[3].split(".")[0]),

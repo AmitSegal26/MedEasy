@@ -16,13 +16,13 @@ import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
 import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
 //* title hook
 import useTitle from "../hooks/useTitle";
-import ContactPage from "../pages/ContactPage";
+import ContactPage from "../pages/Contact/ContactPage";
 
 const Router = () => {
   useTitle()();
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<h1>HOME PAGE</h1>} />
+      <Route path={ROUTES.HOME} element={<h1>Edit in Router.js HOMEPAGE</h1>} />
       <Route
         path={ROUTES.REGISTER}
         element={
@@ -44,6 +44,15 @@ const Router = () => {
       <Route
         path={ROUTES.LOGOUT}
         element={<ProtectedRoute element={<LogOut />} isLogOut={true} />}
+      />
+      <Route
+        path={ROUTES.CART}
+        element={
+          <ProtectedRoute
+            element={<h1>Edit in Router.js CART</h1>}
+            isLogOut={true}
+          />
+        }
       />
       <Route
         path={ROUTES.PROFILE}
