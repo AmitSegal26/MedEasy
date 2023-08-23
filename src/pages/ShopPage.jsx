@@ -1,6 +1,5 @@
 import {
-  Box,
-  Button,
+  IconButton,
   Card,
   CardActionArea,
   CardContent,
@@ -21,6 +20,7 @@ import { toast } from "react-toastify";
 import COLORS from "../colors/COLORS";
 import makeALegitStringForImage from "../utils/makeALegitStringForImage";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -66,6 +66,10 @@ const ProductsPage = () => {
         toast.error("problem with ev.target");
         return;
       }
+      if (ev && ev.target && !ev.target.id) {
+        toast.error("problem with ev.target.id");
+        return;
+      }
       let { id } = ev.target;
       let {
         data: { _id },
@@ -95,7 +99,13 @@ const ProductsPage = () => {
   };
 
   const handleDeleteClickBeforeConfirm = (ev) => {
+    if (!ev) {
+      return;
+    }
     if (ev && !ev.target) {
+      return;
+    }
+    if (ev && ev.target && !ev.target.id) {
       return;
     }
     for (let card of productsArr) {
@@ -109,7 +119,13 @@ const ProductsPage = () => {
 
   const handleAddToCartClick = async (ev) => {
     try {
-      if (!ev || !ev.target) {
+      if (!ev) {
+        return;
+      }
+      if (ev && !ev.target) {
+        return;
+      }
+      if (ev && ev.target && !ev.target.id) {
         return;
       }
       let titleOfCard = ev.target.id.split("||")[0];
@@ -122,6 +138,7 @@ const ProductsPage = () => {
           )}' to your cart, you should login to your account!`
         );
         navigate(ROUTES.LOGIN);
+        return;
       }
       let {
         data: { data },
@@ -148,9 +165,27 @@ const ProductsPage = () => {
   };
 
   const handleCardClick = (ev) => {
+    if (!ev) {
+      return;
+    }
+    if (ev && !ev.target) {
+      return;
+    }
+    if (ev && ev.target && !ev.target.id) {
+      return;
+    }
     navigate(`${ROUTES.SPECIFICPRODUCT}/${ev.target.id}`);
   };
   const handleEditClick = (ev) => {
+    if (!ev) {
+      return;
+    }
+    if (ev && !ev.target) {
+      return;
+    }
+    if (ev && ev.target && !ev.target.id) {
+      return;
+    }
     navigate(`${ROUTES.EDIT}/${ev.target.id}`);
   };
 
@@ -235,34 +270,30 @@ const ProductsPage = () => {
                     )}
                   </Grid>
                   <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                    <Tooltip
-                      enterDelay={500}
-                      disableHoverListener={!mediaQ}
-                      title="add item to cart"
-                    >
-                      <Button
+                    <Tooltip enterDelay={500} title="add item to cart">
+                      <IconButton
                         id={item.title + "||" + item._id}
-                        fullWidth={mediaQ}
                         sx={{ p: 1, m: 1, height: "80px" }}
                         variant="contained"
                         color="success"
                         onClick={handleAddToCartClick}
                       >
-                        <Box
-                          id={item.title + "||" + item._id}
-                          component="p"
-                          sx={{ display: { xs: "none", lg: "block" } }}
-                        >
-                          Add To Cart
-                        </Box>
-                        <AddShoppingCartIcon
-                          id={item.title + "||" + item._id}
-                          sx={{
-                            display: { xs: "inline", lg: "none" },
-                            fontSize: "2.5rem",
-                          }}
-                        />
-                      </Button>
+                        {payload && item && item.cart.includes(payload._id) ? (
+                          <RemoveShoppingCartIcon
+                            id={item.title + "||" + item._id}
+                            sx={{
+                              fontSize: "2.5rem",
+                            }}
+                          />
+                        ) : (
+                          <AddShoppingCartIcon
+                            id={item.title + "||" + item._id}
+                            sx={{
+                              fontSize: "2.5rem",
+                            }}
+                          />
+                        )}
+                      </IconButton>
                     </Tooltip>
                   </Grid>
 
@@ -271,45 +302,30 @@ const ProductsPage = () => {
                       <Tooltip
                         id={item._id}
                         enterDelay={500}
-                        disableHoverListener={!mediaQ}
                         title="delete item"
                       >
-                        <Button
+                        <IconButton
                           id={item._id}
                           onClick={handleDeleteClickBeforeConfirm}
-                          fullWidth={mediaQ}
                           sx={{ p: 1, m: 1, height: "80px" }}
                           variant="contained"
                           color="error"
                         >
-                          <Box
-                            id={item._id}
-                            component="p"
-                            sx={{ display: { xs: "none", lg: "block" } }}
-                          >
-                            Delete Item
-                          </Box>
                           <DeleteForeverIcon
                             id={item._id}
                             sx={{
-                              display: { xs: "inline", lg: "none" },
                               fontSize: "2.5rem",
                             }}
                           />
-                        </Button>
+                        </IconButton>
                       </Tooltip>
                     </Grid>
                   ) : (
                     ""
                   )}
                   <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                    <Tooltip
-                      enterDelay={500}
-                      disableHoverListener={!mediaQ}
-                      title="read more"
-                    >
-                      <Button
-                        fullWidth={mediaQ}
+                    <Tooltip enterDelay={500} title="read more">
+                      <IconButton
                         variant="contained"
                         color="info"
                         onClick={handleCardClick}
@@ -320,54 +336,32 @@ const ProductsPage = () => {
                           height: "80px",
                         }}
                       >
-                        <Box
-                          id={item._id}
-                          component="p"
-                          sx={{ display: { xs: "none", lg: "block" } }}
-                        >
-                          Read more
-                        </Box>
                         <PreviewIcon
                           id={item._id}
                           sx={{
-                            display: { xs: "inline", lg: "none" },
                             fontSize: "2.5rem",
                           }}
                         />
-                      </Button>
+                      </IconButton>
                     </Tooltip>
                   </Grid>
                   {payload && payload.isAdmin ? (
                     <Grid item xs={6} lg={3}>
-                      <Tooltip
-                        id={item._id}
-                        enterDelay={500}
-                        disableHoverListener={!mediaQ}
-                        title="edit item"
-                      >
-                        <Button
+                      <Tooltip id={item._id} enterDelay={500} title="edit item">
+                        <IconButton
                           id={item._id}
                           onClick={handleEditClick}
-                          fullWidth={mediaQ}
                           sx={{ p: 1, m: 1, height: "80px" }}
                           variant="contained"
                           color="warning"
                         >
-                          <Box
-                            id={item._id}
-                            component="p"
-                            sx={{ display: { xs: "none", lg: "block" } }}
-                          >
-                            Edit Item
-                          </Box>
                           <EditNoteIcon
                             id={item._id}
                             sx={{
-                              display: { xs: "inline", lg: "none" },
                               fontSize: "2.5rem",
                             }}
                           />
-                        </Button>
+                        </IconButton>
                       </Tooltip>
                     </Grid>
                   ) : (
