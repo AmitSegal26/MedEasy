@@ -17,6 +17,8 @@ import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRoute
 //* title hook
 import useTitle from "../hooks/useTitle";
 import ContactPage from "../pages/Contact/ContactPage";
+import CreatCardPage from "../pages/CreatCardPage";
+import EditCardPage from "../pages/EditCardPage";
 
 const Router = () => {
   useTitle()();
@@ -65,17 +67,11 @@ const Router = () => {
       />
       <Route
         path={ROUTES.EDIT + "/:id"}
-        element={
-          <ProtectedRouteForAdmin element={<h1>Edit in Router.js EDIT</h1>} />
-        }
+        element={<ProtectedRouteForAdmin element={<EditCardPage />} />}
       />
       <Route
         path={ROUTES.CREATE}
-        element={
-          <ProtectedRouteForAdmin
-            element={<h1>edit in Router.jsx CREATE</h1>}
-          />
-        }
+        element={<ProtectedRouteForAdmin element={<CreatCardPage />} />}
       />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.CONTACTUS} element={<ContactPage />} />

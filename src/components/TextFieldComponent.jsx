@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Grid, InputAdornment, TextField, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -112,6 +112,7 @@ TextFieldComponent.defaultProps = {
   enableSideIconsOnFields: false,
   forLoginProp: false,
   isForEdit: false,
+  inputChange: () => {},
 };
 
 export default TextFieldComponent;

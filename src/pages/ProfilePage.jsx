@@ -157,7 +157,6 @@ const ProfilePage = () => {
     const joiResponse = validateEditUserSchema(
       normalizeUserForJoi(newInputState)
     );
-    console.log(joiResponse);
     if (!joiResponse && picSize < 1048576) {
       setInputErrors(joiResponse);
       setDisableBtn(false);

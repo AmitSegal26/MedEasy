@@ -103,6 +103,15 @@ const SpecificProductPage = () => {
       if (!cardData || !payload || hasRatedAlready) {
         return;
       }
+      if (!ev) {
+        return;
+      }
+      if (ev && !ev.target) {
+        return;
+      }
+      if (ev && ev.target && !ev.target.id) {
+        return;
+      }
       let { id } = ev.target;
       if (!id) {
         throw new Error("Error Rating");
@@ -130,8 +139,12 @@ const SpecificProductPage = () => {
     } catch (err) {
       if (err && err.response && err.response.data && err.response.data.msg) {
         toast.error(err.response.data.msg);
-      } else {
+      } else if (err && err.response && err.response.data) {
         toast.error(err.response.data);
+      } else {
+        toast.error(
+          "cannot rate right now, we are truly sorry for the inconvinence!"
+        );
       }
     }
   };
