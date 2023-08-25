@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
-import TextFieldComponent from "./../components/TextFieldComponent";
-import vaildateCardScheme from "./../validations/cardValidate";
+import TextFieldComponent from "../components/TextFieldComponent";
+import vaildateCardScheme from "../validations/cardValidate";
 import { Alert, Box, Container, Grid, Typography } from "@mui/material";
 import FormButton from "../components/FormButton";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -9,7 +9,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import ROUTES from "../routes/ROUTES";
 import { useNavigate } from "react-router-dom";
-const CreatCardPage = () => {
+import handleErrorFromAxios from "../utils/handleError";
+const CreateCardPage = () => {
   const navigate = useNavigate();
   const [cardState, setCardState] = useState({
     title: "",
@@ -67,22 +68,11 @@ const CreatCardPage = () => {
       toast.success("item added");
       navigate(ROUTES.SHOP);
     } catch (err) {
-      console.log(err);
-      if (err && !err.response) {
-        toast.error(
-          "ERROR, our staff will take care of it, please try again later"
-        );
-        return;
-      }
-      if (err && err.response && err.response.status == 413) {
-        toast.error("image file is too large!");
-      } else {
-        toast.error(
-          `server error ${
-            err && err.response && err.response.data && err.response.data.msg
-          }`
-        );
-      }
+      handleErrorFromAxios(
+        err,
+        "problem uploading new card, try again later",
+        true
+      );
     }
   };
   const handleFileUpload = (ev) => {
@@ -110,7 +100,6 @@ const CreatCardPage = () => {
     newInputState[ev.target.id] = ev.target.value;
     setCardState(newInputState);
     const joiResponse = vaildateCardScheme(newInputState);
-    console.log(joiResponse);
     if (!joiResponse && fileSize < 1048576) {
       setInputErrorState(joiResponse);
       setDisableBtn(false);
@@ -240,4 +229,4 @@ const CreatCardPage = () => {
   );
 };
 
-export default CreatCardPage;
+export default CreateCardPage;

@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from "react";
-import ProfileFormComponent from "../components/ProfileFormComponent";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
@@ -18,6 +17,7 @@ import useLoggedIn from "../hooks/useLoggedIn";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { DeleteForever } from "@mui/icons-material";
 import DialogBox from "../components/DialogBox";
+import handleErrorFromAxios from "../utils/handleError";
 const ProfilePage = () => {
   const loggedIn = useLoggedIn();
   const navigate = useNavigate();
@@ -40,7 +40,6 @@ const ProfilePage = () => {
   const [inputErrors, setInputErrors] = useState(null);
   const [openDialogBox, setOpenDialogBox] = useState(false);
   useEffect(() => {
-    let dfltMsg = "error display your info, try again later";
     if (!payload) {
       (async () => {
         try {
@@ -48,19 +47,15 @@ const ProfilePage = () => {
             "http://localhost:8181/api/users/userInfo"
           );
           if (!data) {
-            toast.error(dfltMsg);
+            toast.error("error display your info, try again later");
             navigate(ROUTES.HOME);
           }
           normalizeUser(data);
         } catch (err) {
-          toast.error(
-            err
-              ? err.response
-                ? err.response.data
-                  ? err.response.data
-                  : dfltMsg
-                : dfltMsg
-              : dfltMsg
+          handleErrorFromAxios(
+            err,
+            "error display your info, try again later",
+            false
           );
         }
       })();
@@ -212,22 +207,11 @@ const ProfilePage = () => {
       toast.success("changes saved");
       navigate(ROUTES.HOME);
     } catch (err) {
-      console.log(err);
-      if (err && !err.response) {
-        toast.error(
-          "ERROR, our staff will take care of it, please try again later"
-        );
-        return;
-      }
-      if (err && err.response && err.response.status == 413) {
-        toast.error("image file is too large!");
-      } else {
-        toast.error(
-          `server error: ${
-            err && err.response && err.response.data && err.response.data.msg
-          }`
-        );
-      }
+      handleErrorFromAxios(
+        err,
+        "problem editing your profile for now, try again later",
+        true
+      );
     }
   };
   const handleDeleteProfileClick = async () => {
@@ -243,7 +227,11 @@ const ProfilePage = () => {
       );
       navigate(ROUTES.LOGOUT);
     } catch (err) {
-      console.log("error server", err);
+      handleErrorFromAxios(
+        err,
+        "problem deleting your user for now, please try again later",
+        false
+      );
     }
   };
   return (

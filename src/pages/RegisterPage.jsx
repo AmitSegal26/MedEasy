@@ -16,6 +16,7 @@ import FormButton from "../components/FormButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Alert } from "@mui/material";
+import handleErrorFromAxios from "../utils/handleError";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -92,21 +93,11 @@ const RegisterPage = () => {
       toast.success("user registered");
       navigate(ROUTES.LOGIN);
     } catch (err) {
-      if (err && !err.response) {
-        toast.error(
-          "ERROR, our staff will take care of it, please try again later"
-        );
-        return;
-      }
-      if (err && err.response && err.response.status == 413) {
-        toast.error("image file is too large!");
-      } else {
-        toast.error(
-          `server error ${
-            err && err.response && err.response.data && err.response.data.msg
-          }`
-        );
-      }
+      handleErrorFromAxios(
+        err,
+        "problem signing your user up, please try again later",
+        true
+      );
     }
   };
 

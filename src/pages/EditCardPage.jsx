@@ -19,6 +19,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import makeALegitStringForImage from "../utils/makeALegitStringForImage";
 import makeTitle from "../utils/makeATitle";
 import validateIdSchema from "../validations/idValidate";
+import handleErrorFromAxios from "../utils/handleError";
 const EditCardPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -58,14 +59,10 @@ const EditCardPage = () => {
           setDisableBtn(false);
         }
       } catch (err) {
-        toast.error(
-          err
-            ? err.response
-              ? err.response.data
-                ? err.response.data
-                : dfltMsg
-              : dfltMsg
-            : dfltMsg
+        handleErrorFromAxios(
+          err,
+          "error display cards info, try again later",
+          true
         );
       }
     })();
@@ -115,22 +112,7 @@ const EditCardPage = () => {
       toast.success(`${cardState.title} edited!`);
       navigate(ROUTES.SHOP);
     } catch (err) {
-      console.log(err);
-      if (err && !err.response) {
-        toast.error(
-          "ERROR, our staff will take care of it, please try again later"
-        );
-        return;
-      }
-      if (err && err.response && err.response.status == 413) {
-        toast.error("image file is too large!");
-      } else {
-        toast.error(
-          `server error ${
-            err && err.response && err.response.data && err.response.data.msg
-          }`
-        );
-      }
+      handleErrorFromAxios(err, undefined, true);
     }
   };
   const handleFileUpload = (ev) => {

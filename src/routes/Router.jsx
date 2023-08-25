@@ -17,7 +17,7 @@ import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRoute
 //* title hook
 import useTitle from "../hooks/useTitle";
 import ContactPage from "../pages/Contact/ContactPage";
-import CreatCardPage from "../pages/CreatCardPage";
+import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 
 const Router = () => {
@@ -71,7 +71,7 @@ const Router = () => {
       />
       <Route
         path={ROUTES.CREATE}
-        element={<ProtectedRouteForAdmin element={<CreatCardPage />} />}
+        element={<ProtectedRouteForAdmin element={<CreateCardPage />} />}
       />
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.CONTACTUS} element={<ContactPage />} />

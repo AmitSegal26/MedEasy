@@ -19,6 +19,7 @@ import RateSpecificProduct from "./RateSpecificProduct";
 import { useSelector } from "react-redux";
 import useTitle from "../../hooks/useTitle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import handleErrorFromAxios from "../../utils/handleError";
 
 const SpecificProductPage = () => {
   const { id } = useParams();
@@ -69,16 +70,11 @@ const SpecificProductPage = () => {
         }
         setCardData(data);
       } catch (err) {
-        if (err && err.response && err.response.data) {
-          if (err.response.data.msg == "no card found") {
-            toast.warning(
-              "not possible to load the information right now, try again later!"
-            );
-            navigate(ROUTES.HOME);
-          } else {
-            toast.error(err.response.data.msg);
-          }
-        }
+        handleErrorFromAxios(
+          err,
+          "not possible to load the information right now, try again later!",
+          false
+        );
       }
     })();
     if (cardData && cardData.rating && cardData.rating.ratingUsers && payload) {
@@ -137,15 +133,11 @@ const SpecificProductPage = () => {
       setHasRatedAlready(true);
       toast.success("");
     } catch (err) {
-      if (err && err.response && err.response.data && err.response.data.msg) {
-        toast.error(err.response.data.msg);
-      } else if (err && err.response && err.response.data) {
-        toast.error(err.response.data);
-      } else {
-        toast.error(
-          "cannot rate right now, we are truly sorry for the inconvinence!"
-        );
-      }
+      handleErrorFromAxios(
+        err,
+        "cannot rate right now, we are truly sorry for the inconvinence!",
+        false
+      );
     }
   };
   if (!cardData) {

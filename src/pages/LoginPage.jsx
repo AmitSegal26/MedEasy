@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
+import handleErrorFromAxios from "../utils/handleError";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -31,11 +32,7 @@ const LoginPage = () => {
       loggedIn();
       navigate(ROUTES.HOME);
     } catch (err) {
-      if (err && err.response && err.response.data && err.response.data.msg) {
-        toast.error("server error: " + err.response.data.msg);
-      } else {
-        toast.error("server error");
-      }
+      handleErrorFromAxios(err, undefined, false);
     }
   };
   const handleInputChange = (ev) => {

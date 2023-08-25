@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   IconButton,
   Card,
@@ -10,34 +12,41 @@ import {
   Grid,
   Tooltip,
   Typography,
-  useMediaQuery,
+  Button,
 } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import COLORS from "../colors/COLORS";
-import makeALegitStringForImage from "../utils/makeALegitStringForImage";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import PreviewIcon from "@mui/icons-material/Preview";
 import makeTitle from "../utils/makeATitle";
-import RateSpecificProduct from "./specificProduct/RateSpecificProduct";
 import { useSelector } from "react-redux";
 import BreakpointsInd from "../devTools/BreakpointsInd";
 import DialogBox from "../components/DialogBox";
 import AddIcon from "@mui/icons-material/Add";
+import handleErrorFromAxios from "../utils/handleError";
+import CardComponent from "../components/CardComponent";
 const ProductsPage = () => {
-  const mediaQ = useMediaQuery("(max-width:1200px)");
   const navigate = useNavigate();
+  const [displayCards, setDisplayCards] = useState(true);
+  const [showTopBtn, setShowTopBtn] = useState(false);
   const [dialogItemState, setDialogItemState] = useState({});
   const [productsArr, setProductsArr] = useState([]);
   const [openDialogState, setOpenDialogState] = useState(false);
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
   useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (
+        window &&
+        !(
+          window.scrollY >=
+          document.documentElement.scrollHeight - window.innerHeight
+        )
+      ) {
+        setShowTopBtn(true);
+      } else {
+        setShowTopBtn(false);
+      }
+    });
     (async () => {
       try {
         let { data } = await axios.get(
@@ -49,10 +58,11 @@ const ProductsPage = () => {
           );
           navigate(ROUTES.HOME);
         }
+        //*adding extra cell for adding new card
         data.push({ ignore: null });
         setProductsArr(data);
       } catch (err) {
-        toast.error("something wrong, try again later");
+        handleErrorFromAxios(err, undefined, false);
       }
     })();
   }, []);
@@ -80,21 +90,7 @@ const ProductsPage = () => {
       setProductsArr(newProductsArr);
       toast.info(`${title ? title : "item"} has been deleted`);
     } catch (err) {
-      if (
-        (err && !err.response) ||
-        (err && !err.response.data) ||
-        (err && err.response && !err.response.data)
-      ) {
-        toast.error(
-          "problem with server, our staff will take care of it as soon as possible."
-        );
-        return;
-      }
-      toast.error(
-        err.response.data.msg == "please provide token"
-          ? "log in"
-          : err.response.data.msg
-      );
+      handleErrorFromAxios(err, undefined, false);
     }
   };
 
@@ -160,7 +156,11 @@ const ProductsPage = () => {
         toast.info(`${makeTitle(data.title)} has been removed from cart`);
       }
     } catch (err) {
-      console.log(err);
+      handleErrorFromAxios(
+        err,
+        "problem adding the item to the cart, please try again later",
+        false
+      );
     }
   };
 
@@ -192,11 +192,34 @@ const ProductsPage = () => {
   const handleCreateCardClick = () => {
     navigate(ROUTES.CREATE);
   };
+
+  const handleScrollToExtraCardClick = () => {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  };
   if (!productsArr.length) {
     return <CircularProgress />;
   }
   return (
     <Container maxWidth="lg">
+      {payload && payload.isAdmin && showTopBtn ? (
+        <Button
+          sx={{
+            position: "fixed",
+            bottom: "30px",
+            right: "30px",
+            zIndex: 9999,
+          }}
+          variant="contained"
+          onClick={handleScrollToExtraCardClick}
+        >
+          Add a new Card
+        </Button>
+      ) : (
+        ""
+      )}
       <DialogBox
         idOfComponent={dialogItemState.id}
         openStateProp={openDialogState}
@@ -213,163 +236,17 @@ const ProductsPage = () => {
       <Grid container spacing={2}>
         {productsArr.map((item) =>
           !item.hasOwnProperty("ignore") ? (
-            <Grid item xs={12} sm={6} md={4} key={item.title}>
-              <Card
-                sx={{
-                  backgroundColor: COLORS.SECONDARY,
-                  border: "0.05rem solid black",
-                  height: { xs: "790px", lg: "650px" },
-                  p: 2,
-                }}
-              >
-                <CardHeader title={makeTitle(item.title)} />
-                <CardActionArea>
-                  <CardMedia
-                    id={item._id}
-                    sx={{ borderRadius: 1 }}
-                    component="img"
-                    height="250"
-                    alt={item.image.alt || "Default Image Of Meds"}
-                    image={makeALegitStringForImage(item)}
-                    onClick={handleCardClick}
-                  />
-                </CardActionArea>
-                <CardContent
-                  sx={{
-                    height: "85px",
-                    marginBlock: 3,
-                  }}
-                >
-                  <Typography component="h6">Stock: {item.stock}</Typography>
-                  <Typography component="h6">$ {item.price}</Typography>
-                </CardContent>
-                <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                    {item &&
-                    item.rating &&
-                    item.rating.ratingUsers &&
-                    item.rating.hasOwnProperty("ratingTotalScore") ? (
-                      item.rating.ratingTotalScore == 0 ? (
-                        <RateSpecificProduct
-                          forShopPage={true}
-                          payloadProp={payload}
-                          numOfStarsProp={0}
-                        />
-                      ) : (
-                        <RateSpecificProduct
-                          forShopPage={true}
-                          payloadProp={payload}
-                          numOfStarsProp={Math.floor(
-                            item.rating.ratingTotalScore /
-                              item.rating.ratingUsers.length
-                          )}
-                        />
-                      )
-                    ) : (
-                      ""
-                    )}
-                  </Grid>
-                  <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                    <Tooltip enterDelay={500} title="add item to cart">
-                      <IconButton
-                        id={item.title + "||" + item._id}
-                        sx={{ p: 1, m: 1, height: "80px" }}
-                        variant="contained"
-                        color="success"
-                        onClick={handleAddToCartClick}
-                      >
-                        {payload && item && item.cart.includes(payload._id) ? (
-                          <RemoveShoppingCartIcon
-                            id={item.title + "||" + item._id}
-                            sx={{
-                              fontSize: "2.5rem",
-                            }}
-                          />
-                        ) : (
-                          <AddShoppingCartIcon
-                            id={item.title + "||" + item._id}
-                            sx={{
-                              fontSize: "2.5rem",
-                            }}
-                          />
-                        )}
-                      </IconButton>
-                    </Tooltip>
-                  </Grid>
-
-                  {payload && payload.isAdmin ? (
-                    <Grid item xs={6} lg={3}>
-                      <Tooltip
-                        id={item._id}
-                        enterDelay={500}
-                        title="delete item"
-                      >
-                        <IconButton
-                          id={item._id}
-                          onClick={handleDeleteClickBeforeConfirm}
-                          sx={{ p: 1, m: 1, height: "80px" }}
-                          variant="contained"
-                          color="error"
-                        >
-                          <DeleteForeverIcon
-                            id={item._id}
-                            sx={{
-                              fontSize: "2.5rem",
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </Grid>
-                  ) : (
-                    ""
-                  )}
-                  <Grid item xs={6} lg={payload && payload.isAdmin ? 3 : 6}>
-                    <Tooltip enterDelay={500} title="read more">
-                      <IconButton
-                        variant="contained"
-                        color="info"
-                        onClick={handleCardClick}
-                        id={item._id}
-                        sx={{
-                          p: 1,
-                          m: 1,
-                          height: "80px",
-                        }}
-                      >
-                        <PreviewIcon
-                          id={item._id}
-                          sx={{
-                            fontSize: "2.5rem",
-                          }}
-                        />
-                      </IconButton>
-                    </Tooltip>
-                  </Grid>
-                  {payload && payload.isAdmin ? (
-                    <Grid item xs={6} lg={3}>
-                      <Tooltip id={item._id} enterDelay={500} title="edit item">
-                        <IconButton
-                          id={item._id}
-                          onClick={handleEditClick}
-                          sx={{ p: 1, m: 1, height: "80px" }}
-                          variant="contained"
-                          color="warning"
-                        >
-                          <EditNoteIcon
-                            id={item._id}
-                            sx={{
-                              fontSize: "2.5rem",
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
-                    </Grid>
-                  ) : (
-                    ""
-                  )}
-                </Grid>
-              </Card>
-            </Grid>
+            <CardComponent
+              key={item.title}
+              cardProp={item}
+              payloadProp={payload}
+              handleCardClickFunc={handleCardClick}
+              handleAddToCartClickFunc={handleAddToCartClick}
+              handleDeleteClickBeforeConfirmFunc={
+                handleDeleteClickBeforeConfirm
+              }
+              handleEditClickFunc={handleEditClick}
+            />
           ) : payload && payload.isAdmin ? (
             <Grid item xs={12} sm={6} md={4} key="extraCard">
               <Card
