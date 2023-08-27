@@ -8,7 +8,6 @@ import {
   Tooltip,
   Typography,
   Button,
-  Box,
   List,
   ListItem,
 } from "@mui/material";
@@ -76,45 +75,50 @@ const ProductsPage = () => {
         setOriginalCardsArr(data);
       } catch (err) {
         handleErrorFromAxios(err, undefined, false);
+        navigate(ROUTES.HOME);
       }
     })();
   }, []);
   useEffect(() => {
-    if (!originalCardsArr) {
-      return;
-    }
-    if (isStockFiltered) {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      newCardsArr = newCardsArr.filter((card) => card && card.stock != 0);
-      setProductsArr(newCardsArr);
-    } else {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      setProductsArr(newCardsArr);
-    }
-  }, [isStockFiltered]);
-  useEffect(() => {
-    if (!originalCardsArr) {
-      return;
-    }
-    if (ascOrDesc == "asc") {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      newCardsArr = newCardsArr.sort((a, b) => a.price - b.price);
-      setProductsArr(newCardsArr);
-    } else if (ascOrDesc == "desc") {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      newCardsArr = newCardsArr.sort((a, b) => b.price - a.price);
-      setProductsArr(newCardsArr);
-    } else {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      setProductsArr(newCardsArr);
-    }
-  }, [ascOrDesc]);
-  useEffect(() => {
     if (originalCardsArr && !originalCardsArr.length) {
       return;
     }
-    setProductsArr(originalCardsArr);
-  }, [originalCardsArr]);
+
+    if (ascOrDesc == "asc") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => a.price - b.price);
+      if (isStockFiltered) {
+        setProductsArr(filterArrayFunc(newCardsArr));
+      } else {
+        setProductsArr(newCardsArr);
+      }
+    } else if (ascOrDesc == "desc") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => b.price - a.price);
+      if (isStockFiltered) {
+        setProductsArr(filterArrayFunc(newCardsArr));
+      } else {
+        setProductsArr(newCardsArr);
+      }
+    } else {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      if (isStockFiltered) {
+        setProductsArr(filterArrayFunc(newCardsArr));
+      } else {
+        setProductsArr(newCardsArr);
+      }
+    }
+  }, [originalCardsArr, isStockFiltered, ascOrDesc]);
+  const filterArrayFunc = (arrayToBeFiltered) => {
+    if (isStockFiltered) {
+      let newCardsArr = JSON.parse(JSON.stringify(arrayToBeFiltered));
+      newCardsArr = newCardsArr.filter((card) => card && card.stock != 0);
+      return newCardsArr;
+    } else {
+      let newCardsArr = JSON.parse(JSON.stringify(arrayToBeFiltered));
+      return newCardsArr;
+    }
+  };
   const sortASC = () => {
     setAscOrDesc("asc");
   };
