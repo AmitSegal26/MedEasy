@@ -8,7 +8,6 @@ import {
   ImageListItem,
   Box,
 } from "@mui/material";
-
 import ImagePopup from "./ImagePopup";
 import makeTitle from "../../utils/makeATitle";
 
@@ -25,6 +24,7 @@ const imageList = images.keys().map(
 const GalleryPage = () => {
   const theme = useTheme();
   const [dialogItemState, setDialogItemState] = useState({});
+  const [imageListState, setImageListState] = useState(imageList);
   const mediaLG = useMediaQuery(theme.breakpoints.down("lg"));
   const mediaSM = useMediaQuery(theme.breakpoints.down("sm"));
   const [openPopup, setOpenPopup] = useState(false);
@@ -88,7 +88,7 @@ const GalleryPage = () => {
         cols={mediaLG ? (mediaSM ? 2 : 3) : 6}
         gap={9}
       >
-        {imageList.map((item) => (
+        {imageListState.map((item) => (
           <Fragment key={item.imageAlt}>
             <ImageListItem
               id={item.id}
