@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {
-  IconButton,
   Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  CardMedia,
   CircularProgress,
   Container,
   Grid,
   Tooltip,
   Typography,
   Button,
+  Box,
+  List,
+  ListItem,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
@@ -25,15 +23,29 @@ import DialogBox from "../components/DialogBox";
 import AddIcon from "@mui/icons-material/Add";
 import handleErrorFromAxios from "../utils/handleError";
 import CardComponent from "../components/CardComponent";
+import ListComponent from "../components/ListComponent";
+import SortFilterDisplayComp from "../components/SortFilterDisplayComp";
 const ProductsPage = () => {
   const navigate = useNavigate();
-  const [displayCards, setDisplayCards] = useState(true);
+  const [originalCardsArr, setOriginalCardsArr] = useState(null);
+  const [displayAsCards, setDisplayAsCards] = useState(true);
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [dialogItemState, setDialogItemState] = useState({});
   const [productsArr, setProductsArr] = useState([]);
   const [openDialogState, setOpenDialogState] = useState(false);
+  const [isStockFiltered, setIsStockFiltered] = useState(false);
+  const [ascOrDesc, setAscOrDesc] = useState(null);
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
   useEffect(() => {
+    let displayAsCardsFromLocalStorage = localStorage.getItem("displayAsCards");
+    if (
+      displayAsCardsFromLocalStorage != null ||
+      displayAsCardsFromLocalStorage != undefined
+    ) {
+      displayAsCardsFromLocalStorage =
+        displayAsCardsFromLocalStorage == "true" ? true : false;
+      setDisplayAsCards(!!displayAsCardsFromLocalStorage);
+    }
     window.addEventListener("scroll", () => {
       if (
         window &&
@@ -61,11 +73,72 @@ const ProductsPage = () => {
         //*adding extra cell for adding new card
         data.push({ ignore: null });
         setProductsArr(data);
+        setOriginalCardsArr(data);
       } catch (err) {
         handleErrorFromAxios(err, undefined, false);
       }
     })();
   }, []);
+  useEffect(() => {
+    if (!originalCardsArr) {
+      return;
+    }
+    if (isStockFiltered) {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.filter((card) => card && card.stock != 0);
+      setProductsArr(newCardsArr);
+    } else {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      setProductsArr(newCardsArr);
+    }
+  }, [isStockFiltered]);
+  useEffect(() => {
+    if (!originalCardsArr) {
+      return;
+    }
+    if (ascOrDesc == "asc") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => a.price - b.price);
+      setProductsArr(newCardsArr);
+    } else if (ascOrDesc == "desc") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => b.price - a.price);
+      setProductsArr(newCardsArr);
+    } else {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      setProductsArr(newCardsArr);
+    }
+  }, [ascOrDesc]);
+  useEffect(() => {
+    if (originalCardsArr && !originalCardsArr.length) {
+      return;
+    }
+    setProductsArr(originalCardsArr);
+  }, [originalCardsArr]);
+  const sortASC = () => {
+    setAscOrDesc("asc");
+  };
+  const sortDESC = () => {
+    setAscOrDesc("desc");
+  };
+  const removeSort = () => {
+    setAscOrDesc("remove");
+  };
+  const handleChangeDisplayModeToNormal = () => {
+    setDisplayAsCards(true);
+    localStorage.setItem("displayAsCards", true);
+  };
+  const handleChangeDisplayModeToList = () => {
+    setDisplayAsCards(false);
+    localStorage.setItem("displayAsCards", false);
+  };
+  const filterOnStock = () => {
+    if (!originalCardsArr) {
+      return;
+    }
+    setIsStockFiltered(!isStockFiltered);
+  };
+
   const handleDeleteClick = async (ev) => {
     try {
       if (!ev) {
@@ -143,13 +216,13 @@ const ProductsPage = () => {
       if (!data) {
         return;
       }
-      let newProductsArr = JSON.parse(JSON.stringify(productsArr));
+      let newProductsArr = JSON.parse(JSON.stringify(originalCardsArr));
       for (let i = 0; i < newProductsArr.length; i++) {
         if (newProductsArr[i]._id == data._id) {
           newProductsArr[i] = { ...data };
         }
       }
-      setProductsArr(newProductsArr);
+      setOriginalCardsArr(newProductsArr);
       if (addedToCart) {
         toast.success(`${makeTitle(data.title)} has been added to cart`);
       } else {
@@ -199,7 +272,7 @@ const ProductsPage = () => {
       behavior: "smooth",
     });
   };
-  if (!productsArr.length) {
+  if (!productsArr) {
     return <CircularProgress />;
   }
   return (
@@ -220,6 +293,32 @@ const ProductsPage = () => {
       ) : (
         ""
       )}
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
+          <Typography variant="h6" color="primary" align="center">
+            Filter
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="h6" color="primary" align="center">
+            Sort
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="h6" color="secondary" align="center">
+            Display
+          </Typography>
+        </Grid>
+      </Grid>
+      <SortFilterDisplayComp
+        isStockFilteredProp={isStockFiltered}
+        filterOnStockFunc={filterOnStock}
+        sortDESCFunc={sortDESC}
+        sortASCFunc={sortASC}
+        removeSortFunc={removeSort}
+        handleChangeDisplayModeToNormalFunc={handleChangeDisplayModeToNormal}
+        handleChangeDisplayModeToListFunc={handleChangeDisplayModeToList}
+      />
       <DialogBox
         idOfComponent={dialogItemState.id}
         openStateProp={openDialogState}
@@ -233,51 +332,100 @@ const ProductsPage = () => {
         colorOfDisagreeBtn="error"
         agreeFunc={handleDeleteClick}
       />
-      <Grid container spacing={2}>
-        {productsArr.map((item) =>
-          !item.hasOwnProperty("ignore") ? (
-            <CardComponent
-              key={item.title}
-              cardProp={item}
-              payloadProp={payload}
-              handleCardClickFunc={handleCardClick}
-              handleAddToCartClickFunc={handleAddToCartClick}
-              handleDeleteClickBeforeConfirmFunc={
-                handleDeleteClickBeforeConfirm
-              }
-              handleEditClickFunc={handleEditClick}
-            />
-          ) : payload && payload.isAdmin ? (
-            <Grid item xs={12} sm={6} md={4} key="extraCard">
-              <Card
-                onClick={handleCreateCardClick}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-evenly",
-                  alignItems: "center",
-                  backgroundColor: COLORS.BACKGROUND,
-                  border: "0.05rem solid black",
-                  height: { xs: "200px", sm: "790px", lg: "650px" },
-                  p: 2,
-                  transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
-                  cursor: "pointer",
-                  ":hover": {
-                    boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
-                    backgroundColor: COLORS.TEXT2,
-                  },
-                }}
-              >
-                <AddIcon
+      {displayAsCards ? (
+        <Grid container spacing={2}>
+          {productsArr.map((item) =>
+            !item.hasOwnProperty("ignore") ? (
+              <CardComponent
+                key={item.title}
+                cardProp={item}
+                payloadProp={payload}
+                handleCardClickFunc={handleCardClick}
+                handleAddToCartClickFunc={handleAddToCartClick}
+                handleDeleteClickBeforeConfirmFunc={
+                  handleDeleteClickBeforeConfirm
+                }
+                handleEditClickFunc={handleEditClick}
+              />
+            ) : payload && payload.isAdmin ? (
+              <Grid item xs={12} sm={6} md={4} key="extraCard">
+                <Card
                   onClick={handleCreateCardClick}
-                  sx={{ fontSize: "20rem", color: "#4099ff" }}
-                />
-              </Card>
-            </Grid>
-          ) : (
-            ""
-          )
-        )}
-      </Grid>
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    backgroundColor: COLORS.BACKGROUND,
+                    border: "0.05rem solid black",
+                    height: { xs: "200px", sm: "790px", lg: "650px" },
+                    p: 2,
+                    transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
+                    cursor: "pointer",
+                    ":hover": {
+                      boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
+                      backgroundColor: COLORS.TEXT2,
+                    },
+                  }}
+                >
+                  <AddIcon
+                    onClick={handleCreateCardClick}
+                    sx={{ fontSize: "20rem", color: "#4099ff" }}
+                  />
+                </Card>
+              </Grid>
+            ) : (
+              ""
+            )
+          )}
+        </Grid>
+      ) : (
+        <List>
+          {productsArr.map((item) =>
+            !item.hasOwnProperty("ignore") ? (
+              <ListComponent
+                key={item._id + Date.now()}
+                cardProp={item}
+                payloadProp={payload}
+                handleCartBtnClickFunc={handleAddToCartClick}
+                handleDeleteFromInitialCardsArrFunc={
+                  handleDeleteClickBeforeConfirm
+                }
+                handleEditFromInitialCardsArrFunc={handleEditClick}
+                handleImageToShowDataFunc={handleCardClick}
+              />
+            ) : payload && payload.isAdmin ? (
+              <Tooltip title="add a new card" key="extraListItem">
+                <ListItem
+                  onClick={handleCreateCardClick}
+                  sx={{
+                    cursor: "pointer",
+                    p: 1,
+                    marginBlock: 1,
+                    justifyContent: "space-evenly",
+                    borderRadius: "10px",
+                    transition: "all 0.2s cubic-bezier(0.12,0.8,1,0.6)",
+                    ":hover": {
+                      backgroundColor: COLORS.SECONDARY,
+                    },
+                  }}
+                >
+                  <AddIcon
+                    color="success"
+                    sx={{
+                      transform: "scale(4,1.3)",
+                      fontSize: "10rem",
+                      color: "#4099ff",
+                    }}
+                  />
+                </ListItem>
+              </Tooltip>
+            ) : (
+              ""
+            )
+          )}
+        </List>
+      )}
+
       <BreakpointsInd />
     </Container>
   );

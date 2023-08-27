@@ -1,9 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Box, Container, Tooltip, Typography, Zoom } from "@mui/material";
 import fullStar from "../../assets/imgs/fullStar.png";
 import emptyStar from "../../assets/imgs/emptyStar.png";
 import OfflinePinRoundedIcon from "@mui/icons-material/OfflinePinRounded";
 import "./specificProduct.css";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../../routes/ROUTES";
+import COLORS from "../../colors/COLORS";
 const RateSpecificProduct = ({
   alreadyRatedProp,
   numOfStarsProp,
@@ -11,6 +14,7 @@ const RateSpecificProduct = ({
   forShopPage,
   starClickFunc,
 }) => {
+  const navigate = useNavigate();
   if (numOfStarsProp > 5) {
     return (
       <Container component="div">
@@ -65,6 +69,9 @@ const RateSpecificProduct = ({
   const isArrowTooltipDisplayed = () =>
     payloadProp && !alreadyRatedProp ? true : false;
 
+  const clickCheck = () => {
+    navigate(ROUTES.LOGIN);
+  };
   const isArrowTooltipDisplayedOnShopPage = forShopPage
     ? false
     : !payloadProp || alreadyRatedProp
@@ -86,11 +93,25 @@ const RateSpecificProduct = ({
     >
       <Tooltip
         title={
-          alreadyRatedProp
-            ? "already rated this item"
-            : !payloadProp
-            ? "login in order to rate this item"
-            : ""
+          alreadyRatedProp ? (
+            "already rated this item"
+          ) : !payloadProp ? (
+            <Fragment>
+              <span
+                style={{
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  color: COLORS.MAIN,
+                }}
+                onClick={clickCheck}
+              >
+                login
+              </span>{" "}
+              in order to rate this item
+            </Fragment>
+          ) : (
+            ""
+          )
         }
         enterDelay={300}
         disableHoverListener={isArrowTooltipDisplayedOnShopPage ? false : true}

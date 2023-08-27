@@ -97,12 +97,13 @@ const CardComponent = ({
               <Box component="span">
                 <IconButton
                   id={cardProp.title + "||" + cardProp._id}
-                  sx={{ p: 1, m: 1, height: "80px" }}
+                  sx={{ p: 1, m: 1 }}
                   variant="contained"
                   color="success"
                   disabled={
                     cardProp &&
                     cardProp.stock == 0 &&
+                    payloadProp &&
                     !cardProp.cart.includes(payloadProp._id)
                   }
                   onClick={handleAddToCartClickFunc}
@@ -135,7 +136,7 @@ const CardComponent = ({
                 <IconButton
                   id={cardProp._id}
                   onClick={handleDeleteClickBeforeConfirmFunc}
-                  sx={{ p: 1, m: 1, height: "80px" }}
+                  sx={{ p: 1, m: 1 }}
                   variant="contained"
                   color="error"
                 >
@@ -161,7 +162,6 @@ const CardComponent = ({
                 sx={{
                   p: 1,
                   m: 1,
-                  height: "80px",
                 }}
               >
                 <PreviewIcon
@@ -179,7 +179,7 @@ const CardComponent = ({
                 <IconButton
                   id={cardProp._id}
                   onClick={handleEditClickFunc}
-                  sx={{ p: 1, m: 1, height: "80px" }}
+                  sx={{ p: 1, m: 1 }}
                   variant="contained"
                   color="warning"
                 >
