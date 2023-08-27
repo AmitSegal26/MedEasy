@@ -266,7 +266,7 @@ const EditCardPage = () => {
       <FormButton
         handleRegisterClickBtnFunc={handleAddClick}
         disableBtnProp={disableBtn}
-        textOfBtn="Sign Up"
+        textOfBtn="Save Changes"
       />
     </Container>
   );

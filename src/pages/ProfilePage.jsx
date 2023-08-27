@@ -422,7 +422,7 @@ const ProfilePage = () => {
       <FormButton
         handleRegisterClickBtnFunc={handleSubmitProfileClick}
         disableBtnProp={disableBtn}
-        textOfBtn="Submit Changes"
+        textOfBtn="Save Changes"
       />
     </Container>
   );

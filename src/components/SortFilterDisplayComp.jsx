@@ -5,17 +5,39 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import SortIcon from "@mui/icons-material/Sort";
-import FilterListIcon from "@mui/icons-material/FilterList";
-
+import COLORS from "../colors/COLORS";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 const SortFilterDisplayComp = ({
   isStockFilteredProp,
   filterOnStockFunc,
   sortDESCFunc,
   sortASCFunc,
+  sortRateDESCFunc,
+  sortRateASCFunc,
+  sortStateProp,
   removeSortFunc,
   handleChangeDisplayModeToNormalFunc,
   handleChangeDisplayModeToListFunc,
+  displayAsCardsStateProp,
 }) => {
+  const sortStyleObj = (sortType = "", arg = null) => {
+    return {
+      borderRadius: "5px",
+      backgroundColor:
+        sortStateProp == sortType || displayAsCardsStateProp == sortType
+          ? COLORS.SECONDARY
+          : "",
+      transform: `${arg == "inverted" ? "rotateX(180deg)" : ""}${
+        sortStateProp == sortType ? "scale(1.25)" : ""
+      }`,
+      fontSize: "2rem",
+      m: 2,
+      p: 0.2,
+      cursor: "pointer",
+    };
+  };
   return (
     <Grid container spacing={2} sx={{ textAlign: "center" }}>
       <Grid item xs={4}>
@@ -48,34 +70,34 @@ const SortFilterDisplayComp = ({
         </Tooltip>
       </Grid>
       <Grid item xs={4}>
-        <Tooltip title="Sort price from high to low">
-          <SortIcon
-            onClick={sortDESCFunc}
-            sx={{
-              fontSize: "2rem",
-              m: 2,
-              ":hover": { border: "0.2rem solid white", cursor: "pointer" },
-            }}
+        <Tooltip title="Best rating from high to low">
+          <ThumbUpIcon
+            onClick={sortRateDESCFunc}
+            sx={sortStyleObj("descRate")}
           />
+        </Tooltip>
+        <Tooltip title="Lowest rating from low to high">
+          <ThumbDownIcon
+            onClick={sortRateASCFunc}
+            sx={sortStyleObj("ascRate")}
+          />
+        </Tooltip>
+        <Tooltip title="Sort price from high to low">
+          <SortIcon onClick={sortDESCFunc} sx={sortStyleObj("desc")} />
         </Tooltip>
         <Tooltip title="Sort price from low to high">
           <SortIcon
             onClick={sortASCFunc}
-            sx={{
-              transform: "rotateX(180deg)",
-              fontSize: "2rem",
-              m: 2,
-              ":hover": { border: "0.2rem solid white", cursor: "pointer" },
-            }}
+            sx={sortStyleObj("asc", "inverted")}
           />
         </Tooltip>
         <Tooltip title="Remove sort">
-          <FilterListIcon
+          <RestartAltIcon
             onClick={removeSortFunc}
             sx={{
               fontSize: "2rem",
               m: 2,
-              ":hover": { border: "0.2rem solid white", cursor: "pointer" },
+              cursor: "pointer",
             }}
           />
         </Tooltip>
@@ -84,21 +106,13 @@ const SortFilterDisplayComp = ({
         <Tooltip title="Normal display">
           <GridViewIcon
             onClick={handleChangeDisplayModeToNormalFunc}
-            sx={{
-              fontSize: "2rem",
-              m: 2,
-              ":hover": { border: "0.2rem solid white", cursor: "pointer" },
-            }}
+            sx={sortStyleObj(true)}
           />
         </Tooltip>
         <Tooltip title="List display">
           <FormatListBulletedIcon
             onClick={handleChangeDisplayModeToListFunc}
-            sx={{
-              fontSize: "2rem",
-              m: 2,
-              ":hover": { border: "0.2rem solid white", cursor: "pointer" },
-            }}
+            sx={sortStyleObj(false)}
           />
         </Tooltip>
       </Grid>

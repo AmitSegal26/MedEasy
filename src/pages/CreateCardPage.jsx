@@ -223,7 +223,7 @@ const CreateCardPage = () => {
       <FormButton
         handleRegisterClickBtnFunc={handleAddClick}
         disableBtnProp={disableBtn}
-        textOfBtn="Sign Up"
+        textOfBtn="Create Item"
       />
     </Container>
   );

@@ -73,6 +73,11 @@ const ProductsPage = () => {
         data.push({ ignore: null });
         setProductsArr(data);
         setOriginalCardsArr(data);
+        //*the command below is for the button to appear due to listening to a scrolling event
+        window.scrollTo({
+          top: 1,
+          behavior: "smooth",
+        });
       } catch (err) {
         handleErrorFromAxios(err, undefined, false);
         navigate(ROUTES.HOME);
@@ -100,6 +105,60 @@ const ProductsPage = () => {
       } else {
         setProductsArr(newCardsArr);
       }
+    } else if (ascOrDesc == "ascRate") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => {
+        const ratingA =
+          a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
+            ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
+            : null;
+        const ratingB =
+          b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
+            ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
+            : null;
+
+        if (ratingA === null && ratingB === null) {
+          return null;
+        } else if (ratingA === null) {
+          return 1; // Put items with null rating at the end
+        } else if (ratingB === null) {
+          return -1; // Put items with null rating at the end
+        }
+
+        return ratingA - ratingB || a.price - b.price;
+      });
+      if (isStockFiltered) {
+        setProductsArr(filterArrayFunc(newCardsArr));
+      } else {
+        setProductsArr(newCardsArr);
+      }
+    } else if (ascOrDesc == "descRate") {
+      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      newCardsArr = newCardsArr.sort((a, b) => {
+        const ratingA =
+          a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
+            ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
+            : null;
+        const ratingB =
+          b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
+            ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
+            : null;
+
+        if (ratingA === null && ratingB === null) {
+          return null;
+        } else if (ratingA === null) {
+          return 1; // Put items with null rating at the end
+        } else if (ratingB === null) {
+          return -1; // Put items with null rating at the end
+        }
+
+        return ratingB - ratingA || b.price - a.price;
+      });
+      if (isStockFiltered) {
+        setProductsArr(filterArrayFunc(newCardsArr));
+      } else {
+        setProductsArr(newCardsArr);
+      }
     } else {
       let newCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
       if (isStockFiltered) {
@@ -118,6 +177,12 @@ const ProductsPage = () => {
       let newCardsArr = JSON.parse(JSON.stringify(arrayToBeFiltered));
       return newCardsArr;
     }
+  };
+  const sortRateASC = () => {
+    setAscOrDesc("ascRate");
+  };
+  const sortRateDESC = () => {
+    setAscOrDesc("descRate");
   };
   const sortASC = () => {
     setAscOrDesc("asc");
@@ -319,9 +384,13 @@ const ProductsPage = () => {
         filterOnStockFunc={filterOnStock}
         sortDESCFunc={sortDESC}
         sortASCFunc={sortASC}
+        sortRateDESCFunc={sortRateDESC}
+        sortRateASCFunc={sortRateASC}
+        sortStateProp={ascOrDesc}
         removeSortFunc={removeSort}
         handleChangeDisplayModeToNormalFunc={handleChangeDisplayModeToNormal}
         handleChangeDisplayModeToListFunc={handleChangeDisplayModeToList}
+        displayAsCardsStateProp={displayAsCards}
       />
       <DialogBox
         idOfComponent={dialogItemState.id}
@@ -429,7 +498,6 @@ const ProductsPage = () => {
           )}
         </List>
       )}
-
       <BreakpointsInd />
     </Container>
   );
