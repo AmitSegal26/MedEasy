@@ -11,9 +11,9 @@ import {
   ListItemIcon,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import COLORS from "../colors/COLORS";
-import tryPic from "../assets/imgs/gallery/beachPills.jpeg";
 
 const ListComponent = ({
   cardProp,
@@ -23,6 +23,7 @@ const ListComponent = ({
   handleEditFromInitialCardsArrFunc,
   handleImageToShowDataFunc,
 }) => {
+  const mediaQ = useMediaQuery("(max-width:935px)");
   const styleObjForButtons = {
     cursor: "pointer",
     fontSize: "2rem",
@@ -56,31 +57,56 @@ const ListComponent = ({
       disablePadding
       key={cardProp._id + Date.now()}
       sx={{
+        height: mediaQ ? "200px" : "",
         p: 1,
         marginBlock: 1,
         justifyContent: "space-between",
         borderRadius: "10px",
+        flexWrap: mediaQ ? "wrap" : "no-wrap",
         transition: "all 0.2s cubic-bezier(0.12,0.8,1,0.6)",
         ":hover": {
           backgroundColor: COLORS.SECONDARY,
         },
       }}
     >
-      <Box component="span" sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        component="span"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Box
+          id={cardProp._id}
           component="img"
-          sx={{ width: 70, height: 70, mr: 2, borderRadius: "10px" }}
+          sx={{
+            width: 70,
+            height: 70,
+            mr: 2,
+            borderRadius: "10px",
+            cursor: "pointer",
+          }}
           src={makeALegitStringForImage(cardProp)}
+          onClick={handleClickToShowData}
         />
-        <Typography component="h4" variant="h6" sx={{ marginLeft: 4 }}>
-          {cardProp.title}
-        </Typography>
         <Typography
           component="h4"
           variant="h6"
-          color={COLORS.TEXT1}
-          sx={{ marginLeft: 4 }}
+          sx={{
+            marginLeft: 4,
+            width: mediaQ ? "10ch" : "25ch",
+            overflow: "hidden",
+          }}
         >
+          {mediaQ
+            ? cardProp.title && cardProp.title.length <= 7
+              ? cardProp.title
+              : cardProp.title.slice(0, 7 - cardProp.title.length) + "..."
+            : cardProp.title && cardProp.title.length <= 21
+            ? cardProp.title
+            : cardProp.title.slice(0, 21 - cardProp.title.length) + "..."}
+        </Typography>
+        <Typography component="h4" variant="h6" color={COLORS.TEXT1}>
           ${cardProp.price}
         </Typography>
         <Typography
@@ -91,7 +117,7 @@ const ListComponent = ({
         >
           {cardProp && cardProp.hasOwnProperty("stock")
             ? cardProp.stock == 0
-              ? "Out of stock for now!"
+              ? "Out of stock"
               : cardProp.stock + " Left"
             : ""}
         </Typography>

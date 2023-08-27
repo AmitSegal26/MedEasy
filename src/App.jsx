@@ -2,7 +2,7 @@ import "./App.css";
 import Router from "./routes/Router";
 import Navbar from "./components/Navbar/Navbar";
 import COLORS from "./colors/COLORS";
-import Footer from "./components/Navbar/Footer";
+import Footer from "./pages/Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useLoggedIn from "./hooks/useLoggedIn";

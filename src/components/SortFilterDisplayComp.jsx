@@ -27,7 +27,7 @@ const SortFilterDisplayComp = ({
       borderRadius: "5px",
       backgroundColor:
         sortStateProp == sortType || displayAsCardsStateProp == sortType
-          ? COLORS.SECONDARY
+          ? COLORS.INVERTEDFROMMAIN
           : "",
       transform: `${arg == "inverted" ? "rotateX(180deg)" : ""}${
         sortStateProp == sortType ? "scale(1.25)" : ""
@@ -36,6 +36,10 @@ const SortFilterDisplayComp = ({
       m: 2,
       p: 0.2,
       cursor: "pointer",
+      color:
+        sortStateProp == sortType || displayAsCardsStateProp == sortType
+          ? "white"
+          : "",
     };
   };
   return (

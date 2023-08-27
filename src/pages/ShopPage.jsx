@@ -23,11 +23,13 @@ import AddIcon from "@mui/icons-material/Add";
 import handleErrorFromAxios from "../utils/handleError";
 import CardComponent from "../components/CardComponent";
 import ListComponent from "../components/ListComponent";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import SortFilterDisplayComp from "../components/SortFilterDisplayComp";
 const ProductsPage = () => {
   const navigate = useNavigate();
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   const [displayAsCards, setDisplayAsCards] = useState(true);
+  const [showExtraBtn, setShowExtraBtn] = useState(false);
   const [showTopBtn, setShowTopBtn] = useState(false);
   const [dialogItemState, setDialogItemState] = useState({});
   const [productsArr, setProductsArr] = useState([]);
@@ -53,6 +55,13 @@ const ProductsPage = () => {
           document.documentElement.scrollHeight - window.innerHeight
         )
       ) {
+        setShowExtraBtn(true);
+      } else {
+        setShowExtraBtn(false);
+      }
+    });
+    window.addEventListener("scroll", () => {
+      if (window && !(window.scrollY <= 250)) {
         setShowTopBtn(true);
       } else {
         setShowTopBtn(false);
@@ -335,6 +344,12 @@ const ProductsPage = () => {
     navigate(ROUTES.CREATE);
   };
 
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   const handleScrollToExtraCardClick = () => {
     window.scrollTo({
       top: document.body.scrollHeight,
@@ -346,7 +361,7 @@ const ProductsPage = () => {
   }
   return (
     <Container maxWidth="lg">
-      {payload && payload.isAdmin && showTopBtn ? (
+      {payload && payload.isAdmin && showExtraBtn ? (
         <Button
           sx={{
             position: "fixed",
@@ -357,7 +372,23 @@ const ProductsPage = () => {
           variant="contained"
           onClick={handleScrollToExtraCardClick}
         >
-          Add a new Card
+          Add a new product
+        </Button>
+      ) : (
+        ""
+      )}
+      {payload && payload.isAdmin && showTopBtn ? (
+        <Button
+          sx={{
+            position: "fixed",
+            bottom: "30px",
+            left: "30px",
+            zIndex: 9999,
+          }}
+          variant="contained"
+          onClick={handleScrollToTop}
+        >
+          <ArrowUpwardIcon />
         </Button>
       ) : (
         ""
