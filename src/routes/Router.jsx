@@ -19,6 +19,7 @@ import useTitle from "../hooks/useTitle";
 import ContactPage from "../pages/Contact/ContactPage";
 import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
+import CartPage from "../pages/CartPage";
 
 const Router = () => {
   useTitle()();
@@ -49,12 +50,7 @@ const Router = () => {
       />
       <Route
         path={ROUTES.CART}
-        element={
-          <ProtectedRoute
-            element={<h1>Edit in Router.js CART</h1>}
-            isLogOut={true}
-          />
-        }
+        element={<ProtectedRoute element={<CartPage />} isLogOut={true} />}
       />
       <Route
         path={ROUTES.PROFILE}

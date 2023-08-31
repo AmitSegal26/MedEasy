@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Card,
@@ -10,7 +11,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import React from "react";
 import RateSpecificProduct from "../pages/specificProduct/RateSpecificProduct";
 import COLORS from "../colors/COLORS";
 import makeTitle from "../utils/makeATitle";
@@ -34,11 +34,20 @@ const CardComponent = ({
         sx={{
           backgroundColor: COLORS.SECONDARY,
           border: "0.05rem solid black",
-          height: { xs: "790px", lg: "650px" },
+          height: {
+            xs: payloadProp && payloadProp.isAdmin ? "730px" : "635px",
+            lg: "650px",
+          },
           p: 2,
         }}
       >
-        <CardHeader title={makeTitle(cardProp.title)} />
+        <CardHeader
+          title={makeTitle(
+            cardProp.title && cardProp.title.length <= 21
+              ? cardProp.title
+              : cardProp.title.slice(0, 21 - cardProp.title.length) + "..."
+          )}
+        />
         <CardActionArea>
           <CardMedia
             id={cardProp._id}

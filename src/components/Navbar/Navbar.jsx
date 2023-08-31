@@ -23,6 +23,7 @@ const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
+  const { infoOfUser } = useSelector((bigRedux) => bigRedux.authSlice);
   let tempArrPages = [];
   const adminPages = [{ label: "CRM", url: ROUTES.CRM }];
   const notAuthedPages = [
@@ -85,7 +86,7 @@ const Navbar = () => {
               display: { xs: "none", lg: "block" },
             }}
           >
-            <WelcomeStrAndIcon payloadProp={payload} />
+            <WelcomeStrAndIcon infoOfUserProp={infoOfUser} />
           </Box>
           <Box
             sx={{
@@ -132,13 +133,13 @@ const Navbar = () => {
             pagesProp={tempArrPages}
           />
           <ProfileComponent
-            imageProp={payload && payload.image}
+            imageProp={infoOfUser && infoOfUser.image}
             profileComponentNav={profilePages}
             anchorElProp={anchorElUser}
             handleCloseUMProp={handleCloseUserMenu}
             handleOpenUMProp={handleOpenUserMenu}
             defaultPic={
-              payload && payload.gender == "male"
+              infoOfUser && infoOfUser.gender == "male"
                 ? defaultMale
                 : payload && payload.gender == "female"
                 ? defaultFemale

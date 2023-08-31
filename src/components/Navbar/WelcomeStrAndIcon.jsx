@@ -41,7 +41,7 @@ const WelcomeStrAndIcon = (props) => {
     borderRadius: 3,
   };
 
-  if (props.payloadProp) {
+  if (props.infoOfUserProp) {
     return (
       <Grid container spacing={1} sx={{ alignItems: "center" }}>
         <Grid item xs={1}>
@@ -56,9 +56,9 @@ const WelcomeStrAndIcon = (props) => {
         <Grid item xs={1} />
         <Grid item xs={10}>
           <Typography sx={colorsOfTypography}>
-            {props.payloadProp &&
+            {props.infoOfUserProp &&
               `${makeTitle(welcomeStr)}, ${makeTitle(
-                props.payloadProp.name.first
+                props.infoOfUserProp.name.first
               )}`}
           </Typography>
         </Grid>

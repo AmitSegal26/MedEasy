@@ -22,6 +22,7 @@ const ProfilePage = () => {
   const loggedIn = useLoggedIn();
   const navigate = useNavigate();
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
+  const { infoOfUser } = useSelector((bigRedux) => bigRedux.authSlice);
   const [profileState, setProfileState] = useState({
     first: "",
     last: "",
@@ -40,7 +41,7 @@ const ProfilePage = () => {
   const [inputErrors, setInputErrors] = useState(null);
   const [openDialogBox, setOpenDialogBox] = useState(false);
   useEffect(() => {
-    if (!payload) {
+    if (!payload || !infoOfUser) {
       (async () => {
         try {
           let { data } = await axios.get(
@@ -60,7 +61,7 @@ const ProfilePage = () => {
         }
       })();
     } else {
-      normalizeUser(payload);
+      normalizeUser(infoOfUser);
     }
   }, []);
   useEffect(() => {
@@ -98,17 +99,17 @@ const ProfilePage = () => {
     if (!dataOfUser) {
       return;
     }
-    let newPayload = JSON.parse(JSON.stringify(dataOfUser));
+    let newInfoOfUser = JSON.parse(JSON.stringify(dataOfUser));
     setPicState(makeALegitStringForImage(dataOfUser));
-    let { name } = newPayload;
-    newPayload.first = name.first;
-    newPayload.last = name.last;
-    delete newPayload.image;
-    delete newPayload.isAdmin;
-    delete newPayload.name;
-    setProfileState(newPayload);
-    setOriginalProfileState(newPayload);
-    setInputErrors(validateEditUserSchema(normalizeUserForJoi(newPayload)));
+    let { name } = newInfoOfUser;
+    newInfoOfUser.first = name.first;
+    newInfoOfUser.last = name.last;
+    delete newInfoOfUser.image;
+    delete newInfoOfUser.isAdmin;
+    delete newInfoOfUser.name;
+    setProfileState(newInfoOfUser);
+    setOriginalProfileState(newInfoOfUser);
+    setInputErrors(validateEditUserSchema(normalizeUserForJoi(newInfoOfUser)));
   };
   const normalizeUserForJoi = (user) => {
     let newUser = JSON.parse(JSON.stringify(user));
@@ -171,9 +172,9 @@ const ProfilePage = () => {
   const handleSubmitProfileClick = async () => {
     if (
       profileState == originalProfileState &&
-      payload &&
-      payload.image &&
-      atob(payload.image.dataStr) == picState
+      infoOfUser &&
+      infoOfUser.image &&
+      atob(infoOfUser.image.dataStr) == picState
     ) {
       toast.warning("no changes were detected");
       return;
@@ -290,7 +291,7 @@ const ProfilePage = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           Upload a Profile Picture
-          {(payload && !payload.image) || !picState ? (
+          {(infoOfUser && !infoOfUser.image) || !picState ? (
             <Fragment>
               <input
                 type="file"

@@ -1,0 +1,14 @@
+@keyframes blink {
+  0%,
+  35%,
+  100% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0;
+  }
+}
+
+.extra-card:not(:hover) {
+  animation: blink 3s ease-in-out infinite;
+}

@@ -18,7 +18,7 @@ import "../pages/registerPage.css";
 const ProfileFormComponent = (props) => {
   return (
     <Grid container spacing={2}>
-      {props.arrayOfInputsProp.map((input) => (
+      {props.arrayOfInputsProp.map((input, i) => (
         <TextFieldComponent
           key={input.idAndKey}
           inputName={input.nameOfInput}
