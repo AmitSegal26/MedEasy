@@ -3,19 +3,22 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
+import HISTORY from "../../utils/hrefAndHistory/handleHistoryChange";
 
 const ProtectedRouteForAdmin = ({ element }) => {
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
-  if (!payload) {
+  const handleReject = () => {
     toast.error("access denied");
+    HISTORY.removeLastPage();
     return <Navigate to={ROUTES.HOME} />;
+  };
+  if (!payload) {
+    return handleReject();
   }
   if (payload && payload.isAdmin) {
-    toast.success("");
     return element;
   } else {
-    toast.error("admin");
-    return <Navigate to={ROUTES.HOME} />;
+    return handleReject();
   }
 };
 

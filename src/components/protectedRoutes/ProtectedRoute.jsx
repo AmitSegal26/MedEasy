@@ -3,11 +3,15 @@ import { Navigate } from "react-router-dom";
 
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
+import HISTORY from "../../utils/hrefAndHistory/handleHistoryChange";
 
 const ProtectedRoute = ({ element, supposedToBeLoggedInThis, isLogOut }) => {
   //* logic section
   const isLoggedIn = useSelector((bigState) => bigState.authSlice.isLoggedIn);
-  //* html section
+  const handleReject = () => {
+    HISTORY.removePagesAfterFailureAuth();
+    return <Navigate to={ROUTES.HOME} />;
+  };
   if (supposedToBeLoggedInThis) {
     //protectd for loggen in users
     if (isLoggedIn) {
@@ -17,7 +21,7 @@ const ProtectedRoute = ({ element, supposedToBeLoggedInThis, isLogOut }) => {
         //is not the log out component
         toast.error("only for logged users. log in first!");
       }
-      return <Navigate to={ROUTES.HOME} />;
+      return handleReject();
     }
   } else {
     //protected for new users or not logged in uesrs
@@ -25,7 +29,7 @@ const ProtectedRoute = ({ element, supposedToBeLoggedInThis, isLogOut }) => {
       return element;
     } else {
       toast.error("already logged in and registered. log out first!");
-      return <Navigate to={ROUTES.HOME} />;
+      return handleReject();
     }
   }
 };

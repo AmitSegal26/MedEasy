@@ -210,6 +210,7 @@ const RegisterPage = () => {
             handleRegisterClickBtnFunc={handleRegisterClickBtn}
             disableBtnProp={disableBtn}
             textOfBtn="Sign Up"
+            toHomePage={true}
           />
           <Grid container justifyContent="flex-end">
             <Grid item>

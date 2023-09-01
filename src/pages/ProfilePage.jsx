@@ -424,6 +424,7 @@ const ProfilePage = () => {
         handleRegisterClickBtnFunc={handleSubmitProfileClick}
         disableBtnProp={disableBtn}
         textOfBtn="Save Changes"
+        toHomePage={true}
       />
     </Container>
   );

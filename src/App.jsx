@@ -3,12 +3,12 @@ import Router from "./routes/Router";
 import Navbar from "./components/Navbar/Navbar";
 import COLORS from "./colors/COLORS";
 import Footer from "./pages/Footer";
-import { ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useLoggedIn from "./hooks/useLoggedIn";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
-
+import HISTORY from "./utils/hrefAndHistory/handleHistoryChange";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const loggedIn = useLoggedIn();
@@ -18,17 +18,15 @@ function App() {
       setIsLoading(false);
     })();
   }, []);
-
   return (
     <div className="App" style={{ backgroundColor: COLORS.BACKGROUND }}>
       <ToastContainer
-        position="bottom-right"
+        position="bottom-center"
         autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
         closeOnClick
         pauseOnFocusLoss
         pauseOnHover
+        transition={Slide}
         theme="dark"
       />
       <header className="App-header">

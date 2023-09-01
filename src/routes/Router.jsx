@@ -20,8 +20,10 @@ import ContactPage from "../pages/Contact/ContactPage";
 import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 import CartPage from "../pages/CartPage";
+import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
 const Router = () => {
   useTitle()();
+  HISTORY.setNewPage(window.location.href);
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<h1>Edit in Router.js HOMEPAGE</h1>} />
@@ -49,7 +51,7 @@ const Router = () => {
       />
       <Route
         path={ROUTES.CART}
-        element={<ProtectedRoute element={<CartPage />} isLogOut={true} />}
+        element={<ProtectedRoute element={<CartPage />} isLogOut={false} />}
       />
       <Route
         path={ROUTES.PROFILE}
