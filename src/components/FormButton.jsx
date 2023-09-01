@@ -12,6 +12,7 @@ const FormButton = (props) => {
     mt: 3,
     mb: 2,
   };
+  console.log();
   return (
     <Box component="div" sx={{ width: "100%", display: "flex", gap: "0.6rem" }}>
       <Button

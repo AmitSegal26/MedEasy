@@ -6,7 +6,6 @@ import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import handleErrorFromAxios from "../utils/handleError";
-import "./shopPage.css";
 import ProductsComponent from "../components/ProductsComponent";
 const ProductsPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ const ProductsPage = () => {
         let { data } = await axios.get(
           "http://localhost:8181/api/cards/allCards"
         );
-        if (!data || !data.length) {
+        if (payload && !payload.isAdmin && (!data || !data.length)) {
           toast.error(
             "no meds for sale at the moment, please come back again later!"
           );

@@ -20,7 +20,6 @@ import ContactPage from "../pages/Contact/ContactPage";
 import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 import CartPage from "../pages/CartPage";
-
 const Router = () => {
   useTitle()();
   return (

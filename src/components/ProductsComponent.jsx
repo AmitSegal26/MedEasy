@@ -25,6 +25,7 @@ import ROUTES from "../routes/ROUTES";
 import axios from "axios";
 import { toast } from "react-toastify";
 import handleErrorFromAxios from "../utils/handleError";
+import "../pages/shopPage.css";
 
 const ProductsComponent = ({
   productsArrProp,
@@ -288,7 +289,7 @@ const ProductsComponent = ({
         data: { _id },
         data: { title },
       } = await axios.delete(`http://localhost:8181/api/cards/delete/${id}`);
-      let newProductsArr = JSON.parse(JSON.stringify(productsArrProp));
+      let newProductsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
       newProductsArr = newProductsArr.filter((item) => item._id != _id);
       setOriginalCardsArrFunc(newProductsArr);
       toast.info(`${title ? title : "item"} has been deleted`);

@@ -63,7 +63,6 @@ const useLoggedIn = () => {
       delete data.password;
       const payload = jwt_decode(token);
       let fullObjOfRedux = { payload, data };
-      console.log(fullObjOfRedux);
       dispatch(authActions.login(fullObjOfRedux));
     } catch (err) {
       //server error
