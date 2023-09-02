@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useLoggedIn from "./hooks/useLoggedIn";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
-import HISTORY from "./utils/hrefAndHistory/handleHistoryChange";
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const loggedIn = useLoggedIn();

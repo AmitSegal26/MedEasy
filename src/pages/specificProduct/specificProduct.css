@@ -5,3 +5,45 @@
   border: 3px solid transparent;
   cursor: pointer;
 }
+
+@keyframes vibrate {
+  0% {
+    transform: rotate(0deg);
+  }
+  5% {
+    transform: rotate(20deg);
+  }
+  10% {
+    transform: rotate(-20deg);
+  }
+  15% {
+    transform: rotate(20deg);
+  }
+  20% {
+    transform: rotate(-20deg);
+  }
+  25% {
+    transform: rotate(20deg);
+  }
+  30% {
+    transform: rotate(-20deg);
+  }
+  35% {
+    transform: rotate(20deg);
+  }
+  40% {
+    transform: rotate(0deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  80% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+#dollar-icon {
+  animation: vibrate 4s infinite ease-in-out;
+}

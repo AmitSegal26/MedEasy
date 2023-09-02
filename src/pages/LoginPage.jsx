@@ -9,7 +9,6 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 import handleErrorFromAxios from "../utils/handleError";
-
 const LoginPage = () => {
   const navigate = useNavigate();
   const [disableBtn, setDisableBtn] = useState(false);

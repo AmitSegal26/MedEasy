@@ -5,11 +5,14 @@ import validateIdSchema from "../../validations/idValidate";
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
 import {
+  Box,
   Button,
   CircularProgress,
   Container,
   Grid,
+  IconButton,
   Paper,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
@@ -20,12 +23,15 @@ import { useSelector } from "react-redux";
 import useTitle from "../../hooks/useTitle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import handleErrorFromAxios from "../../utils/handleError";
-
+import dollarIcon from "../../assets/icons/dollarSvg.svg";
+import BuyNowPopup from "../../components/BuyNowPopup";
+import "./specificProduct.css";
 const SpecificProductPage = () => {
   const { id } = useParams();
   const title = useTitle();
   const navigate = useNavigate();
   const [cardData, setCardData] = useState(null);
+  const [openBuyNowPopup, setOpenBuyNowPopup] = useState(false);
   const [numOfStars, setNumOfStars] = useState(0);
   const [hasRatedAlready, setHasRatedAlready] = useState(false);
   const { payload } = useSelector((bigRedux) => bigRedux.authSlice);
@@ -140,6 +146,14 @@ const SpecificProductPage = () => {
       );
     }
   };
+  const handleDollarClick = () => {
+    setOpenBuyNowPopup(true);
+  };
+  const styleOfDetailsGrid = {
+    marginBlock: "0.5rem",
+    backgroundColor: "#482",
+    borderRadius: "30px",
+  };
   if (!cardData) {
     return <CircularProgress />;
   }
@@ -151,6 +165,13 @@ const SpecificProductPage = () => {
         border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
       }}
     >
+      <BuyNowPopup
+        openStateProp={openBuyNowPopup}
+        setOpenFunc={setOpenBuyNowPopup}
+        title={`${makeTitle(
+          cardData && cardData.title ? cardData.title : "this item"
+        )}`}
+      />
       <Grid container maxWidth="lg" sx={{ m: 5 }}>
         <Grid item xs={4} sm={3} md={2} lg={1}>
           <Button
@@ -195,34 +216,61 @@ const SpecificProductPage = () => {
             starClickFunc={handleStarClick}
             payloadProp={payload}
           />
-          <Grid item xs={12}>
-            <img
-              src={makeALegitStringForImage(cardData)}
-              alt={cardData.title}
-              style={{
-                borderRadius: "5px",
-                width: "50%",
-                marginTop: "2rem",
-                marginBottom: "2rem",
-              }}
-            />
-          </Grid>
         </Grid>
-        <Grid item xs={4}>
+      </Grid>
+
+      <Grid container>
+        <Grid item xs={12}>
+          <img
+            src={makeALegitStringForImage(cardData)}
+            alt={cardData.title}
+            style={{
+              borderRadius: "5px",
+              width: "50%",
+              marginTop: "2rem",
+              marginBottom: "2rem",
+            }}
+          />
+        </Grid>
+        {/* <Grid container> */}
+        <Grid item xs={2} md={4.5} />
+        <Grid item xs={8} md={3} style={styleOfDetailsGrid}>
+          <Typography component="h4" variant="h6">
+            ${cardData && cardData.price}
+          </Typography>
+          <Tooltip title={`Buy '${cardData && cardData.title}'`}>
+            <IconButton
+              variant="contained"
+              color="info"
+              onClick={handleDollarClick}
+              id={""}
+              sx={{
+                aspectRatio: "1/1",
+                width: "3em",
+                p: 1,
+                m: 1,
+              }}
+            >
+              <img id="dollar-icon" src={dollarIcon} alt="buy button" />
+            </IconButton>
+          </Tooltip>
+        </Grid>
+        <Grid item xs={2} md={4.5} />
+        <Grid item xs={2} md={4.5} />
+        <Grid item xs={8} md={3} style={styleOfDetailsGrid}>
           <Typography component="h4" variant="h6">
             Each Pack Contains: {cardData && cardData.contains}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={2} md={4.5} />
+        <Grid item xs={2} md={4.5} />
+        <Grid item xs={8} md={3} style={styleOfDetailsGrid}>
           <Typography component="h4" variant="h6">
             {cardData && cardData.stock} Left In Stock
           </Typography>
         </Grid>
-        <Grid item xs={4}>
-          <Typography component="h4" variant="h6">
-            ${cardData && cardData.price}
-          </Typography>
-        </Grid>
+        <Grid item xs={2} md={4.5} />
+        {/* </Grid> */}
       </Grid>
     </Container>
   );

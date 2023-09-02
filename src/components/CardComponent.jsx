@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Box,
   Card,
@@ -28,6 +28,7 @@ const CardComponent = ({
   handleDeleteClickBeforeConfirmFunc,
   handleEditClickFunc,
 }) => {
+  const buttonElement = useRef();
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card
@@ -138,7 +139,6 @@ const CardComponent = ({
               </Box>
             </Tooltip>
           </Grid>
-
           {payloadProp && payloadProp.isAdmin ? (
             <Grid item xs={6} lg={3}>
               <Tooltip id={cardProp._id} enterDelay={500} title="delete item">
@@ -164,6 +164,7 @@ const CardComponent = ({
           <Grid item xs={6} lg={payloadProp && payloadProp.isAdmin ? 3 : 6}>
             <Tooltip enterDelay={500} title="read more">
               <IconButton
+                ref={buttonElement}
                 variant="contained"
                 color="info"
                 onClick={handleCardClickFunc}

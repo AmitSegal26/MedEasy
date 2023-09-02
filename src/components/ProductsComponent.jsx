@@ -163,7 +163,6 @@ const ProductsComponent = ({
         setProductsArrFunc(newCardsArr);
       }
     }
-    console.log(originalCardsArrProp, window.location.href);
   }, [originalCardsArrProp, isStockFiltered, ascOrDesc]);
 
   /*
