@@ -24,8 +24,6 @@ const ProductsPage = () => {
           );
           navigate(ROUTES.HOME);
         }
-        //*adding extra cell for adding new card
-        data.push({ ignore: null });
         setProductsArr(data);
         setOriginalCardsArr(data);
       } catch (err) {

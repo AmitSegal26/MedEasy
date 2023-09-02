@@ -19,11 +19,17 @@ const handleErrorFromAxios = (
         err.response.data.details &&
         Array.isArray(err.response.data.details)
       ) {
+        let errorMessege = "";
         err.response.data.details.forEach((detail) => {
           if (detail && detail.message) {
-            toast.error(detail.message);
+            errorMessege += `${detail.message}!\n`;
           }
         });
+        toast.error(
+          <div style={{ whiteSpace: "pre-line", fontWeight: "bold" }}>
+            {errorMessege}
+          </div>
+        );
       } else {
         toast.error(
           `server error ${

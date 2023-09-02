@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  CircularProgress,
   Container,
   Grid,
   List,
@@ -37,6 +38,8 @@ const ProductsComponent = ({
   const readCard = useReadCard();
   const editCard = useEditCard();
   const navigate = useNavigate();
+  const [isDisplayAsCardsStateLoaded, setIsDisplayAsCardsStateLoaded] =
+    useState(false);
   const [dialogItemState, setDialogItemState] = useState({});
   const [openDialogState, setOpenDialogState] = useState(false);
   const [displayAsCards, setDisplayAsCards] = useState(true);
@@ -160,8 +163,20 @@ const ProductsComponent = ({
         setProductsArrFunc(newCardsArr);
       }
     }
+    console.log(originalCardsArrProp, window.location.href);
   }, [originalCardsArrProp, isStockFiltered, ascOrDesc]);
+
+  /*
+   * without making sure that the [displayAsCards] has recieved a value
+   * the screen will glitch the cards display first.
+   * this useEffect sets a value for a state indicating whether the
+   * [displayAsCards] state has recieved a value from localStorage or not
+   ! USAGE OF STATE IN LINE 346
+   */
   useEffect(() => {
+    if (displayAsCards === false || displayAsCards === true) {
+      setIsDisplayAsCardsStateLoaded(true);
+    }
     //*the command below is for the button to appear due to listening to a scrolling event
     scrollDownABit();
   }, [displayAsCards]);
@@ -327,6 +342,9 @@ const ProductsComponent = ({
       behavior: "smooth",
     });
   };
+  if (!isDisplayAsCardsStateLoaded) {
+    return <CircularProgress />;
+  }
   return (
     <Container maxWidth="lg">
       {payloadProp && payloadProp.isAdmin && showExtraBtn ? (
@@ -406,96 +424,94 @@ const ProductsComponent = ({
       />
       {displayAsCards ? (
         <Grid container spacing={2}>
-          {productsArrProp.map((item) =>
-            !item.hasOwnProperty("ignore") ? (
-              <CardComponent
-                key={item._id + Date.now()}
-                cardProp={item}
-                payloadProp={payloadProp}
-                handleCardClickFunc={handleCardClick}
-                handleAddToCartClickFunc={handleAddToCartClick}
-                handleDeleteClickBeforeConfirmFunc={
-                  handleDeleteClickBeforeConfirm
-                }
-                handleEditClickFunc={handleEditClick}
-              />
-            ) : payloadProp && payloadProp.isAdmin ? (
-              <Grid item xs={12} sm={6} md={4} key="extraCard">
-                <Card
-                  className="extra-card"
+          {productsArrProp.map((item) => (
+            <CardComponent
+              key={item._id + Date.now()}
+              cardProp={item}
+              payloadProp={payloadProp}
+              handleCardClickFunc={handleCardClick}
+              handleAddToCartClickFunc={handleAddToCartClick}
+              handleDeleteClickBeforeConfirmFunc={
+                handleDeleteClickBeforeConfirm
+              }
+              handleEditClickFunc={handleEditClick}
+            />
+          ))}{" "}
+          {payloadProp && payloadProp.isAdmin ? (
+            <Grid item xs={12} sm={6} md={4} key="extraCard">
+              <Card
+                className="extra-card"
+                onClick={handleCreateCardClick}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  alignItems: "center",
+                  backgroundColor: COLORS.BACKGROUND,
+                  border: "0.5rem solid black",
+                  height: { xs: "200px", sm: "790px", lg: "650px" },
+                  p: 2,
+                  transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
+                  cursor: "pointer",
+                  ":hover": {
+                    boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
+                    backgroundColor: COLORS.TEXT2,
+                  },
+                }}
+              >
+                <AddIcon
                   onClick={handleCreateCardClick}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    alignItems: "center",
-                    backgroundColor: COLORS.BACKGROUND,
-                    border: "0.5rem solid black",
-                    height: { xs: "200px", sm: "790px", lg: "650px" },
-                    p: 2,
-                    transition: "0.2s all cubic-bezier(0.25, 0.1, 0.75, 0.3)",
-                    cursor: "pointer",
-                    ":hover": {
-                      boxShadow: `inset 0px 0px 0px 6px ${COLORS.MAIN}`,
-                      backgroundColor: COLORS.TEXT2,
-                    },
-                  }}
-                >
-                  <AddIcon
-                    onClick={handleCreateCardClick}
-                    sx={{ fontSize: "20rem", color: "#4099ff" }}
-                  />
-                </Card>
-              </Grid>
-            ) : (
-              ""
-            )
+                  sx={{ fontSize: "20rem", color: "#4099ff" }}
+                />
+              </Card>
+            </Grid>
+          ) : (
+            ""
           )}
         </Grid>
       ) : (
         <List>
-          {productsArrProp.map((item) =>
-            !item.hasOwnProperty("ignore") ? (
-              <ListComponent
-                key={item._id + Date.now()}
-                cardProp={item}
-                payloadProp={payloadProp}
-                handleCartBtnClickFunc={handleAddToCartClick}
-                handleDeleteFromInitialCardsArrFunc={
-                  handleDeleteClickBeforeConfirm
-                }
-                handleEditFromInitialCardsArrFunc={handleEditClick}
-                handleImageToShowDataFunc={handleCardClick}
-              />
-            ) : payloadProp && payloadProp.isAdmin ? (
-              <Tooltip title="add a new card" key="extraListItem">
-                <ListItem
-                  onClick={handleCreateCardClick}
-                  className="extra-card"
+          {productsArrProp.map((item) => (
+            <ListComponent
+              key={item._id + Date.now()}
+              cardProp={item}
+              payloadProp={payloadProp}
+              handleCartBtnClickFunc={handleAddToCartClick}
+              handleDeleteFromInitialCardsArrFunc={
+                handleDeleteClickBeforeConfirm
+              }
+              handleEditFromInitialCardsArrFunc={handleEditClick}
+              handleImageToShowDataFunc={handleCardClick}
+            />
+          ))}
+          {payloadProp && payloadProp.isAdmin ? (
+            <Tooltip title="add a new card" key="extraListItem">
+              <ListItem
+                onClick={handleCreateCardClick}
+                className="extra-card"
+                sx={{
+                  cursor: "pointer",
+                  p: 1,
+                  marginBlock: 1,
+                  justifyContent: "space-evenly",
+                  borderRadius: "10px",
+                  transition: "all 0.2s cubic-bezier(0.12,0.8,1,0.6)",
+                  ":hover": {
+                    backgroundColor: COLORS.SECONDARY,
+                  },
+                }}
+              >
+                <AddIcon
+                  color="success"
                   sx={{
-                    cursor: "pointer",
-                    p: 1,
-                    marginBlock: 1,
-                    justifyContent: "space-evenly",
-                    borderRadius: "10px",
-                    transition: "all 0.2s cubic-bezier(0.12,0.8,1,0.6)",
-                    ":hover": {
-                      backgroundColor: COLORS.SECONDARY,
-                    },
+                    transform: "scale(4,1.3)",
+                    fontSize: "10rem",
+                    color: "#4099ff",
                   }}
-                >
-                  <AddIcon
-                    color="success"
-                    sx={{
-                      transform: "scale(4,1.3)",
-                      fontSize: "10rem",
-                      color: "#4099ff",
-                    }}
-                  />
-                </ListItem>
-              </Tooltip>
-            ) : (
-              ""
-            )
+                />
+              </ListItem>
+            </Tooltip>
+          ) : (
+            ""
           )}
         </List>
       )}

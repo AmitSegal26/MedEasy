@@ -131,7 +131,7 @@ const SpecificProductPage = () => {
       }
       setCardData(newCardData);
       setHasRatedAlready(true);
-      toast.success("");
+      toast.info("rated successfully, thank you for your review!");
     } catch (err) {
       handleErrorFromAxios(
         err,
@@ -152,8 +152,7 @@ const SpecificProductPage = () => {
       }}
     >
       <Grid container maxWidth="lg" sx={{ m: 5 }}>
-        {" "}
-        <Grid item xs={1}>
+        <Grid item xs={4} sm={3} md={2} lg={1}>
           <Button
             onClick={() => {
               navigate(ROUTES.SHOP);
@@ -165,7 +164,7 @@ const SpecificProductPage = () => {
             <ArrowBackIcon />
           </Button>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={9} sm={10} md={11} lg={12}>
           <Typography
             component="h2"
             variant="h4"

@@ -2,7 +2,6 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 import jwt_decode from "jwt-decode";
-import { toast } from "react-toastify";
 import handleErrorFromAxios from "../utils/handleError";
 const useLoggedIn = () => {
   const dispatch = useDispatch();
