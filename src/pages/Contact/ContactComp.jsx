@@ -20,8 +20,9 @@ const ContactComp = ({ title, type, hrefLinkProp, linkObjStyleProp }) => {
       ) : type == "instagram" ? (
         <InstagramIcon
           sx={{
+            color: "white",
             fontSize: fontSizeOfIcons,
-            borderRadius: "5px",
+            borderRadius: "10px",
             background:
               " radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
           }}

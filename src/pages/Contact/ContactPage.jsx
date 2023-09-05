@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Container, Grid, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import iconPic from "../../assets/imgs/logoForNavbar.png";
 import myPic from "../../assets/imgs/myPicture.png";
@@ -24,6 +32,8 @@ const customPaper = ({ children }) => (
   </Paper>
 );
 const ContactPage = () => {
+  const theme = useTheme();
+  const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
   const arrOfContactWays = [
     {
       type: "instagram",
@@ -70,7 +80,7 @@ const ContactPage = () => {
       <Box component={customPaper}>
         <Typography
           sx={{
-            //! fontSize: "3rem",
+            fontSize: "3rem",
             WebkitFlexBasis: 1,
           }}
           component="h2"
@@ -102,15 +112,20 @@ const ContactPage = () => {
           boxShadow: ` 0 0 15px 15px ${COLORS.SECONDARY} `,
         }}
       >
-        {arrOfContactWays.map((item) => (
-          <ContactComp
-            key={item.title}
-            title={item.title}
-            hrefLinkProp={item.hrefLink}
-            type={item.type}
-            linkObjStyleProp={linkObjStyle}
-          />
-        ))}
+        {arrOfContactWays.map((item) =>
+          //dont render phone contact when using pc
+          !mediaQ && item && item.type === "phone" ? (
+            ""
+          ) : (
+            <ContactComp
+              key={item.title}
+              title={item.title}
+              hrefLinkProp={item.hrefLink}
+              type={item.type}
+              linkObjStyleProp={linkObjStyle}
+            />
+          )
+        )}
       </Grid>
       <Grid
         container
