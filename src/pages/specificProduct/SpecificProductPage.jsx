@@ -151,7 +151,7 @@ const SpecificProductPage = () => {
   };
   const styleOfDetailsGrid = {
     marginBlock: "0.5rem",
-    backgroundColor: "#482",
+    backgroundColor: "#ff80ff",
     borderRadius: "30px",
   };
   if (!cardData) {
@@ -232,7 +232,6 @@ const SpecificProductPage = () => {
             }}
           />
         </Grid>
-        {/* <Grid container> */}
         <Grid item xs={2} md={4.5} />
         <Grid item xs={8} md={3} style={styleOfDetailsGrid}>
           <Typography component="h4" variant="h6">
@@ -270,7 +269,6 @@ const SpecificProductPage = () => {
           </Typography>
         </Grid>
         <Grid item xs={2} md={4.5} />
-        {/* </Grid> */}
       </Grid>
     </Container>
   );

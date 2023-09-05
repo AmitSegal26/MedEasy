@@ -32,7 +32,12 @@ function App() {
       <header className="App-header">
         <Navbar />
       </header>
-      <main style={{ marginTop: "7rem", minHeight: "78.5vh" }}>
+      <main
+        style={{
+          marginTop: "7rem",
+          minHeight: "78.5vh",
+        }}
+      >
         {isLoading ? <CircularProgress /> : <Router />}
       </main>
       <footer style={{ marginTop: "2rem" }}>

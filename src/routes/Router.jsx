@@ -21,12 +21,13 @@ import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 import CartPage from "../pages/CartPage";
 import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
+import HomePage from "../pages/HomePage/HomePage";
 const Router = () => {
   useTitle()();
   HISTORY.setNewPage(window.location.href);
   return (
     <Routes>
-      <Route path={ROUTES.HOME} element={<h1>Edit in Router.js HOMEPAGE</h1>} />
+      <Route path={ROUTES.HOME} element={<HomePage />} />
       <Route
         path={ROUTES.REGISTER}
         element={

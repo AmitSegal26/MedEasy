@@ -1,0 +1,11 @@
+@media screen {
+  .item {
+    animation: float 3s ease-in-out infinite;
+    transform: rotate(0.5deg);
+  }
+}
+@keyframes float {
+  50% {
+    transform: rotate(-0.5deg);
+  }
+}
