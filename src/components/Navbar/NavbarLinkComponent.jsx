@@ -32,5 +32,7 @@ const NavLinkComponent = ({ url, label, forHambMenu, ...rest }) => {
     </NavLink>
   );
 };
-
+NavLinkComponent.defaultProps = {
+  forHambMenu: false,
+};
 export default NavLinkComponent;
