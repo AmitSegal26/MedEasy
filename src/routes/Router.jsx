@@ -25,6 +25,7 @@ import HomePage from "../pages/HomePage/HomePage";
 import Page404 from "../pages/Page404";
 const Router = () => {
   useTitle()();
+  window.scrollTo({ top: 0 });
   HISTORY.setNewPage(window.location.href);
   return (
     <Routes>
