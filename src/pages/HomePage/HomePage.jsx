@@ -18,7 +18,7 @@ const HomePage = () => {
   const breakPoint = "md";
   const styleObjForItems = {
     border: "3px solid black",
-    backgroundColor: COLORS.MAIN,
+    backgroundColor: "#D8ACAF",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -29,7 +29,7 @@ const HomePage = () => {
     cursor: "pointer",
     ":hover": {
       backgroundColor: "#FABBC5",
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
       zIndex: 999,
     },
   };
@@ -42,11 +42,11 @@ const HomePage = () => {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: "5px",
-    transition: "all 0.2s linear",
+    transition: "background-color 0.4s linear",
     cursor: "pointer",
     ":hover": {
       backgroundColor: "#386745",
-      transform: "scale(1.1)",
+      transform: "scale(1.05)",
       zIndex: 999,
     },
   };

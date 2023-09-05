@@ -8,9 +8,16 @@ import { Box, Button, Typography } from "@mui/material";
 const Footer = () => {
   const loc = useLocation();
   const navigate = useNavigate();
-  const handleContactClick = () => {
+  const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+  const handleContactClick = () => {
+    scrollToTop();
     navigate(ROUTES.CONTACTUS);
+  };
+  const handleLogoClick = () => {
+    scrollToTop();
+    navigate(ROUTES.HOME);
   };
   return (
     <Box
@@ -27,13 +34,18 @@ const Footer = () => {
       }}
     >
       <Box
+        onClick={handleLogoClick}
         component="img"
         sx={{
           aspectRatio: "2/1",
           width: "10%",
           minWidth: "180px",
           minHeight: "95px",
+          cursor: "pointer",
+          transform: "skew(-10deg,0deg)",
           borderRadius: "50px",
+          transition: "all 0.2s linear",
+          ":hover": { transform: "none" },
         }}
         src={logoPic}
         alt="logo of web in the footer section"
