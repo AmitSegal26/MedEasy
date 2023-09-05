@@ -51,7 +51,11 @@ const ProfileComponent = (props) => {
       >
         {props.profileComponentNav.map((page) => (
           <MenuItem key={page.url} onClick={props.handleCloseUMProp}>
-            <NavLinkComponent url={page.url} label={page.label}>
+            <NavLinkComponent
+              forHambMenu={true}
+              url={page.url}
+              label={page.label}
+            >
               {page.label}
             </NavLinkComponent>
           </MenuItem>

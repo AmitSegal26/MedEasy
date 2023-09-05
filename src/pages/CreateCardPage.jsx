@@ -139,6 +139,7 @@ const CreateCardPage = () => {
             isRequired={true}
             disabledProp={false}
             enableSideIconsOnFields={true}
+            isForCreateProduct={true}
           />
         ))}
         <Grid item xs={12}>

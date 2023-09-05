@@ -15,7 +15,11 @@ const FormButton = (props) => {
     mb: 2,
   };
   const handleCancelClick = () => {
-    if (props.toHomePage) {
+    if (
+      props.toHomePage ||
+      HISTORY.getHistory().every((item) => item.includes(ROUTES.CREATE)) ||
+      HISTORY.getHistory().every((item) => item.includes(ROUTES.LOGIN))
+    ) {
       navigate(ROUTES.HOME);
       return;
     }

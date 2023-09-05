@@ -6,6 +6,7 @@ import KeyIcon from "@mui/icons-material/Key";
 import EmailIcon from "@mui/icons-material/Email";
 import generateRandomPassword from "../utils/generatePassword";
 import EditIcon from "@mui/icons-material/Edit";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import "../pages/registerPage.css";
 const TextFieldComponent = ({
   inputName,
@@ -18,6 +19,7 @@ const TextFieldComponent = ({
   enableSideIconsOnFields,
   forLoginProp,
   isForEdit,
+  isForCreateProduct,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [randPass, setRandPass] = useState("");
@@ -42,6 +44,7 @@ const TextFieldComponent = ({
         type={
           inputType == "password" && !isPasswordVisible ? "password" : "text"
         }
+        placeholder={inputName || inputValue}
         error={inputErrors && inputErrors[inputType] ? true : false}
         variant="filled"
         fullWidth
@@ -50,8 +53,9 @@ const TextFieldComponent = ({
         id={inputType}
         label={inputName}
         name={inputType}
+        multiline={inputType === "description"}
         autoComplete={inputType}
-        value={isRandPass ? randPass : inputValue}
+        value={isForCreateProduct ? null : isRandPass ? randPass : inputValue}
         onChange={onInputChange}
         disabled={disabledProp}
         InputProps={{
@@ -59,12 +63,14 @@ const TextFieldComponent = ({
             <InputAdornment position="end" onClick={handleVisiblity}>
               {isForEdit && !disabledProp ? (
                 <EditIcon />
-              ) : inputType == "password" ? (
+              ) : inputType === "password" ? (
                 isPasswordVisible ? (
                   <VisibilityIcon className="passwordVisibleEye" />
                 ) : (
                   <VisibilityOffIcon className="passwordVisibleEye" />
                 )
+              ) : inputType === "price" ? (
+                <MonetizationOnIcon />
               ) : (
                 ""
               )}
@@ -113,6 +119,7 @@ TextFieldComponent.defaultProps = {
   forLoginProp: false,
   isForEdit: false,
   inputChange: () => {},
+  isForCreateProduct: false,
 };
 
 export default TextFieldComponent;
