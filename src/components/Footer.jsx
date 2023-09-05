@@ -52,12 +52,15 @@ const Footer = () => {
         sx={{
           padding: 3,
           borderRadius: "20px 0 20px 0",
-          transform: "rotate(5deg)",
-          transition: "all 0.5s linear",
+          transition: "all 0.3s linear",
           cursor:
             loc && loc.pathname == ROUTES.CONTACTUS ? "default" : "poiinter",
           filter:
             loc && loc.pathname == ROUTES.CONTACTUS ? "blur(5px)" : "none",
+          ":hover": {
+            transform:
+              loc && loc.pathname == ROUTES.CONTACTUS ? "none" : "rotate(5deg)",
+          },
         }}
       >
         Need To Talk to Us? Click Here

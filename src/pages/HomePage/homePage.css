@@ -1,5 +1,5 @@
 @media screen {
-  .item {
+  .item:not(:hover) {
     animation: float 3s ease-in-out infinite;
     transform: rotate(0.5deg);
   }

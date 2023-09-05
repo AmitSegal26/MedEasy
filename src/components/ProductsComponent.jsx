@@ -18,7 +18,6 @@ import COLORS from "../colors/COLORS";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import AddIcon from "@mui/icons-material/Add";
 import ListComponent from "./ListComponent";
-import BreakpointsInd from "../devTools/BreakpointsInd";
 import useReadCard from "../hooks/useReadCard";
 import useEditCard from "../hooks/useEditCard";
 import { useNavigate } from "react-router-dom";
@@ -514,7 +513,6 @@ const ProductsComponent = ({
           )}
         </List>
       )}
-      <BreakpointsInd />
     </Container>
   );
 };

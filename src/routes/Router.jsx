@@ -22,6 +22,7 @@ import EditCardPage from "../pages/EditCardPage";
 import CartPage from "../pages/CartPage";
 import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
 import HomePage from "../pages/HomePage/HomePage";
+import Page404 from "../pages/Page404";
 const Router = () => {
   useTitle()();
   HISTORY.setNewPage(window.location.href);
@@ -79,7 +80,7 @@ const Router = () => {
         element={<SpecificProductPage />}
       />
       <Route path={ROUTES.SHOP} element={<ProductsPage />} />
-      <Route path="*" element={<h1>404</h1>} />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 };

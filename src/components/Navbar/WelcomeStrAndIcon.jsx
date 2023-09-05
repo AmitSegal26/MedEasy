@@ -57,9 +57,15 @@ const WelcomeStrAndIcon = (props) => {
         <Grid item xs={10}>
           <Typography sx={colorsOfTypography}>
             {props.infoOfUserProp &&
-              `${makeTitle(welcomeStr)}, ${makeTitle(
-                props.infoOfUserProp.name.first
-              )}`}
+              `${makeTitle(welcomeStr)}, ${
+                makeTitle(props.infoOfUserProp.name.first) &&
+                makeTitle(props.infoOfUserProp.name.first).length <= 10
+                  ? makeTitle(props.infoOfUserProp.name.first)
+                  : makeTitle(props.infoOfUserProp.name.first).slice(
+                      0,
+                      10 - makeTitle(props.infoOfUserProp.name.first).length
+                    ) + "..."
+              }`}
           </Typography>
         </Grid>
       </Grid>
