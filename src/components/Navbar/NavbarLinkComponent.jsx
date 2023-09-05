@@ -4,15 +4,16 @@ import COLORS from "../../colors/COLORS";
 import "./navbar.css";
 
 //*<NavlinkComponent  url="stringrek" label="keilu" onClick={handleClick} className="redBackground"/>
-const NavLinkComponent = ({ url, label, ...rest }) => {
+const NavLinkComponent = ({ url, label, forHambMenu, ...rest }) => {
   return (
     <NavLink to={url} {...rest} style={{ textDecoration: "none" }}>
       {({ isActive }) => (
         <Typography
           sx={{
-            my: 2,
+            my: forHambMenu ? 0 : 2,
             display: "block",
-            p: 2,
+            p: forHambMenu ? 0 : 2,
+            transform: forHambMenu ? "scale(0.8)" : "none",
           }}
           color={isActive ? COLORS.TEXT1 : COLORS.TEXT2}
           className="navLink"

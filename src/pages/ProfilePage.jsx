@@ -285,7 +285,7 @@ const ProfilePage = () => {
                 forLoginProp={true}
                 isForEdit={true}
               />
-              <Box sx={{ mb: 3 }} />
+              <Box sx={{ mb: 8 }} />
             </Fragment>
           ))}
         </Grid>

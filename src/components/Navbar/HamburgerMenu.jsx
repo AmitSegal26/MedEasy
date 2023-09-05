@@ -49,7 +49,12 @@ const HamburgerMenu = (props) => {
       >
         {props.pagesProp.map((page) => (
           <MenuItem key={page.label} onClick={props.handleCloseNMProp}>
-            <NavbarLinkComponent label={page.label} url={page.url} {...page} />
+            <NavbarLinkComponent
+              label={page.label}
+              url={page.url}
+              forHambMenu={true}
+              {...page}
+            />
           </MenuItem>
         ))}
       </Menu>
