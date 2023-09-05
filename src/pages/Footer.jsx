@@ -1,11 +1,12 @@
 import React from "react";
 import COLORS from "../colors/COLORS";
 import logoPic from "../assets/imgs/logoOfWeb.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 import { Box, Button, Typography } from "@mui/material";
 
 const Footer = () => {
+  const loc = useLocation();
   const navigate = useNavigate();
   const handleContactClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -45,7 +46,19 @@ const Footer = () => {
       <Button
         color="secondary"
         variant="contained"
-        onClick={handleContactClick}
+        onClick={
+          loc && loc.pathname == ROUTES.CONTACTUS ? null : handleContactClick
+        }
+        sx={{
+          padding: 3,
+          borderRadius: "20px 0 20px 0",
+          transform: "rotate(5deg)",
+          transition: "all 0.5s linear",
+          cursor:
+            loc && loc.pathname == ROUTES.CONTACTUS ? "default" : "poiinter",
+          filter:
+            loc && loc.pathname == ROUTES.CONTACTUS ? "blur(5px)" : "none",
+        }}
       >
         Need To Talk to Us? Click Here
       </Button>

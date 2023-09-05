@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import "./homePage.css";
+import COLORS from "../../colors/COLORS";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const HomePage = () => {
   const breakPoint = "md";
   const styleObjForItems = {
     border: "3px solid black",
-    backgroundColor: "#D5D9C4",
+    backgroundColor: COLORS.MAIN,
     width: "100%",
     height: "100%",
     display: "flex",
@@ -34,7 +35,7 @@ const HomePage = () => {
   };
   const styleObjForItems2 = {
     border: "3px solid black",
-    backgroundColor: "#D5D9C4",
+    backgroundColor: "#D8ACAF",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -80,7 +81,7 @@ const HomePage = () => {
           sx={{
             ...styleObjForItems,
             gridArea: { [breakPoint]: "1/1/3/2" },
-            borderRadius: { [breakPoint]: "50px 0 0 50px" },
+            borderRadius: { [breakPoint]: "50px 10px 10px 50px" },
           }}
         >
           <Typography
@@ -122,7 +123,12 @@ const HomePage = () => {
         <Box
           component="div"
           className={mediaQ ? "item" : ""}
-          sx={{ ...styleObjForItems2, cursor: "default", order: -1 }}
+          sx={{
+            ...styleObjForItems2,
+            cursor: "default",
+            order: -1,
+            borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
+          }}
         >
           <Typography
             sx={{
@@ -139,7 +145,7 @@ const HomePage = () => {
           className={mediaQ ? "item" : ""}
           sx={{
             ...styleObjForItems,
-            borderRadius: { [breakPoint]: " 0 50px 0 0 " },
+            borderRadius: { [breakPoint]: " 10px 50px 10px 10px " },
           }}
         >
           <Typography>Click here to read more about the website!</Typography>
@@ -151,7 +157,7 @@ const HomePage = () => {
           sx={{
             ...styleObjForItems2,
             gridArea: { [breakPoint]: "2/2/3/4" },
-            borderRadius: { [breakPoint]: " 0 0 50px 0 " },
+            borderRadius: { [breakPoint]: " 10px 10px 50px 10px " },
           }}
         >
           <Typography
