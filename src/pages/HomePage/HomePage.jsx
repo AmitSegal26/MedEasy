@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import "./homePage.css";
-import COLORS from "../../colors/COLORS";
+import logoPic from "../../assets/imgs/MedEasyIcon.png";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const HomePage = () => {
   const breakPoint = "md";
   const styleObjForItems = {
     border: "3px solid black",
-    backgroundColor: "#D8ACAF",
+    background: "#D8ACAF",
     width: "100%",
     height: "100%",
     display: "flex",
@@ -28,26 +28,25 @@ const HomePage = () => {
     transition: "all 0.2s linear",
     cursor: "pointer",
     ":hover": {
-      backgroundColor: "#FABBC5",
+      backgroundColor: "rgba(74, 194, 47, 1)",
       transform: "scale(1.05)",
       zIndex: 999,
     },
   };
   const styleObjForItems2 = {
-    border: "3px solid black",
-    backgroundColor: "#D8ACAF",
+    border: { [breakPoint]: "3px solid black" },
     width: "100%",
     height: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: "5px",
-    transition: "background-color 0.4s linear",
-    cursor: "pointer",
-    ":hover": {
-      backgroundColor: "#386745",
-      transform: "scale(1.05)",
-      zIndex: 999,
+    flexDirection: "column",
+    gap: "30px",
+    order: -1,
+    borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
+    background: {
+      [breakPoint]:
+        "linear-gradient(24deg, rgba(237,183,65,1) 9%, rgba(252,176,69,1) 26%, rgba(241,81,17,1) 51%, rgba(82,253,29,1) 73%)",
     },
   };
   const handleBrowseProductsClick = () => {
@@ -61,8 +60,10 @@ const HomePage = () => {
   };
   return (
     <div style={{ height: "85vh" }}>
+      <div style={{ backgroundColor: "red" }}>DO BY THE BRIEF!</div>
       <Container
         component="div"
+        id="container"
         maxWidth="xl"
         sx={{
           display: "grid",
@@ -70,7 +71,7 @@ const HomePage = () => {
           gridTemplate: {
             [breakPoint]: "repeat(2,1fr)/20% 60% 20%",
           },
-          height: "100%",
+          height: "80%",
           width: "80%",
         }}
       >
@@ -122,13 +123,8 @@ const HomePage = () => {
         </Box>
         <Box
           component="div"
-          className={mediaQ ? "item" : ""}
-          sx={{
-            ...styleObjForItems2,
-            cursor: "default",
-            order: -1,
-            borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
-          }}
+          className={mediaQ ? "item1" : ""}
+          sx={styleObjForItems2}
         >
           <Typography
             sx={{
@@ -137,6 +133,14 @@ const HomePage = () => {
             }}
           >
             Welcome to MedEasy
+          </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "1rem", [breakPoint]: "2rem" },
+              letterSpacing: "0.2rem",
+            }}
+          >
+            The place to buy the best medicines and supplements ever existed!
           </Typography>
         </Box>
         <Box
@@ -155,7 +159,7 @@ const HomePage = () => {
           component="div"
           className={mediaQ ? "item" : ""}
           sx={{
-            ...styleObjForItems2,
+            ...styleObjForItems,
             gridArea: { [breakPoint]: "2/2/3/4" },
             borderRadius: { [breakPoint]: " 10px 10px 50px 10px " },
           }}

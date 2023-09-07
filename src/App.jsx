@@ -3,21 +3,34 @@ import Router from "./routes/Router";
 import Navbar from "./components/Navbar/Navbar";
 import COLORS from "./colors/COLORS";
 import Footer from "./components/Footer";
-import { Slide, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useLoggedIn from "./hooks/useLoggedIn";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
+import axios from "axios";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isFinalLoading, setIsFinalLoading] = useState(true);
   const loggedIn = useLoggedIn();
   useEffect(() => {
     (async () => {
-      await loggedIn();
-      setIsLoading(false);
+      try {
+        await loggedIn();
+        await axios.get("http://localhost:8181/");
+        setIsLoading(false);
+      } catch (err) {
+        toast.error(
+          "Network is having problems, some of the performace of the website may be affected!"
+        );
+        setIsLoading(false);
+      }
     })();
   }, []);
+  useEffect(() => {
+    setIsFinalLoading(isLoading);
+  }, [isLoading]);
   return (
     <div className="App" style={{ backgroundColor: COLORS.BACKGROUND }}>
       <ToastContainer
@@ -38,7 +51,7 @@ function App() {
           minHeight: "78.5vh",
         }}
       >
-        {isLoading ? <CircularProgress /> : <Router />}
+        {isFinalLoading ? <CircularProgress /> : <Router />}
       </main>
       <footer style={{ marginTop: "2rem" }}>
         <Footer />

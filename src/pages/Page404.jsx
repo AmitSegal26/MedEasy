@@ -42,7 +42,7 @@ const Page404 = () => {
             transition: "all 2s ease-in-out",
           }}
         />
-        <h3>
+        <h3 id="text-404">
           <span>4</span>
           <span>0</span>
           <span>4</span>

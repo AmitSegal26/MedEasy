@@ -37,7 +37,7 @@ const Navbar = () => {
     { label: "contact us", url: ROUTES.CONTACTUS },
   ];
   if (!payload) {
-    tempArrPages = [...notAuthedPages, ...allPages];
+    tempArrPages = [...allPages, ...notAuthedPages];
   } else if (payload && !payload.isAdmin) {
     tempArrPages = [...allPages];
   } else if (payload && payload.isAdmin) {

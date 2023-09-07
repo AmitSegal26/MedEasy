@@ -2,6 +2,7 @@ import React from "react";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NavbarLinkComponent from "./NavbarLinkComponent";
+import NavLinkHambComponent from "./NavLinkHambComponent";
 
 const HamburgerMenu = (props) => {
   //!important to put them in variables so the BREAKPOINTS values will be the same
@@ -49,12 +50,7 @@ const HamburgerMenu = (props) => {
       >
         {props.pagesProp.map((page) => (
           <MenuItem key={page.label} onClick={props.handleCloseNMProp}>
-            <NavbarLinkComponent
-              label={page.label}
-              url={page.url}
-              forHambMenu={true}
-              {...page}
-            />
+            <NavLinkHambComponent label={page.label} url={page.url} {...page} />
           </MenuItem>
         ))}
       </Menu>

@@ -11,6 +11,8 @@ const AboutPage = () => {
   const sxForTypography = {
     color: COLORS.TEXT1,
     mb: 4,
+    transition: "all 0.5s ease-in-out",
+    ":hover": { transform: "scale(1.1)" },
   };
   const handleExploreClick = () => {
     navigate(ROUTES.SHOP);

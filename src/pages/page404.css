@@ -13,11 +13,11 @@
   div > img[id="left-pic"] {
     transform: translateX(8vw);
   }
-  h3 {
+  #text-404 {
     writing-mode: vertical-lr;
     font-size: 2.5em;
   }
-  h3 > span {
+  #text-404 > span {
     writing-mode: horizontal-tb;
   }
 }
@@ -37,11 +37,11 @@
   div > img[id="left-pic"] {
     transform: translateX(6vw);
   }
-  h3 {
+  #text-404 {
     writing-mode: vertical-lr;
     font-size: 2.5em;
   }
-  h3 > span {
+  #text-404 > span {
     writing-mode: horizontal-tb;
   }
 }

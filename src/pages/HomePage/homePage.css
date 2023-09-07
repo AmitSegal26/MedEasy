@@ -3,6 +3,10 @@
     animation: float 3s ease-in-out infinite;
     transform: rotate(0.5deg);
   }
+  .item1 {
+    animation: float 3s ease-in-out infinite;
+    transform: rotate(0.5deg);
+  }
 }
 @keyframes float {
   50% {
