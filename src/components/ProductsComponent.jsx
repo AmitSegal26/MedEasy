@@ -7,7 +7,6 @@ import {
   List,
   ListItem,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SortFilterDisplayComp from "./SortFilterDisplayComp";
@@ -26,6 +25,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import handleErrorFromAxios from "../utils/handleError";
 import "../pages/shopPage.css";
+import SearchPartial from "./Navbar/SearchPartial";
+import useQueryParams from "../hooks/useQueryParams";
 
 const ProductsComponent = ({
   productsArrProp,
@@ -34,6 +35,7 @@ const ProductsComponent = ({
   originalCardsArrProp,
   setProductsArrFunc,
 }) => {
+  let queryParams = useQueryParams();
   const readCard = useReadCard();
   const editCard = useEditCard();
   const navigate = useNavigate();
@@ -80,89 +82,52 @@ const ProductsComponent = ({
     scrollDownABit();
   }, []);
   useEffect(() => {
-    if (originalCardsArrProp && !originalCardsArrProp.length) {
+    if (!originalCardsArrProp) {
       return;
     }
-
-    if (ascOrDesc == "asc") {
+    if (!originalCardsArrProp.length) {
+      setProductsArrFunc([]);
+      return;
+    }
+    if (queryParams) {
+      let { filter } = queryParams;
       let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      newCardsArr = newCardsArr.sort((a, b) => a.price - b.price);
-      if (isStockFiltered) {
-        setProductsArrFunc(filterArrayFunc(newCardsArr));
-      } else {
-        setProductsArrFunc(newCardsArr);
+      if (!newCardsArr) {
+        return;
       }
-    } else if (ascOrDesc == "desc") {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      newCardsArr = newCardsArr.sort((a, b) => b.price - a.price);
-      if (isStockFiltered) {
-        setProductsArrFunc(filterArrayFunc(newCardsArr));
+      newCardsArr = newCardsArr.filter(
+        (item) => item && item.title && item.title.startsWith(filter)
+      );
+      if (ascOrDesc == "asc") {
+        sortArrASC(newCardsArr);
+      } else if (ascOrDesc == "desc") {
+        sortArrDESC(newCardsArr);
+      } else if (ascOrDesc == "ascRate") {
+        sortArrRateASC(newCardsArr);
+      } else if (ascOrDesc == "descRate") {
+        sortArrRateDESC(newCardsArr);
       } else {
-        setProductsArrFunc(newCardsArr);
-      }
-    } else if (ascOrDesc == "ascRate") {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      newCardsArr = newCardsArr.sort((a, b) => {
-        const ratingA =
-          a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
-            ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
-            : null;
-        const ratingB =
-          b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
-            ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
-            : null;
-
-        if (ratingA === null && ratingB === null) {
-          return null;
-        } else if (ratingA === null) {
-          return 1; // Put items with null rating at the end
-        } else if (ratingB === null) {
-          return -1; // Put items with null rating at the end
-        }
-
-        return ratingA - ratingB || a.price - b.price;
-      });
-      if (isStockFiltered) {
         setProductsArrFunc(filterArrayFunc(newCardsArr));
-      } else {
-        setProductsArrFunc(newCardsArr);
-      }
-    } else if (ascOrDesc == "descRate") {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      newCardsArr = newCardsArr.sort((a, b) => {
-        const ratingA =
-          a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
-            ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
-            : null;
-        const ratingB =
-          b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
-            ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
-            : null;
-
-        if (ratingA === null && ratingB === null) {
-          return null;
-        } else if (ratingA === null) {
-          return 1; // Put items with null rating at the end
-        } else if (ratingB === null) {
-          return -1; // Put items with null rating at the end
-        }
-
-        return ratingB - ratingA || b.price - a.price;
-      });
-      if (isStockFiltered) {
-        setProductsArrFunc(filterArrayFunc(newCardsArr));
-      } else {
-        setProductsArrFunc(newCardsArr);
       }
     } else {
-      let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      if (isStockFiltered) {
-        setProductsArrFunc(filterArrayFunc(newCardsArr));
+      if (ascOrDesc == "asc") {
+        sortArrASC(originalCardsArrProp);
+      } else if (ascOrDesc == "desc") {
+        sortArrDESC(originalCardsArrProp);
+      } else if (ascOrDesc == "ascRate") {
+        sortArrRateASC(originalCardsArrProp);
+      } else if (ascOrDesc == "descRate") {
+        sortArrRateDESC(originalCardsArrProp);
       } else {
-        setProductsArrFunc(newCardsArr);
+        setProductsArrFunc(filterArrayFunc(originalCardsArrProp));
       }
     }
-  }, [originalCardsArrProp, isStockFiltered, ascOrDesc]);
+  }, [
+    originalCardsArrProp,
+    isStockFiltered,
+    ascOrDesc,
+    queryParams && queryParams.filter,
+  ]);
 
   /*
    * without making sure that the [displayAsCards] has recieved a value
@@ -184,7 +149,64 @@ const ProductsComponent = ({
     }
     setIsStockFiltered(!isStockFiltered);
   };
+  const sortArrASC = (arrayToSort) => {
+    let newCardsArr = JSON.parse(JSON.stringify(arrayToSort));
+    newCardsArr = newCardsArr.sort((a, b) => a.price - b.price);
+    setProductsArrFunc(filterArrayFunc(newCardsArr));
+  };
+  const sortArrDESC = (arrayToSort) => {
+    let newCardsArr = JSON.parse(JSON.stringify(arrayToSort));
+    newCardsArr = newCardsArr.sort((a, b) => b.price - a.price);
+    setProductsArrFunc(filterArrayFunc(newCardsArr));
+  };
+  const sortArrRateASC = (arrayToSort) => {
+    let newCardsArr = JSON.parse(JSON.stringify(arrayToSort));
+    newCardsArr = newCardsArr.sort((a, b) => {
+      const ratingA =
+        a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
+          ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
+          : null;
+      const ratingB =
+        b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
+          ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
+          : null;
 
+      if (ratingA === null && ratingB === null) {
+        return null;
+      } else if (ratingA === null) {
+        return 1; // Put items with null rating at the end
+      } else if (ratingB === null) {
+        return -1; // Put items with null rating at the end
+      }
+
+      return ratingA - ratingB || a.price - b.price;
+    });
+    setProductsArrFunc(filterArrayFunc(newCardsArr));
+  };
+  const sortArrRateDESC = (arrayToSort) => {
+    let newCardsArr = JSON.parse(JSON.stringify(arrayToSort));
+    newCardsArr = newCardsArr.sort((a, b) => {
+      const ratingA =
+        a.rating && a.rating.ratingUsers && a.rating.ratingUsers.length
+          ? a.rating.ratingTotalScore / a.rating.ratingUsers.length
+          : null;
+      const ratingB =
+        b.rating && b.rating.ratingUsers && b.rating.ratingUsers.length
+          ? b.rating.ratingTotalScore / b.rating.ratingUsers.length
+          : null;
+
+      if (ratingA === null && ratingB === null) {
+        return null;
+      } else if (ratingA === null) {
+        return 1; // Put items with null rating at the end
+      } else if (ratingB === null) {
+        return -1; // Put items with null rating at the end
+      }
+
+      return ratingB - ratingA || b.price - a.price;
+    });
+    setProductsArrFunc(filterArrayFunc(newCardsArr));
+  };
   const filterArrayFunc = (arrayToBeFiltered) => {
     if (isStockFiltered) {
       let newCardsArr = JSON.parse(JSON.stringify(arrayToBeFiltered));
@@ -377,23 +399,7 @@ const ProductsComponent = ({
       ) : (
         ""
       )}
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
-          <Typography variant="h6" color="primary" align="center">
-            Filter
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6" color="primary" align="center">
-            Sort
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6" color="secondary" align="center">
-            Display
-          </Typography>
-        </Grid>
-      </Grid>
+      <SearchPartial />
       <SortFilterDisplayComp
         isStockFilteredProp={isStockFiltered}
         filterOnStockFunc={filterOnStock}

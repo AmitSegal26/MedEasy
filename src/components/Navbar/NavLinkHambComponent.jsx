@@ -14,7 +14,9 @@ const NavLinkHambComponent = ({ url, label, ...rest }) => {
       {({ isActive }) => (
         <Typography
           sx={{
+            textAlign: "center",
             display: "block",
+            borderRadius: "5px",
             textDecoration: isActive
               ? `solid underline ${COLORS.TEXT1} 4px`
               : "none",

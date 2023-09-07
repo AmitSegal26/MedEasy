@@ -11,9 +11,9 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 
 function App() {
+  const loggedIn = useLoggedIn();
   const [isLoading, setIsLoading] = useState(true);
   const [isFinalLoading, setIsFinalLoading] = useState(true);
-  const loggedIn = useLoggedIn();
   useEffect(() => {
     (async () => {
       try {

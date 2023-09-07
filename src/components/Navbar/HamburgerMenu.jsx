@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NavbarLinkComponent from "./NavbarLinkComponent";
 import NavLinkHambComponent from "./NavLinkHambComponent";
 
 const HamburgerMenu = (props) => {

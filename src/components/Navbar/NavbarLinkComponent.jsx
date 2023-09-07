@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import COLORS from "../../colors/COLORS";
-import "./navbar.css";
 import ROUTES from "../../routes/ROUTES";
+import "./navbar.css";
 
 //*<NavlinkComponent  url="stringrek" label="keilu" onClick={handleClick} className="redBackground"/>
 const NavLinkComponent = ({ url, label, ...rest }) => {
@@ -16,19 +16,22 @@ const NavLinkComponent = ({ url, label, ...rest }) => {
             display: "block",
             backgroundColor:
               url === ROUTES.LOGIN
-                ? COLORS.TEXT1
+                ? "transparent"
                 : url === ROUTES.REGISTER
                 ? COLORS.TEXT2
                 : "",
-            textDecoration: isActive
-              ? `solid underline ${
-                  url === ROUTES.REGISTER || url === ROUTES.LOGIN
-                    ? COLORS.SECONDARY
-                    : COLORS.TEXT1
-                } 4px`
-              : "none",
+            textDecoration:
+              isActive && url !== ROUTES.LOGIN && url !== ROUTES.REGISTER
+                ? `solid underline ${COLORS.TEXT1} 4px`
+                : "none",
             textUnderlineOffset: isActive ? "0.1rem" : "none",
             borderRadius: 2,
+            border:
+              url === ROUTES.LOGIN
+                ? `2px solid ${COLORS.TEXT1}`
+                : url === ROUTES.REGISTER
+                ? `2px solid transparent`
+                : "",
             fontWeight:
               url === ROUTES.LOGIN
                 ? "bold"
@@ -36,15 +39,15 @@ const NavLinkComponent = ({ url, label, ...rest }) => {
                 ? "bold"
                 : "",
             color:
-              url === ROUTES.LOGIN
-                ? COLORS.SECONDARY
-                : url === ROUTES.REGISTER
+              url === ROUTES.REGISTER
                 ? COLORS.MAIN
                 : isActive
                 ? COLORS.TEXT1
                 : COLORS.TEXT2,
           }}
-          className="navLink"
+          className={
+            url !== ROUTES.LOGIN && url !== ROUTES.REGISTER ? "navLink" : ""
+          }
         >
           {label.toUpperCase()}
         </Typography>

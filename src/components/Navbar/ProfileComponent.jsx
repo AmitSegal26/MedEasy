@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Avatar,
   Box,
@@ -6,8 +7,7 @@ import {
   MenuItem,
   Tooltip,
 } from "@mui/material";
-import React from "react";
-import NavLinkComponent from "./NavbarLinkComponent";
+import NavLinkHambComponent from "./NavLinkHambComponent";
 
 const ProfileComponent = (props) => {
   let base64String = null;
@@ -51,9 +51,9 @@ const ProfileComponent = (props) => {
       >
         {props.profileComponentNav.map((page) => (
           <MenuItem key={page.url} onClick={props.handleCloseUMProp}>
-            <NavLinkComponent url={page.url} label={page.label}>
+            <NavLinkHambComponent url={page.url} label={page.label}>
               {page.label}
-            </NavLinkComponent>
+            </NavLinkHambComponent>
           </MenuItem>
         ))}
       </Menu>
