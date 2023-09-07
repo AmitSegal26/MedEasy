@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import "./homePage.css";
-import logoPic from "../../assets/imgs/MedEasyIcon.png";
+import SearchPartial from "../../components/Navbar/SearchPartial";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -61,6 +61,17 @@ const HomePage = () => {
   return (
     <div style={{ height: "85vh" }}>
       <div style={{ backgroundColor: "red" }}>DO BY THE BRIEF!</div>
+      <Box
+        component="div"
+        sx={{
+          marginBlock: "0.5rem",
+          ml: "15vw",
+          display: "flex",
+          justifyContent: "start",
+        }}
+      >
+        <SearchPartial />
+      </Box>
       <Container
         component="div"
         id="container"

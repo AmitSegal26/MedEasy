@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
@@ -11,9 +11,11 @@ const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.25),
+  transition: "all 0.4s ease-in-out",
   "&:hover": {
     backgroundColor: alpha(COLORS.INVERTEDFROMMAIN, 0.15),
   },
+  border: "0.1rem solid black",
   marginLeft: 0,
   width: "100%",
   [theme.breakpoints.up("xs")]: {
@@ -54,6 +56,7 @@ const SearchPartial = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
+
   const handleSearchChange = (e) => {
     setSearchInput(e.target.value);
   };

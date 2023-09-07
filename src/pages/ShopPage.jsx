@@ -18,7 +18,10 @@ const ProductsPage = () => {
         let { data } = await axios.get(
           "http://localhost:8181/api/cards/allCards"
         );
-        if (payload && !payload.isAdmin && (!data || !data.length)) {
+        if (
+          ((payload && !payload.isAdmin) || !payload) &&
+          (!data || !data.length)
+        ) {
           toast.error(
             "no meds for sale at the moment, please come back again later!"
           );
