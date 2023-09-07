@@ -1,3 +1,47 @@
-.el {
-  background-image: "../assets/imgs/logoOfWeb.png";
+@media (max-width: 1200px) {
+  div:hover > img[id="right-pic"] {
+    transform: translateX(4vw);
+    border-radius: 50px;
+  }
+  div:hover > img[id="left-pic"] {
+    transform: translateX(-4vw);
+    border-radius: 50px;
+  }
+  div > img[id="right-pic"] {
+    transform: translateX(-8vw);
+  }
+  div > img[id="left-pic"] {
+    transform: translateX(8vw);
+  }
+  h3 {
+    writing-mode: vertical-lr;
+    font-size: 2.5em;
+  }
+  h3 > span {
+    writing-mode: horizontal-tb;
+  }
+}
+
+@media screen {
+  div:hover > img[id="right-pic"] {
+    transform: translateX(4vw);
+    border-radius: 50px;
+  }
+  div:hover > img[id="left-pic"] {
+    transform: translateX(-4vw);
+    border-radius: 50px;
+  }
+  div > img[id="right-pic"] {
+    transform: translateX(-6vw);
+  }
+  div > img[id="left-pic"] {
+    transform: translateX(6vw);
+  }
+  h3 {
+    writing-mode: vertical-lr;
+    font-size: 2.5em;
+  }
+  h3 > span {
+    writing-mode: horizontal-tb;
+  }
 }
