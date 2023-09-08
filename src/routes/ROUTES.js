@@ -10,6 +10,7 @@ const ROUTES = {
   CART: "/cart",
   CREATE: "/create",
   SPECIFICPRODUCT: "/spec-product",
+  SPECIFICUSER: "/spec-user",
   GALLERY: "/gallery",
   CONTACTUS: "/contactus",
   CRM: "/crm",

@@ -5,8 +5,6 @@ import validateIdSchema from "../../validations/idValidate";
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
 import {
-  Box,
-  Button,
   CircularProgress,
   Container,
   Grid,
@@ -21,11 +19,11 @@ import COLORS from "../../colors/COLORS";
 import RateSpecificProduct from "./RateSpecificProduct";
 import { useSelector } from "react-redux";
 import useTitle from "../../hooks/useTitle";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import handleErrorFromAxios from "../../utils/handleError";
 import dollarIcon from "../../assets/icons/dollarSvg.svg";
 import BuyNowPopup from "../../components/BuyNowPopup";
 import "./specificProduct.css";
+import BackArrowButtonComp from "../../components/BackArrowButtonComp";
 const SpecificProductPage = () => {
   const { id } = useParams();
   const title = useTitle();
@@ -174,16 +172,7 @@ const SpecificProductPage = () => {
       />
       <Grid container maxWidth="lg" sx={{ m: 5 }}>
         <Grid item xs={4} sm={3} md={2} lg={1}>
-          <Button
-            onClick={() => {
-              navigate(ROUTES.SHOP);
-            }}
-            color="error"
-            variant="contained"
-            sx={{ m: 1 }}
-          >
-            <ArrowBackIcon />
-          </Button>
+          <BackArrowButtonComp route={ROUTES.SHOP} />
         </Grid>
         <Grid item xs={9} sm={10} md={11} lg={12}>
           <Typography

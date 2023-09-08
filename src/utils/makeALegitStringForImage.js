@@ -1,3 +1,6 @@
+// import dfltImg from "../assets/imgs/cancelIMG.png";
+import dfltImg from "../assets/imgs/unavailable-image.jpg";
+
 const makeALegitStringForImage = (obj) => {
   let base64String = null;
   if (obj && obj.image && obj.image.dataStr) {
@@ -8,7 +11,7 @@ const makeALegitStringForImage = (obj) => {
     }
     return `data:image/png;base64,${base64String}`;
   }
-  return "../assets/imgs/cancelIMG.png";
+  return dfltImg;
 };
 
 export default makeALegitStringForImage;

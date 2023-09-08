@@ -24,9 +24,9 @@ import ROUTES from "../routes/ROUTES";
 import axios from "axios";
 import { toast } from "react-toastify";
 import handleErrorFromAxios from "../utils/handleError";
-import "../pages/shopPage.css";
 import SearchPartial from "./Navbar/SearchPartial";
 import useQueryParams from "../hooks/useQueryParams";
+import "../pages/shopPage.css";
 
 const ProductsComponent = ({
   productsArrProp,
@@ -89,14 +89,20 @@ const ProductsComponent = ({
       setProductsArrFunc([]);
       return;
     }
-    if (queryParams) {
+    if (
+      queryParams &&
+      Object.keys(queryParams).every((key) => key === "filter")
+    ) {
       let { filter } = queryParams;
       let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
       if (!newCardsArr) {
         return;
       }
       newCardsArr = newCardsArr.filter(
-        (item) => item && item.title && item.title.startsWith(filter)
+        (item) =>
+          item &&
+          item.title &&
+          item.title.toLowerCase().startsWith(filter.toLowerCase())
       );
       if (ascOrDesc == "asc") {
         sortArrASC(newCardsArr);

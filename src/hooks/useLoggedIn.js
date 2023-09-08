@@ -25,6 +25,15 @@ const useLoggedIn = () => {
       let fullObjOfRedux = { payload, data };
       dispatch(authActions.login(fullObjOfRedux));
     } catch (err) {
+      if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.msg === "no user found"
+      ) {
+        localStorage.clear();
+        return;
+      }
       //server error
       //invalid token
       handleErrorFromAxios(err, "problem logging in, try again later", false);

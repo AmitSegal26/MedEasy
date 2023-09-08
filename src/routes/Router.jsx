@@ -23,6 +23,7 @@ import CartPage from "../pages/CartPage";
 import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
 import HomePage from "../pages/HomePage/HomePage";
 import Page404 from "../pages/Page404";
+import SpecificUserPage from "../pages/SpecificUserPage";
 const Router = () => {
   useTitle()();
   window.scrollTo({ top: 0 });
@@ -79,6 +80,10 @@ const Router = () => {
       <Route
         path={`${ROUTES.SPECIFICPRODUCT}/:id`}
         element={<SpecificProductPage />}
+      />
+      <Route
+        path={`${ROUTES.SPECIFICUSER}/:id`}
+        element={<ProtectedRouteForAdmin element={<SpecificUserPage />} />}
       />
       <Route path={ROUTES.SHOP} element={<ProductsPage />} />
       <Route path="*" element={<Page404 />} />

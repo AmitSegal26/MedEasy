@@ -24,6 +24,7 @@ const DialogBox = ({
     setOpenFunc(false);
   };
   const handleAgree = (ev) => {
+    console.log(ev);
     agreeFunc(ev);
     setOpenFunc(false);
   };
@@ -59,7 +60,7 @@ const DialogBox = ({
 DialogBox.defaultProps = {
   openStateProp: false,
   title: "are you sure you want to proceed?",
-  description: "after clicking the 'agree' - there will not be coming back",
+  description: "after clicking the 'agree' - there is no coming back",
   agreeText: "Agree",
   disagreeText: "Cancel",
   colorOfAgreeBtn: "success",
