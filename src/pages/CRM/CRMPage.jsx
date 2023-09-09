@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import handleErrorFromAxios from "../../utils/handleError";
 import axios from "axios";
-import { Button, CircularProgress, Container } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  Divider,
+  Typography,
+} from "@mui/material";
 import DialogBox from "../../components/DialogBox";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -124,7 +130,24 @@ const CRMPage = () => {
   }
   return (
     <Container maxWidth="lg">
-      <Button sx={{ mb: 2 }} variant="contained" onClick={handleChangeDisplay}>
+      <Typography component="h1" variant="h1">
+        Admin Panel
+      </Typography>
+      <Divider />
+      <Typography gutterBottom component="h3" variant="h5">
+        Here you can manage the web's users status, or even delete them if you
+        think it's neccesary
+      </Typography>
+      <Divider />
+      <Typography gutterBottom component="h3" variant="h5">
+        You can also manage the web's cards status, view stock, edit, or even
+        delete
+      </Typography>
+      <Divider />
+      <Typography gutterBottom component="h5" variant="h6">
+        Click at the button below to change aspect of management
+      </Typography>
+      <Button sx={{ m: 2 }} variant="contained" onClick={handleChangeDisplay}>
         {`show ${isDisplayUsers ? "cards" : "users"}`}
       </Button>
       {openDialogState ? (

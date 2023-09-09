@@ -1,11 +1,20 @@
-import { Box, Container, Grid, IconButton, Paper } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from "@mui/material";
+import React, { Fragment } from "react";
 import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import useReadCard from "../../hooks/useReadCard";
 import useEditCard from "../../hooks/useEditCard";
+import COLORS from "../../colors/COLORS";
 const CardsListComponent = ({
   cardsArrProp,
   typesOfDialogObjProp,
@@ -49,13 +58,27 @@ const CardsListComponent = ({
       }
     }
   };
+  if (!cardsArrProp) {
+    return;
+  }
+  if (!cardsArrProp.length) {
+    return;
+  }
   return (
     <Container maxWidth="lg">
+      <Typography gutterBottom component="h4" variant="h5">
+        Number of cards on this site: {cardsArrProp.length}
+      </Typography>
       <Grid container>
         {cardsArrProp.map((card) => (
           <Grid
             component={Paper}
-            sx={{ m: 1, p: 1 }}
+            sx={{
+              m: 0.5,
+              p: 1,
+              transition: "all 0.3s ease-in-out",
+              ":hover": { transform: "scale(1.05)" },
+            }}
             key={card._id}
             item
             xs={12}
@@ -64,8 +87,17 @@ const CardsListComponent = ({
               <Grid item xs={4} md={2} sx={styleObjForGridItems}>
                 {card.title}
               </Grid>
-              <Grid item xs={4} md={2} sx={styleObjForGridItems}>
-                Stock: {card.stock}
+              <Grid
+                item
+                xs={4}
+                md={2}
+                sx={{
+                  ...styleObjForGridItems,
+                  color: card.stock ? "" : "red",
+                  fontWeight: card.stock ? "" : "bold",
+                }}
+              >
+                {card.stock ? `stock: ${card.stock}` : "Out Of Stock!"}
               </Grid>
               <Grid item xs={4} md={2} sx={styleObjForGridItems}>
                 <Box
@@ -76,22 +108,55 @@ const CardsListComponent = ({
                 />
               </Grid>
               <Grid item xs={4} md={2} sx={styleObjForGridItems}>
-                <IconButton id={card._id} onClick={handleShowMoreClick}>
-                  <OpenInFullIcon id={card._id} color="primary" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={4} md={2} sx={styleObjForGridItems}>
-                <IconButton id={card._id} onClick={handleEditClick}>
-                  <EditIcon id={card._id} color="warning" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={4} md={2} sx={styleObjForGridItems}>
-                <IconButton
-                  id={card._id + "|cards"}
-                  onClick={handleDeleteClick}
+                <Tooltip
+                  title={
+                    <Fragment>
+                      click to{" "}
+                      <span
+                        style={{
+                          color: COLORS.INVERTEDFROMMAIN,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        view info
+                      </span>{" "}
+                      of card
+                    </Fragment>
+                  }
                 >
-                  <DeleteIcon id={card._id + "|cards"} color="error" />
-                </IconButton>
+                  <IconButton id={card._id} onClick={handleShowMoreClick}>
+                    <OpenInFullIcon id={card._id} color="primary" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item xs={4} md={2} sx={styleObjForGridItems}>
+                <Tooltip
+                  title={
+                    <Fragment>
+                      click to <span style={{ color: "gold" }}>edit</span> card
+                    </Fragment>
+                  }
+                >
+                  <IconButton id={card._id} onClick={handleEditClick}>
+                    <EditIcon id={card._id} color="warning" />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
+              <Grid item xs={4} md={2} sx={styleObjForGridItems}>
+                <Tooltip
+                  title={
+                    <Fragment>
+                      click to <span style={{ color: "red" }}>delete</span> card
+                    </Fragment>
+                  }
+                >
+                  <IconButton
+                    id={card._id + "|cards"}
+                    onClick={handleDeleteClick}
+                  >
+                    <DeleteIcon id={card._id + "|cards"} color="error" />
+                  </IconButton>
+                </Tooltip>
               </Grid>
             </Grid>
           </Grid>

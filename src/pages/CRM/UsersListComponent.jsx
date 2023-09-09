@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  Container,
   Grid,
   IconButton,
+  Paper,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -30,9 +32,13 @@ const UsersListComponent = ({
 }) => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
-  const breakPoint = "md";
-  const dividerOfGridMUI = mediaQ ? 12 : 2;
+  const mediaQ = useMediaQuery(theme.breakpoints.down("lg"));
+  const breakPoint = "lg";
+  const styleObjForGridItems = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
   const handleAuthClickBeforeConfirm = (ev) => {
     if (!ev) {
       return;
@@ -124,151 +130,172 @@ const UsersListComponent = ({
       }/${idOfItem}`
     );
   };
+  if (!usersArrProp) {
+    return;
+  }
+  if (!usersArrProp.length) {
+    return;
+  }
   return (
-    <Box component="div">
+    <Container maxWidth="lg" component="div">
+      <Typography gutterBottom component="h4" variant="h5">
+        Number of users on this site: {usersArrProp.length}
+      </Typography>
       {mediaQ ? (
         ""
       ) : (
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={dividerOfGridMUI}>
+        <Grid container component={Paper} sx={{ mb: 2, p: 1 }}>
+          <Grid item xs={2}>
             Name
           </Grid>
-          <Grid item xs={dividerOfGridMUI}>
+          <Grid item xs={2}>
             Email
           </Grid>
-          <Grid item xs={dividerOfGridMUI}>
+          <Grid item xs={2}>
             Authority
           </Grid>
-          <Grid item xs={dividerOfGridMUI}>
+          <Grid item xs={2}>
             Image
           </Grid>
-          <Grid item xs={dividerOfGridMUI}>
+          <Grid item xs={2}>
             Delete
           </Grid>
-          <Grid item xs={dividerOfGridMUI}>
+          <Grid item xs={2}>
             More Info
           </Grid>
         </Grid>
       )}
-
-      {usersArrProp.map((user) => (
-        //*user information
-        <Grid
-          container
-          sx={{
-            backgroundColor:
-              payloadProp && user._id === payloadProp._id
-                ? COLORS.MAIN
-                : COLORS.SECONDARY,
-            width: "100%",
-            p: 2,
-            mb: 2,
-            display: "flex",
-            borderRadius: "10px",
-          }}
-          spacing={0.5}
-          key={user._id}
-        >
-          <Grid item xs={dividerOfGridMUI}>
-            <Typography sx={{ fontWeight: "bold", color: COLORS.TEXT2 }}>
-              {`${makeTitle(user.name.first)} ${makeTitle(user.name.last)}`}
-            </Typography>
-          </Grid>
-          <Grid item xs={dividerOfGridMUI}>
-            <Typography sx={{ fontWeight: "bold" }}>{user.email}</Typography>
-          </Grid>
-          <Tooltip title="click to change status">
-            <Grid item xs={dividerOfGridMUI}>
-              {mediaQ ? (
-                <Button
-                  id={user._id}
-                  onClick={handleAuthClickBeforeConfirm}
-                  color="secondary"
-                  variant="outlined"
-                >
-                  {user.isAdmin ? "Admin" : "Regular User"}
-                </Button>
-              ) : (
-                <Typography
-                  id={user._id}
-                  sx={{
-                    fontWeight: "bold",
-                    transition: "all 0.3s linear",
-                    cursor: "pointer",
-                    ":hover": { transform: "scale(1.2)" },
-                  }}
-                  onClick={handleAuthClickBeforeConfirm}
-                >
-                  {user.isAdmin ? "Admin" : "Regular User"}
+      {/* container of every user cell */}
+      <Grid container>
+        {usersArrProp.map((user) => (
+          //*user information
+          //* user cell
+          <Grid
+            key={user._id}
+            item
+            xs={12}
+            sx={{
+              borderRadius: "10px",
+              m: 0.5,
+              p: 3,
+              backgroundColor:
+                payloadProp && user._id === payloadProp._id
+                  ? COLORS.MAIN
+                  : COLORS.SECONDARY,
+              transition: "all 0.3s ease-in-out",
+              ":hover": { transform: "scale(1.05)" },
+            }}
+          >
+            {/* container of all sub info */}
+            <Grid container spacing={2}>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Typography sx={{ fontWeight: "bold", color: COLORS.TEXT2 }}>
+                  {`${makeTitle(user.name.first)} ${makeTitle(user.name.last)}`}
                 </Typography>
-              )}
-            </Grid>
-          </Tooltip>
-          <Grid item xs={dividerOfGridMUI}>
-            <Box
-              component="img"
-              src={makeALegitStringForImage(user)}
-              alt={`${user && user.name && user.name.first}'s profile picture`}
-              sx={{ width: { xs: "7vw", [breakPoint]: "5vw" } }}
-            />
-          </Grid>
-          <Tooltip
-            title={
-              <Fragment>
-                click to <span style={{ color: "red" }}>delete</span> user
-              </Fragment>
-            }
-          >
-            <Grid item xs={dividerOfGridMUI}>
-              <Typography
-                id={user._id + "|users"}
-                color="error"
-                sx={{
-                  fontWeight: "bold",
-                  transition: "all 0.3s linear",
-                  cursor: "pointer",
-                  ":hover": { transform: "scale(1.2)" },
-                }}
-                onClick={handleDeleteFirstClick}
-              >
-                Delete
-              </Typography>
-            </Grid>
-          </Tooltip>
-          <Tooltip
-            title={
-              <Fragment>
-                click to{" "}
-                <span
-                  style={{
-                    color: COLORS.INVERTEDFROMMAIN,
-                    fontWeight: "bold",
-                  }}
+              </Grid>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Typography sx={{ fontWeight: "bold" }}>
+                  {user.email}
+                </Typography>
+              </Grid>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Tooltip title="click to change status">
+                  <Box component="div">
+                    {mediaQ ? (
+                      <Button
+                        id={user._id}
+                        onClick={handleAuthClickBeforeConfirm}
+                        color="secondary"
+                        variant="outlined"
+                      >
+                        {user.isAdmin ? "Admin" : "Regular User"}
+                      </Button>
+                    ) : (
+                      <Typography
+                        id={user._id}
+                        sx={{
+                          fontWeight: "bold",
+                          transition: "all 0.3s linear",
+                          cursor: "pointer",
+                          ":hover": { transform: "scale(1.2)" },
+                        }}
+                        onClick={handleAuthClickBeforeConfirm}
+                      >
+                        {user.isAdmin ? "Admin" : "Regular User"}
+                      </Typography>
+                    )}
+                  </Box>
+                </Tooltip>
+              </Grid>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Box
+                  component="img"
+                  src={makeALegitStringForImage(user)}
+                  alt={`${
+                    user && user.name && user.name.first
+                  }'s profile picture`}
+                  sx={{ width: { xs: "12vw", md: "9vw", [breakPoint]: "5vw" } }}
+                />
+              </Grid>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Tooltip
+                  title={
+                    <Fragment>
+                      click to <span style={{ color: "red" }}>delete</span> user
+                    </Fragment>
+                  }
                 >
-                  view info
-                </span>{" "}
-                of user
-              </Fragment>
-            }
-          >
-            <Grid item xs={dividerOfGridMUI}>
-              <IconButton
-                id={user._id + "|users"}
-                sx={{
-                  fontWeight: "bold",
-                  transition: "all 0.3s linear",
-                  cursor: "pointer",
-                  ":hover": { transform: "scale(1.2)" },
-                }}
-                onClick={handleMoreInfoClick}
-              >
-                <OpenInFullIcon id={user._id + "|users"} />
-              </IconButton>
+                  <Typography
+                    id={user._id + "|users"}
+                    color="error"
+                    sx={{
+                      fontWeight: "bold",
+                      transition: "all 0.3s linear",
+                      cursor: "pointer",
+                      ":hover": { transform: "scale(1.2)" },
+                    }}
+                    onClick={handleDeleteFirstClick}
+                  >
+                    Delete
+                  </Typography>
+                </Tooltip>
+              </Grid>
+              <Grid item sx={styleObjForGridItems} xs={6} md={4} lg={2}>
+                <Tooltip
+                  title={
+                    <Fragment>
+                      click to{" "}
+                      <span
+                        style={{
+                          color: COLORS.INVERTEDFROMMAIN,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        view info
+                      </span>{" "}
+                      of user
+                    </Fragment>
+                  }
+                >
+                  <IconButton
+                    id={user._id + "|users"}
+                    sx={{
+                      fontWeight: "bold",
+                      transition: "all 0.3s linear",
+                      cursor: "pointer",
+                      ":hover": { transform: "scale(1.2)" },
+                    }}
+                    onClick={handleMoreInfoClick}
+                  >
+                    <OpenInFullIcon id={user._id + "|users"} />
+                  </IconButton>
+                </Tooltip>
+              </Grid>
             </Grid>
-          </Tooltip>
-        </Grid>
-      ))}
-    </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
   );
 };
 
