@@ -6,7 +6,7 @@ import ROUTES from "../routes/ROUTES";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import handleErrorFromAxios from "../utils/handleError";
-import ProductsComponent from "../components/ProductsComponent";
+import ProductsComponent from "../components/productsComponent/ProductsComponent";
 const ProductsPage = () => {
   const navigate = useNavigate();
   const [originalCardsArr, setOriginalCardsArr] = useState(null);

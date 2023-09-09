@@ -3,7 +3,7 @@ import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import handleErrorFromAxios from "../utils/handleError";
-import ProductsComponent from "../components/ProductsComponent";
+import ProductsComponent from "../components/productsComponent/ProductsComponent";
 const CartPage = () => {
   const [likedCardsArrState, setLikedCardsArrState] = useState(null);
   const [originalLikedCardsArrState, setOriginalLikedCardsArrState] =

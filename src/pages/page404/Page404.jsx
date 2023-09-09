@@ -1,10 +1,11 @@
 import React from "react";
-import "./page404.css";
 import { Box, Button, Container } from "@mui/material";
-import defPic from "../assets/imgs/cardDefImg.png";
-import logoPic from "../assets/imgs/logoOfWeb.png";
+import defPic from "../../assets/imgs/cardDefImg.png";
+import logoPic from "../../assets/imgs/logoOfWeb.png";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "./../routes/ROUTES";
+import ROUTES from "../../routes/ROUTES";
+//css
+import "./page404.css";
 
 const Page404 = () => {
   const navigate = useNavigate();

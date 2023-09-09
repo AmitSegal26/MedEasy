@@ -5,7 +5,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
 import SortIcon from "@mui/icons-material/Sort";
-import COLORS from "../colors/COLORS";
+import COLORS from "../../colors/COLORS";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";

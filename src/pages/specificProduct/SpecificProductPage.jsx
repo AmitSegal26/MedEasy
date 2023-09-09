@@ -21,9 +21,10 @@ import { useSelector } from "react-redux";
 import useTitle from "../../hooks/useTitle";
 import handleErrorFromAxios from "../../utils/handleError";
 import dollarIcon from "../../assets/icons/dollarSvg.svg";
-import BuyNowPopup from "../../components/BuyNowPopup";
-import "./specificProduct.css";
+import BuyNowPopup from "../../pages/specificProduct/BuyNowPopup";
 import BackArrowButtonComp from "../../components/BackArrowButtonComp";
+//css
+import "./specificProduct.css";
 const SpecificProductPage = () => {
   const { id } = useParams();
   const title = useTitle();

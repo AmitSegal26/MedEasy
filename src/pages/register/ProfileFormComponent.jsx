@@ -1,7 +1,7 @@
+import React from "react";
 import {
   Alert,
   Avatar,
-  Box,
   FormControl,
   Grid,
   InputLabel,
@@ -9,11 +9,15 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import React, { Fragment } from "react";
-import TextFieldComponent from "./TextFieldComponent";
-import COLORS from "../colors/COLORS";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import "../pages/registerPage.css";
+import TextFieldComponent from "../../components/textField/TextFieldComponent";
+import COLORS from "../../colors/COLORS";
+import {
+  ImageRemoveComponent,
+  ImageUploadComponent,
+} from "../../components/imageUpload/ImageUploadComponent";
+import femaleAvatar from "../../assets/imgs/femaleAvatarpng.jpg";
+import maleAvatar from "../../assets/imgs/maleAvatar.jpg";
+import otherAvatar from "../../assets/imgs/otherAvatar.jpg";
 
 const ProfileFormComponent = (props) => {
   return (
@@ -56,10 +60,10 @@ const ProfileFormComponent = (props) => {
           src={
             props.genderProp
               ? props.genderProp == "male"
-                ? props.maleAvatarProp
+                ? maleAvatar
                 : props.genderProp == "female"
-                ? props.femaleAvatarProp
-                : props.otherAvatarProp
+                ? femaleAvatar
+                : otherAvatar
               : "#"
           }
           alt={
@@ -88,60 +92,16 @@ const ProfileFormComponent = (props) => {
       <Grid item xs={12}>
         Upload a Profile Picture
         {!props.profilePicProp ? (
-          <Fragment>
-            <input
-              type="file"
-              id="inputFileProfilePic"
-              onChange={props.handleFileUploadFunc}
-              hidden={true}
-              accept=".jpg,.png,.jpeg,.gif"
-            />
-            <br />
-            <br />
-            <label htmlFor="inputFileProfilePic">
-              <Box
-                sx={{
-                  display: { xs: "none", md: "flex" },
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "auto",
-                }}
-                className="actualBtnForUpload containerOfInput"
-              >
-                UPLOAD
-                <CloudUploadIcon />
-              </Box>
-              <CloudUploadIcon
-                sx={{
-                  display: { xs: "block", md: "none" },
-                  margin: "auto",
-                  backgroundColor: `${COLORS.SECONDARY}`,
-                  borderRadius: "10%",
-                  color: `${COLORS.TEXT1}`,
-                  width: "10vw",
-                  height: "10vw",
-                  padding: "0.5rem",
-                  cursor: "pointer",
-                }}
-              />
-            </label>
-          </Fragment>
+          <ImageUploadComponent
+            handleFileUploadFunc={props.handleFileUploadFunc}
+          />
         ) : (
-          <div className="container" onClick={props.handleCancelPicBtnFunc}>
-            <img
-              id="chosenPicture"
-              src={props.profilePicProp}
-              alt="Avatar"
-              className="image"
-              style={{
-                width: "100%",
-                maxHeight: "30vh",
-              }}
-            />
-            <div className="middle">
-              <div className="text">Clear Profile Picture</div>
-            </div>
-          </div>
+          <ImageRemoveComponent
+            alertFileProp={props.alertFileProp}
+            picStateProp={props.profilePicProp}
+            isEditOrNotFunc={(operat) => operat}
+            handleCancelPicBtnFunc={props.handleCancelPicBtnFunc}
+          />
         )}
       </Grid>
     </Grid>

@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import FormButton from "../components/FormButton";
-import TextFieldComponent from "../components/TextFieldComponent";
+import TextFieldComponent from "../components/textField/TextFieldComponent";
 import validateLoginSchema from "../validations/loginValidate";
 import useLoggedIn from "../hooks/useLoggedIn";
 import axios from "axios";

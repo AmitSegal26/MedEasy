@@ -3,10 +3,11 @@ import { Box, Container, Tooltip, Typography, Zoom } from "@mui/material";
 import fullStar from "../../assets/imgs/fullStar.png";
 import emptyStar from "../../assets/imgs/emptyStar.png";
 import OfflinePinRoundedIcon from "@mui/icons-material/OfflinePinRounded";
-import "./specificProduct.css";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import COLORS from "../../colors/COLORS";
+//css
+import "./specificProduct.css";
 const RateSpecificProduct = ({
   alreadyRatedProp,
   numOfStarsProp,

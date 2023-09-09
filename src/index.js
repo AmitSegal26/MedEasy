@@ -1,9 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-
 //react-router-dom
 import { BrowserRouter } from "react-router-dom";
 
@@ -13,6 +11,8 @@ import store from "./store/bigRedux";
 
 //axios
 import axios from "axios";
+//css
+import "./index.css";
 axios.defaults.baseURL = "/api";
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");

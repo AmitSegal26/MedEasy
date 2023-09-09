@@ -1,22 +1,14 @@
 import * as React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import ROUTES from "../routes/ROUTES";
-import COLORS from "../colors/COLORS";
-import femaleAvatar from "../assets/imgs/femaleAvatarpng.jpg";
-import maleAvatar from "../assets/imgs/maleAvatar.jpg";
-import otherAvatar from "../assets/imgs/otherAvatar.jpg";
-import ProfileFormComponent from "../components/ProfileFormComponent";
-import validateRegisterSchema from "../validations/registerValidate";
-import "./registerPage.css";
-import FormButton from "../components/FormButton";
+import { Box, Container, Grid, Typography } from "@mui/material";
+import ROUTES from "../../routes/ROUTES";
+import COLORS from "../../colors/COLORS";
+import ProfileFormComponent from "./ProfileFormComponent";
+import validateRegisterSchema from "../../validations/registerValidate";
+import FormButton from "../../components/FormButton";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Alert } from "@mui/material";
-import handleErrorFromAxios from "../utils/handleError";
+import handleErrorFromAxios from "../../utils/handleError";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -178,9 +170,9 @@ const RegisterPage = () => {
         >
           <ProfileFormComponent
             genderProp={gender}
-            maleAvatarProp={maleAvatar}
-            femaleAvatarProp={femaleAvatar}
-            otherAvatarProp={otherAvatar}
+            // maleAvatarProp={maleAvatar}
+            // femaleAvatarProp={femaleAvatar}
+            // otherAvatarProp={otherAvatar}
             inputStateProp={inputState}
             inputErrorStateProp={inputsErrorState}
             handleGenderChangeFunc={handleGenderChange}
@@ -191,21 +183,8 @@ const RegisterPage = () => {
             arrayOfInputsProp={arrayOfInputs}
             genderAlertProp={genderAlert}
             enableSideIconsOnFieldsProp={true}
+            alertFileProp={alertFile}
           />
-          {alertFile ? (
-            <Alert
-              sx={{ marginTop: "0.8rem" }}
-              severity="error"
-              variant="outlined"
-              onClose={() => {
-                handleCancelPicBtn();
-              }}
-            >
-              image must be less than 1MB
-            </Alert>
-          ) : (
-            ""
-          )}
           <FormButton
             handleRegisterClickBtnFunc={handleRegisterClickBtn}
             disableBtnProp={disableBtn}

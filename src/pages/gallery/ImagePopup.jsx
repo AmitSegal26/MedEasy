@@ -26,11 +26,13 @@ const ImagePopup = ({ title, imgSrc, imgAlt, open, handleClose }) => {
           </IconButton>
         </Box>
       </DialogTitle>
-      <DialogContent>
+      <DialogContent
+        sx={{ display: "flex", justifyContent: "center", alignItems: "start" }}
+      >
         <img
           src={imgSrc}
           alt={imgAlt}
-          style={{ width: "100%", borderRadius: "7px" }}
+          style={{ width: "80%", borderRadius: "7px" }}
         />
       </DialogContent>
     </Dialog>

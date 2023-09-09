@@ -16,6 +16,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import { useSelector } from "react-redux";
 import WelcomeStrAndIcon from "./WelcomeStrAndIcon";
 import logoOfWeb from "../../assets/imgs/logoForNavbar.png";
+//css
 import "./navbar.css";
 
 const Navbar = () => {

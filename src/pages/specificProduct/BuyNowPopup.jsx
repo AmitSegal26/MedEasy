@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import cardImg from "../assets/imgs/cardDefImg.png";
+import cardImg from "../../assets/imgs/logoForNavbar.png";
 
 const BuyNowPopup = ({ openStateProp, setOpenFunc, title }) => {
   const handleClose = () => {
@@ -21,8 +21,9 @@ const BuyNowPopup = ({ openStateProp, setOpenFunc, title }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <img
-        style={{ aspectRatio: "1/1", width: "100%" }}
+      <Box
+        component="img"
+        style={{ aspectRatio: "1/1", height: "100%" }}
         src={cardImg}
         alt="pack of pills with a smiley on it"
       />
@@ -53,7 +54,7 @@ const BuyNowPopup = ({ openStateProp, setOpenFunc, title }) => {
 };
 BuyNowPopup.defaultProps = {
   openStateProp: false,
-  title: "are you sure you want to proceed?",
+  title: "?",
 };
 
 export default BuyNowPopup;

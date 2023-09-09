@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import ROUTES from "./ROUTES";
 //* pages
-import RegisterPage from "../pages/RegisterPage";
+import RegisterPage from "../pages/register/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import AboutPage from "../pages/AboutPage";
 import ProfilePage from "../pages/ProfilePage";
@@ -10,20 +10,22 @@ import LogOut from "../components/LogOut";
 import CRMPage from "../pages/CRMPage";
 import ProductsPage from "../pages/ShopPage";
 import SpecificProductPage from "../pages/specificProduct/SpecificProductPage";
-import GalleryPage from "../pages/GalleryPage/GalleryPage";
-//* protection
-import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
-import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
-//* title hook
-import useTitle from "../hooks/useTitle";
-import ContactPage from "../pages/Contact/ContactPage";
+import GalleryPage from "../pages/gallery/GalleryPage";
+import ContactPage from "../pages/contact/ContactPage";
 import CreateCardPage from "../pages/CreateCardPage";
 import EditCardPage from "../pages/EditCardPage";
 import CartPage from "../pages/CartPage";
-import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
-import HomePage from "../pages/HomePage/HomePage";
-import Page404 from "../pages/Page404";
+import HomePage from "../pages/homePage/HomePage";
+import Page404 from "../pages/page404/Page404";
 import SpecificUserPage from "../pages/SpecificUserPage";
+//* protection
+import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
+import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
+//* title custom hook
+import useTitle from "../hooks/useTitle";
+//*customHistory class
+import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
+
 const Router = () => {
   useTitle()();
   window.scrollTo({ top: 0 });

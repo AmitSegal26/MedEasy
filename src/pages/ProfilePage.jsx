@@ -4,11 +4,9 @@ import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Alert, Box, Button, Container, Grid, Typography } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import COLORS from "../colors/COLORS";
-import "../pages/registerPage.css";
-import TextFieldComponent from "../components/TextFieldComponent";
+import TextFieldComponent from "../components/textField/TextFieldComponent";
 import FormButton from "../components/FormButton";
 import makeALegitStringForImage from "../utils/makeALegitStringForImage";
 import makeTitle from "../utils/makeATitle";
@@ -18,6 +16,10 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { DeleteForever } from "@mui/icons-material";
 import DialogBox from "../components/DialogBox";
 import handleErrorFromAxios from "../utils/handleError";
+import {
+  ImageRemoveComponent,
+  ImageUploadComponent,
+} from "../components/imageUpload/ImageUploadComponent";
 const ProfilePage = () => {
   const loggedIn = useLoggedIn();
   const navigate = useNavigate();
@@ -292,81 +294,14 @@ const ProfilePage = () => {
         <Grid item xs={12} md={6}>
           Upload a Profile Picture
           {(infoOfUser && !infoOfUser.image) || !picState ? (
-            <Fragment>
-              <input
-                type="file"
-                id="inputFileProfilePicProfilePage"
-                onChange={handleFileUpload}
-                hidden={true}
-                accept=".jpg,.png,.jpeg,.gif"
-              />
-              <br />
-              <br />
-              <label htmlFor="inputFileProfilePicProfilePage">
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "flex" },
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "auto",
-                  }}
-                  className="actualBtnForUpload containerOfInput"
-                >
-                  UPLOAD
-                  <CloudUploadIcon />
-                </Box>
-                <CloudUploadIcon
-                  sx={{
-                    display: { xs: "block", md: "none" },
-                    margin: "auto",
-                    backgroundColor: `${COLORS.SECONDARY}`,
-                    borderRadius: "10%",
-                    color: `${COLORS.TEXT1}`,
-                    width: "10vw",
-                    height: "10vw",
-                    padding: "0.5rem",
-                    cursor: "pointer",
-                  }}
-                />
-              </label>
-            </Fragment>
+            <ImageUploadComponent handleFileUploadFunc={handleFileUpload} />
           ) : (
-            <Box
-              component="div"
-              className="container"
-              onClick={isEditOrNot(handleCancelPicBtn)}
-            >
-              <img
-                id="chosenPicture"
-                src={picState}
-                alt="Avatar"
-                className={isEditOrNot("image")}
-                style={{
-                  width: "90%",
-                  margin: "2rem 0 2rem 0",
-                  borderRadius: "5%",
-                }}
-              />
-              {alertFile ? (
-                <Alert
-                  sx={{ marginTop: "0.8rem" }}
-                  severity="error"
-                  variant="outlined"
-                  onClose={() => {
-                    handleCancelPicBtn();
-                  }}
-                >
-                  image must be less than 1MB
-                </Alert>
-              ) : (
-                ""
-              )}
-              <div className={isEditOrNot("middle")}>
-                <div className={isEditOrNot("text")}>
-                  {isEditOrNot("Clear Profile Picture")}
-                </div>
-              </div>
-            </Box>
+            <ImageRemoveComponent
+              alertFileProp={alertFile}
+              picStateProp={picState}
+              isEditOrNotFunc={isEditOrNot}
+              handleCancelPicBtnFunc={handleCancelPicBtn}
+            />
           )}
         </Grid>
       </Grid>

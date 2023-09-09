@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import COLORS from "../../colors/COLORS";
 import ROUTES from "../../routes/ROUTES";
+//css
 import "./navbar.css";
 
 //*<NavlinkComponent  url="stringrek" label="keilu" onClick={handleClick} className="redBackground"/>

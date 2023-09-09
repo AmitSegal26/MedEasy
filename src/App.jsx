@@ -1,4 +1,3 @@
-import "./App.css";
 import Router from "./routes/Router";
 import Navbar from "./components/Navbar/Navbar";
 import COLORS from "./colors/COLORS";
@@ -9,6 +8,8 @@ import useLoggedIn from "./hooks/useLoggedIn";
 import { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
+//css
+import "./App.css";
 
 function App() {
   const loggedIn = useLoggedIn();

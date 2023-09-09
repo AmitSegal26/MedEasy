@@ -4,10 +4,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeyIcon from "@mui/icons-material/Key";
 import EmailIcon from "@mui/icons-material/Email";
-import generateRandomPassword from "../utils/generatePassword";
+import generateRandomPassword from "../../utils/generatePassword";
 import EditIcon from "@mui/icons-material/Edit";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import "../pages/registerPage.css";
+import "./textField.css";
 const TextFieldComponent = ({
   inputName,
   inputType,

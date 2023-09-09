@@ -10,23 +10,24 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SortFilterDisplayComp from "./SortFilterDisplayComp";
-import DialogBox from "./DialogBox";
-import makeTitle from "../utils/makeATitle";
-import CardComponent from "./CardComponent";
-import COLORS from "../colors/COLORS";
+import DialogBox from "../DialogBox";
+import makeTitle from "../../utils/makeATitle";
+import CardComponent from "../CardComponent";
+import COLORS from "../../colors/COLORS";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import AddIcon from "@mui/icons-material/Add";
-import ListComponent from "./ListComponent";
-import useReadCard from "../hooks/useReadCard";
-import useEditCard from "../hooks/useEditCard";
+import ListComponent from "../ListComponent";
+import useReadCard from "../../hooks/useReadCard";
+import useEditCard from "../../hooks/useEditCard";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "../routes/ROUTES";
-import axios from "axios";
 import { toast } from "react-toastify";
-import handleErrorFromAxios from "../utils/handleError";
-import SearchPartial from "./Navbar/SearchPartial";
-import useQueryParams from "../hooks/useQueryParams";
-import "../pages/shopPage.css";
+import handleErrorFromAxios from "../../utils/handleError";
+import SearchPartial from "../Navbar/SearchPartial";
+import useQueryParams from "../../hooks/useQueryParams";
+import ROUTES from "../../routes/ROUTES";
+import axios from "axios";
+//css
+import "./productsCompStyle.css";
 
 const ProductsComponent = ({
   productsArrProp,
@@ -93,11 +94,14 @@ const ProductsComponent = ({
       queryParams &&
       Object.keys(queryParams).every((key) => key === "filter")
     ) {
+      //*check if only filter property is in the object of queryParams
       let { filter } = queryParams;
       let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
       if (!newCardsArr) {
         return;
       }
+      //* the filtering uses .toLowerCase() String function for ignoring case sensitivity
+      //* example: filter value:"omega3" and title is "OMEGA3" => "omega3"==="omega3"
       newCardsArr = newCardsArr.filter(
         (item) =>
           item &&
@@ -405,7 +409,9 @@ const ProductsComponent = ({
       ) : (
         ""
       )}
-      <SearchPartial />
+      <SearchPartial
+        value={queryParams && queryParams.filter ? queryParams.filter : ""}
+      />
       <SortFilterDisplayComp
         isStockFilteredProp={isStockFiltered}
         filterOnStockFunc={filterOnStock}

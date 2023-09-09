@@ -8,8 +8,9 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
-import "./homePage.css";
 import SearchPartial from "../../components/Navbar/SearchPartial";
+//css
+import "./homePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const HomePage = () => {
           justifyContent: "start",
         }}
       >
-        <SearchPartial />
+        <SearchPartial value={""} />
       </Box>
       <Container
         component="div"

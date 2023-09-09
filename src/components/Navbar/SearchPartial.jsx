@@ -51,8 +51,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const SearchPartial = () => {
-  const [searchInput, setSearchInput] = useState("");
+const SearchPartial = ({ value }) => {
+  const [searchInput, setSearchInput] = useState(value);
   const navigate = useNavigate();
   const theme = useTheme();
   const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
@@ -90,4 +90,5 @@ const SearchPartial = () => {
     </form>
   );
 };
+
 export default SearchPartial;
