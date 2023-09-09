@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Box, Container, Typography } from "@mui/material";
 import ROUTES from "../../routes/ROUTES";
-import COLORS from "../../colors/COLORS";
 import ProfileFormComponent from "./ProfileFormComponent";
 import validateRegisterSchema from "../../validations/registerValidate";
 import FormButton from "../../components/FormButton";
 import axios from "axios";
 import { toast } from "react-toastify";
 import handleErrorFromAxios from "../../utils/handleError";
+import AccountEngaging from "../../components/AccountEngaging";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -170,9 +170,6 @@ const RegisterPage = () => {
         >
           <ProfileFormComponent
             genderProp={gender}
-            // maleAvatarProp={maleAvatar}
-            // femaleAvatarProp={femaleAvatar}
-            // otherAvatarProp={otherAvatar}
             inputStateProp={inputState}
             inputErrorStateProp={inputsErrorState}
             handleGenderChangeFunc={handleGenderChange}
@@ -182,7 +179,6 @@ const RegisterPage = () => {
             handleInputChangeFunc={handleInputChange}
             arrayOfInputsProp={arrayOfInputs}
             genderAlertProp={genderAlert}
-            enableSideIconsOnFieldsProp={true}
             alertFileProp={alertFile}
           />
           <FormButton
@@ -191,17 +187,7 @@ const RegisterPage = () => {
             textOfBtn="Sign Up"
             toHomePage={true}
           />
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link
-                to={ROUTES.LOGIN}
-                style={{ color: `${COLORS.TEXT2}` }}
-                variant="body2"
-              >
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          <AccountEngaging isSignInOrUp={"login"} />
         </Box>
       </Box>
     </Container>

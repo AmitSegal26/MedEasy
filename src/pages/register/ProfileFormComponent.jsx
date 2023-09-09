@@ -35,7 +35,7 @@ const ProfileFormComponent = (props) => {
           inputChange={props.handleInputChangeFunc}
           inputErrors={props.inputErrorStateProp}
           isRequired={input.isReq}
-          enableSideIconsOnFields={props.enableSideIconsOnFieldsProp}
+          enableSideIconsOnFields={true}
         />
       ))}
       <Grid item xs={9}>
