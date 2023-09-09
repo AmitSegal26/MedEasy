@@ -18,7 +18,6 @@ const CartPage = () => {
         setOriginalLikedCardsArrState(data);
         setLikedCardsArrState(data);
       } catch (err) {
-        console.log("here");
         handleErrorFromAxios(err, undefined, false);
       }
     })();
@@ -31,7 +30,6 @@ const CartPage = () => {
         );
         setLikedCardsArrState(data);
       } catch (err) {
-        console.log("here");
         handleErrorFromAxios(err, undefined, false);
       }
     })();

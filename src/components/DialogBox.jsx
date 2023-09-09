@@ -24,7 +24,6 @@ const DialogBox = ({
     setOpenFunc(false);
   };
   const handleAgree = (ev) => {
-    console.log(ev);
     agreeFunc(ev);
     setOpenFunc(false);
   };
