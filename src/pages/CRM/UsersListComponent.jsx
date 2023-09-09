@@ -40,8 +40,10 @@ const UsersListComponent = ({
     if (!ev.target) {
       return;
     }
+    if (!ev.target.id) {
+      return;
+    }
     if (payloadProp && ev.target.id === payloadProp._id) {
-      console.log(ev.target.id);
       setDialogItemStateFunc({
         idOfItem: ev.target.id,
       });
@@ -56,6 +58,9 @@ const UsersListComponent = ({
       return;
     }
     if (!ev.target) {
+      return;
+    }
+    if (!ev.target.id) {
       return;
     }
     try {
@@ -96,7 +101,7 @@ const UsersListComponent = ({
           idOfItem: ev.target.id,
           nameOfItem: user.name.first,
         });
-        setTypeOfDialogFunc(typesOfDialogObjProp.delete);
+        setTypeOfDialogFunc(typesOfDialogObjProp.deleteUser);
         setOpenDialogStateFunc(true);
         break;
       }

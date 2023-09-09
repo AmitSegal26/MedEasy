@@ -32,7 +32,10 @@ const EditCardPage = () => {
   const [alertFile, setAlertFile] = useState(false);
   const [fileSize, setFileSize] = useState(0);
   useEffect(() => {
-    validateIdSchema({ id });
+    if (validateIdSchema(id)) {
+      navigate(ROUTES.HOME);
+      return;
+    }
     let dfltMsg = "error display cards info, try again later";
     (async () => {
       try {

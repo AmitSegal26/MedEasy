@@ -1,29 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import handleErrorFromAxios from "../../utils/handleError";
 import axios from "axios";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  IconButton,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import COLORS from "../../colors/COLORS";
-import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
+import { Button, CircularProgress, Container } from "@mui/material";
 import DialogBox from "../../components/DialogBox";
 import { toast } from "react-toastify";
-import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
-import makeTitle from "../../utils/makeATitle";
 import { useSelector } from "react-redux";
 import UsersListComponent from "./UsersListComponent";
-import deleteCardFunc from "../../utils/deleteCard";
+import CardsListComponent from "./CardsListComponent";
 
 const CRMPage = () => {
   const navigate = useNavigate();
@@ -57,13 +42,13 @@ const CRMPage = () => {
       }
     })();
   }, []);
-  //* cards functions
-  const handleDeleteClick = async (ev) => {
-    deleteCardFunc(ev, cardsArr, setCardsArr);
-  };
 
   //*users functions
-  const typesOfDialog = { auth: "authorization", delete: "delete" };
+  const typesOfDialog = {
+    auth: "authorization",
+    deleteUser: "delete",
+    deleteCard: "delete-card",
+  };
   const handleAuthClick = async (ev) => {
     if (!ev) {
       return;
@@ -111,10 +96,16 @@ const CRMPage = () => {
         navigate(ROUTES.LOGOUT);
         return;
       }
-      let newUsersArr = JSON.parse(JSON.stringify(usersArr));
-      newUsersArr = newUsersArr.filter((user) => user._id !== idOfItem);
-      setUsersArr(newUsersArr);
-      toast.info("user deleted");
+      if (typeOfItem === "cards") {
+        let newCardsArr = JSON.parse(JSON.stringify(cardsArr));
+        newCardsArr = newCardsArr.filter((user) => user._id !== idOfItem);
+        setCardsArr(newCardsArr);
+      } else {
+        let newUsersArr = JSON.parse(JSON.stringify(usersArr));
+        newUsersArr = newUsersArr.filter((user) => user._id !== idOfItem);
+        setUsersArr(newUsersArr);
+      }
+      toast.info(typeOfItem === "cards" ? "card deleted" : "user deleted");
     } catch (err) {
       handleErrorFromAxios(err, "problem deleting user right now", false);
     }
@@ -133,15 +124,16 @@ const CRMPage = () => {
   }
   return (
     <Container maxWidth="lg">
-      <Button variant="contained" onClick={handleChangeDisplay}>
-        {isDisplayUsers ? "true" : "false"}
+      <Button sx={{ mb: 2 }} variant="contained" onClick={handleChangeDisplay}>
+        {`show ${isDisplayUsers ? "cards" : "users"}`}
       </Button>
       {openDialogState ? (
         <DialogBox
           openStateProp={openDialogState}
           setOpenFunc={setOpenDialogState}
           title={`${
-            typeOfDialog === typesOfDialog.delete
+            typeOfDialog === typesOfDialog.deleteUser ||
+            typeOfDialog === typesOfDialog.deleteCard
               ? "Delete"
               : typeOfDialog === typesOfDialog.auth
               ? "Revoke your authorization"
@@ -157,14 +149,16 @@ const CRMPage = () => {
               : undefined
           }
           agreeText={
-            typeOfDialog === typesOfDialog.delete
+            typeOfDialog === typesOfDialog.deleteUser ||
+            typeOfDialog === typesOfDialog.deleteCard
               ? "Delete"
               : typeOfDialog === typesOfDialog.auth
               ? "Continue"
               : undefined
           }
           agreeFunc={
-            typeOfDialog === typesOfDialog.delete
+            typeOfDialog === typesOfDialog.deleteUser ||
+            typeOfDialog === typesOfDialog.deleteCard
               ? handleDeleteAfterConfirm
               : typeOfDialog === typesOfDialog.auth
               ? handleAuthClick
@@ -186,7 +180,13 @@ const CRMPage = () => {
           typesOfDialogObjProp={typesOfDialog}
         />
       ) : (
-        ""
+        <CardsListComponent
+          cardsArrProp={cardsArr}
+          typesOfDialogObjProp={typesOfDialog}
+          setDialogItemStateFunc={setDialogItemState}
+          setTypeOfDialogFunc={setTypeOfDialog}
+          setOpenDialogStateFunc={setOpenDialogState}
+        />
       )}
     </Container>
   );
