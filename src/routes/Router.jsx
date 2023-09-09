@@ -7,7 +7,7 @@ import LoginPage from "../pages/LoginPage";
 import AboutPage from "../pages/AboutPage";
 import ProfilePage from "../pages/ProfilePage";
 import LogOut from "../components/LogOut";
-import CRMPage from "../pages/CRMPage";
+import CRMPage from "../pages/CRM/CRMPage";
 import ProductsPage from "../pages/ShopPage";
 import SpecificProductPage from "../pages/specificProduct/SpecificProductPage";
 import GalleryPage from "../pages/gallery/GalleryPage";

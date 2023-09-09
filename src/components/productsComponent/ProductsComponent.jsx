@@ -28,6 +28,7 @@ import ROUTES from "../../routes/ROUTES";
 import axios from "axios";
 //css
 import "./productsCompStyle.css";
+import deleteCardFunc from "../../utils/deleteCard";
 
 const ProductsComponent = ({
   productsArrProp,
@@ -315,32 +316,8 @@ const ProductsComponent = ({
       );
     }
   };
-  const handleDeleteClick = async (ev) => {
-    try {
-      if (!ev) {
-        toast.error("problem with ev");
-        return;
-      }
-      if (!ev.target) {
-        toast.error("problem with ev.target");
-        return;
-      }
-      if (ev && ev.target && !ev.target.id) {
-        toast.error("problem with ev.target.id");
-        return;
-      }
-      let { id } = ev.target;
-      let {
-        data: { _id },
-        data: { title },
-      } = await axios.delete(`http://localhost:8181/api/cards/delete/${id}`);
-      let newProductsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
-      newProductsArr = newProductsArr.filter((item) => item._id != _id);
-      setOriginalCardsArrFunc(newProductsArr);
-      toast.info(`${title ? title : "item"} has been deleted`);
-    } catch (err) {
-      handleErrorFromAxios(err, undefined, false);
-    }
+  const handleDeleteClick = (ev) => {
+    deleteCardFunc(ev, originalCardsArrProp, setOriginalCardsArrFunc);
   };
   const handleDeleteClickBeforeConfirm = (ev) => {
     if (!ev) {
