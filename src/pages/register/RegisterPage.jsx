@@ -123,21 +123,24 @@ const RegisterPage = () => {
     }
     setGender(ev.target.value);
   };
-  const handleFileUpload = (ev) => {
-    if (!ev.target) {
-      return;
-    }
-    let reader = new FileReader();
-    reader.onload = () => {
-      const file = ev.target.files[0];
-      if (file.size > 1048576) {
-        setAlertFile(true);
-      }
-      setFileSize(file.size);
-      setProfilePic(reader.result);
-    };
-    reader.readAsDataURL(ev.target.files[0]);
-  };
+  // const handleFileUpload = (ev) => {
+  //   if (!ev) {
+  //     return;
+  //   }
+  //   if (!ev.target) {
+  //     return;
+  //   }
+  //   let reader = new FileReader();
+  //   reader.onload = () => {
+  //     const file = ev.target.files[0];
+  //     if (file.size > 1048576) {
+  //       setAlertFile(true);
+  //     }
+  //     setFileSize(file.size);
+  //     setProfilePic(reader.result);
+  //   };
+  //   reader.readAsDataURL(ev.target.files[0]);
+  // };
   const handleCancelPicBtn = () => {
     setFileSize(0);
     setAlertFile(false);
@@ -173,7 +176,9 @@ const RegisterPage = () => {
             inputStateProp={inputState}
             inputErrorStateProp={inputsErrorState}
             handleGenderChangeFunc={handleGenderChange}
-            handleFileUploadFunc={handleFileUpload}
+            setAlertFileFunc={setAlertFile}
+            setFileSizeFunc={setFileSize}
+            setPicFunc={setProfilePic}
             profilePicProp={profilePic}
             handleCancelPicBtnFunc={handleCancelPicBtn}
             handleInputChangeFunc={handleInputChange}

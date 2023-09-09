@@ -93,7 +93,9 @@ const ProfileFormComponent = (props) => {
         Upload a Profile Picture
         {!props.profilePicProp ? (
           <ImageUploadComponent
-            handleFileUploadFunc={props.handleFileUploadFunc}
+            setAlertFileFunc={props.setAlertFileFunc}
+            setFileSizeFunc={props.setFileSizeFunc}
+            setPicFunc={props.setPicFunc}
           />
         ) : (
           <ImageRemoveComponent

@@ -124,18 +124,6 @@ const ProfilePage = () => {
     { nameOfInput: "Last Name", idAndKey: "last", isReq: true },
     { nameOfInput: "Email", idAndKey: "email", isReq: false },
   ];
-  const handleFileUpload = (ev) => {
-    let reader = new FileReader();
-    reader.onload = () => {
-      const file = ev.target.files[0];
-      if (file.size > 1048576) {
-        setAlertFile(true);
-      }
-      setPicSize(file.size);
-      setPicState(reader.result);
-    };
-    reader.readAsDataURL(ev.target.files[0]);
-  };
   const handleCancelPicBtn = () => {
     setPicSize(0);
     setAlertFile(false);
@@ -294,7 +282,11 @@ const ProfilePage = () => {
         <Grid item xs={12} md={6}>
           Upload a Profile Picture
           {(infoOfUser && !infoOfUser.image) || !picState ? (
-            <ImageUploadComponent handleFileUploadFunc={handleFileUpload} />
+            <ImageUploadComponent
+              setAlertFileFunc={setAlertFile}
+              setFileSizeFunc={setPicSize}
+              setPicFunc={setPicState}
+            />
           ) : (
             <ImageRemoveComponent
               alertFileProp={alertFile}

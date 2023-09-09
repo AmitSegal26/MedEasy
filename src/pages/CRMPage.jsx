@@ -91,7 +91,9 @@ const CRMPage = () => {
         }
       }
       toast.info(
-        data && data.name && data.name.first + " is not admin anymore"
+        data && data.name && data.name.first + data && data.isAdmin
+          ? " is now admin"
+          : " is not admin anymore"
       );
       setUsersArr(newUsersArr);
     } catch (err) {
@@ -130,6 +132,10 @@ const CRMPage = () => {
       await axios.delete(
         `http://localhost:8181/api/${typeOfItem}/delete/${idOfItem}`
       );
+      if (payload && payload._id === idOfItem) {
+        navigate(ROUTES.LOGOUT);
+        return;
+      }
       let newUsersArr = JSON.parse(JSON.stringify(usersArr));
       newUsersArr = newUsersArr.filter((user) => user._id !== idOfItem);
       setUsersArr(newUsersArr);

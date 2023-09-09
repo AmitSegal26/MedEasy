@@ -5,13 +5,35 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 //css
 import "./imageUpload.css";
 
-const ImageUploadComponent = ({ handleFileUploadFunc }) => {
+const ImageUploadComponent = ({
+  setAlertFileFunc,
+  setFileSizeFunc,
+  setPicFunc,
+}) => {
+  const handleFileUpload = (ev) => {
+    if (!ev) {
+      return;
+    }
+    if (!ev.target) {
+      return;
+    }
+    let reader = new FileReader();
+    reader.onload = () => {
+      const file = ev.target.files[0];
+      if (file.size > 1048576) {
+        setAlertFileFunc(true);
+      }
+      setFileSizeFunc(file.size);
+      setPicFunc(reader.result);
+    };
+    reader.readAsDataURL(ev.target.files[0]);
+  };
   return (
     <Fragment>
       <input
         type="file"
         id="inputFileProfilePicProfilePage"
-        onChange={handleFileUploadFunc}
+        onChange={handleFileUpload}
         hidden={true}
         accept=".jpg,.png,.jpeg,.gif"
       />
