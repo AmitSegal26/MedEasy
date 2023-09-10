@@ -19,7 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ListComponent from "../ListComponent";
 import useReadCard from "../../hooks/useReadCard";
 import useEditCard from "../../hooks/useEditCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import handleErrorFromAxios from "../../utils/handleError";
 import SearchPartial from "../Navbar/SearchPartial";
@@ -40,6 +40,7 @@ const ProductsComponent = ({
   const readCard = useReadCard();
   const editCard = useEditCard();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [isDisplayAsCardsStateLoaded, setIsDisplayAsCardsStateLoaded] =
     useState(false);
   const [dialogItemState, setDialogItemState] = useState({});
@@ -300,6 +301,14 @@ const ProductsComponent = ({
         if (newProductsArr[i]._id == data._id) {
           newProductsArr[i] = { ...data };
         }
+      }
+      //*if the user is using the cart page - then remove from the list
+      if (payloadProp && pathname === ROUTES.CART) {
+        newProductsArr = newProductsArr.filter((card) =>
+          card.cart.includes(payloadProp._id)
+        );
+        setOriginalCardsArrFunc(newProductsArr);
+        return;
       }
       setOriginalCardsArrFunc(newProductsArr);
       if (addedToCart) {

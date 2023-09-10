@@ -23,18 +23,6 @@ const CartPage = () => {
     })();
     localStorage.setItem("prev-page-for-back-arrow-btn", "cart");
   }, []);
-  useEffect(() => {
-    (async () => {
-      try {
-        let { data } = await axios.get(
-          "http://localhost:8181/api/cards/getCart"
-        );
-        setLikedCardsArrState(data);
-      } catch (err) {
-        handleErrorFromAxios(err, undefined, false);
-      }
-    })();
-  }, [originalLikedCardsArrState]);
 
   if (!likedCardsArrState) {
     return <CircularProgress />;
