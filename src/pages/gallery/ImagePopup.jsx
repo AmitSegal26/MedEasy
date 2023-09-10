@@ -9,6 +9,15 @@ const ImagePopup = ({ title, imgSrc, imgAlt, open, handleClose }) => {
   const handleCloseClick = () => {
     handleClose();
   };
+
+  const camelToFlat = () => {
+    if (!title) {
+      return;
+    }
+    const camelCase = title.replace(/([a-z])([A-Z])/g, "$1 $2");
+    return camelCase;
+  };
+
   return (
     <Dialog open={open} onClose={handleCloseClick}>
       <DialogTitle>
@@ -20,7 +29,7 @@ const ImagePopup = ({ title, imgSrc, imgAlt, open, handleClose }) => {
             alignItems: "center",
           }}
         >
-          {title}
+          {camelToFlat()}
           <IconButton onClick={handleCloseClick}>
             <CloseIcon />
           </IconButton>
