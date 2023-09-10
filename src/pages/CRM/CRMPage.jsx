@@ -15,6 +15,7 @@ import ROUTES from "../../routes/ROUTES";
 import { useSelector } from "react-redux";
 import UsersListComponent from "./UsersListComponent";
 import CardsListComponent from "./CardsListComponent";
+import COLORS from "../../colors/COLORS";
 
 const CRMPage = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const CRMPage = () => {
     })();
     localStorage.setItem("prev-page-for-back-arrow-btn", "crm");
   }, []);
-
+  const styleForSubTitles = { color: COLORS.TEXT2 };
   //*users functions
   const typesOfDialog = {
     auth: "authorization",
@@ -133,21 +134,36 @@ const CRMPage = () => {
   }
   return (
     <Container maxWidth="lg">
-      <Typography component="h1" variant="h1">
+      <Typography component="h1" variant="h1" sx={{ color: COLORS.TEXT1 }}>
         Admin Panel
       </Typography>
       <Divider />
-      <Typography gutterBottom component="h3" variant="h5">
+      <Typography
+        gutterBottom
+        component="h3"
+        variant="h5"
+        sx={styleForSubTitles}
+      >
         Here you can manage the web's users status, or even delete them if you
         think it's neccesary
       </Typography>
       <Divider />
-      <Typography gutterBottom component="h3" variant="h5">
+      <Typography
+        gutterBottom
+        component="h3"
+        variant="h5"
+        sx={styleForSubTitles}
+      >
         You can also manage the web's cards status, view stock, edit, or even
         delete
       </Typography>
       <Divider />
-      <Typography gutterBottom component="h5" variant="h6">
+      <Typography
+        gutterBottom
+        component="h5"
+        variant="h6"
+        sx={styleForSubTitles}
+      >
         Click at the button below to change aspect of management
       </Typography>
       <Button sx={{ m: 2 }} variant="contained" onClick={handleChangeDisplay}>

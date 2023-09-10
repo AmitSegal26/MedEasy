@@ -74,7 +74,11 @@ const ContactPage = () => {
         alignItems: "center",
       }}
     >
-      <Typography sx={{ mb: 2 }} component="h2" variant="h2">
+      <Typography
+        sx={{ mb: 2, color: COLORS.TEXT1 }}
+        component="h2"
+        variant="h2"
+      >
         Contact us!
       </Typography>
       <Box component={customPaper}>

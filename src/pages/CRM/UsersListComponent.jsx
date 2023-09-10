@@ -175,7 +175,12 @@ const UsersListComponent = ({
   }
   return (
     <Container maxWidth="lg" component="div">
-      <Typography gutterBottom component="h4" variant="h5">
+      <Typography
+        gutterBottom
+        component="h4"
+        variant="h5"
+        sx={{ color: COLORS.TEXT2 }}
+      >
         Number of users on this site: {usersOriginalArrProp.length}
       </Typography>
       <Grid container component={Paper} sx={{ mb: 2, p: 1 }}>

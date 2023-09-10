@@ -66,7 +66,12 @@ const CardsListComponent = ({
   }
   return (
     <Container maxWidth="lg">
-      <Typography gutterBottom component="h4" variant="h5">
+      <Typography
+        gutterBottom
+        component="h4"
+        variant="h5"
+        sx={{ color: COLORS.TEXT2 }}
+      >
         Number of cards on this site: {cardsArrProp.length}
       </Typography>
       <Grid container>

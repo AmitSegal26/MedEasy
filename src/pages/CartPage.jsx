@@ -29,6 +29,8 @@ const CartPage = () => {
   }
   return (
     <ProductsComponent
+      titleOfPage="Your Cart"
+      subTitleOfPage="Here you can find the items you've added to your cart,you can remove them from your cart by pressing again on the cart icon"
       productsArrProp={likedCardsArrState}
       payloadProp={payload}
       setOriginalCardsArrFunc={setOriginalLikedCardsArrState}

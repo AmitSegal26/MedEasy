@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import ImagePopup from "./ImagePopup";
 import makeTitle from "../../utils/makeATitle";
+import COLORS from "./../../colors/COLORS";
 
 const images = require.context("../../assets/imgs/gallery", true);
 let counter = 0;
@@ -67,7 +68,7 @@ const GalleryPage = () => {
         alignItems: "center",
       }}
     >
-      <Typography component="h2" variant="h3">
+      <Typography component="h2" variant="h3" sx={{ color: COLORS.TEXT1 }}>
         Gallery
       </Typography>
       <ImagePopup

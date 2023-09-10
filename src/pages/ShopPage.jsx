@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import handleErrorFromAxios from "../utils/handleError";
 import ProductsComponent from "../components/productsComponent/ProductsComponent";
+
 const ProductsPage = () => {
   const navigate = useNavigate();
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
@@ -42,6 +43,9 @@ const ProductsPage = () => {
   }
   return (
     <ProductsComponent
+      titleOfPage="Our Shop"
+      subTitleOfPage="Here you can look at our products and add to your cart if you liked the
+        item! Enjoy!"
       productsArrProp={productsArr}
       payloadProp={payload}
       setOriginalCardsArrFunc={setOriginalCardsArr}

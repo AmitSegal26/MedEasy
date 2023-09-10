@@ -3,10 +3,12 @@ import {
   Card,
   CircularProgress,
   Container,
+  Divider,
   Grid,
   List,
   ListItem,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SortFilterDisplayComp from "./SortFilterDisplayComp";
@@ -30,6 +32,8 @@ import axios from "axios";
 import "./productsCompStyle.css";
 
 const ProductsComponent = ({
+  titleOfPage,
+  subTitleOfPage,
   productsArrProp,
   payloadProp,
   setOriginalCardsArrFunc,
@@ -383,6 +387,24 @@ const ProductsComponent = ({
   }
   return (
     <Container maxWidth="lg">
+      <Typography
+        gutterBottom
+        component="h1"
+        variant="h2"
+        sx={{ color: COLORS.TEXT1 }}
+      >
+        {titleOfPage}
+      </Typography>
+      <Divider />
+      <Typography
+        gutterBottom
+        component="h2"
+        variant="h4"
+        sx={{ color: COLORS.TEXT2 }}
+      >
+        {subTitleOfPage}
+      </Typography>
+      <Divider sx={{ mb: 1 }} />
       {payloadProp && payloadProp.isAdmin && showExtraBtn ? (
         <Button
           sx={{
