@@ -1,0 +1,13 @@
+#authority-btn {
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  border-radius: 5px;
+  background-color: #e0b4a4;
+}
+#authority-btn:hover {
+  background-color: #4c6a78;
+  transform: scale(1.1);
+  color: #e0b4a4;
+  animation: none;
+}

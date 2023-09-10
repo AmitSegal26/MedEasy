@@ -1,3 +1,4 @@
+import React, { Fragment, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -10,7 +11,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { Fragment } from "react";
 import COLORS from "../../colors/COLORS";
 import makeTitle from "../../utils/makeATitle";
 import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
@@ -20,11 +20,15 @@ import { toast } from "react-toastify";
 import ROUTES from "../../routes/ROUTES";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+//css
+import "./usersListComponentStyle.css";
 
 const UsersListComponent = ({
   payloadProp,
   usersArrProp,
+  usersOriginalArrProp,
   setUsersArrFunc,
+  setOriginalUsersArrFunc,
   setDialogItemStateFunc,
   setTypeOfDialogFunc,
   setOpenDialogStateFunc,
@@ -33,12 +37,23 @@ const UsersListComponent = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const mediaQ = useMediaQuery(theme.breakpoints.down("lg"));
+  const [isFiltered, setIsFiltered] = useState(0);
   const breakPoint = "lg";
   const styleObjForGridItems = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
   };
+  useEffect(() => {
+    if (!usersOriginalArrProp) {
+      return;
+    }
+    if (!usersOriginalArrProp.length) {
+      setUsersArrFunc([]);
+      return;
+    }
+    setUsersArrFunc(usersOriginalArrProp);
+  }, [usersOriginalArrProp]);
   const handleAuthClickBeforeConfirm = (ev) => {
     if (!ev) {
       return;
@@ -88,7 +103,8 @@ const UsersListComponent = ({
           ? " is now admin"
           : " is not admin anymore"
       );
-      setUsersArrFunc(newUsersArr);
+      // setUsersArrFunc(newUsersArr);
+      setOriginalUsersArrFunc(newUsersArr);
     } catch (err) {
       handleErrorFromAxios(err, "problem changing authority status", false);
     }
@@ -130,6 +146,27 @@ const UsersListComponent = ({
       }/${idOfItem}`
     );
   };
+  const handleAuthFilterClick = () => {
+    let newUsersArr = JSON.parse(JSON.stringify(usersOriginalArrProp));
+    switch (isFiltered) {
+      case 0:
+        setIsFiltered(isFiltered + 1);
+        newUsersArr = newUsersArr.filter((user) => user.isAdmin);
+        break;
+      case 1:
+        newUsersArr = newUsersArr.filter((user) => !user.isAdmin);
+        setIsFiltered(isFiltered + 1);
+        break;
+      case 2:
+        setIsFiltered(0);
+        break;
+
+      default:
+        setIsFiltered(0);
+        break;
+    }
+    setUsersArrFunc(newUsersArr);
+  };
   if (!usersArrProp) {
     return;
   }
@@ -139,32 +176,62 @@ const UsersListComponent = ({
   return (
     <Container maxWidth="lg" component="div">
       <Typography gutterBottom component="h4" variant="h5">
-        Number of users on this site: {usersArrProp.length}
+        Number of users on this site: {usersOriginalArrProp.length}
       </Typography>
-      {mediaQ ? (
-        ""
-      ) : (
-        <Grid container component={Paper} sx={{ mb: 2, p: 1 }}>
-          <Grid item xs={2}>
-            Name
-          </Grid>
-          <Grid item xs={2}>
-            Email
-          </Grid>
-          <Grid item xs={2}>
-            Authority
-          </Grid>
-          <Grid item xs={2}>
-            Image
-          </Grid>
-          <Grid item xs={2}>
-            Delete
-          </Grid>
-          <Grid item xs={2}>
-            More Info
-          </Grid>
+      <Grid container component={Paper} sx={{ mb: 2, p: 1 }}>
+        <Grid order={3} item xs={12} lg={2}>
+          <Tooltip
+            title={
+              isFiltered === 0
+                ? "Filter admin users"
+                : isFiltered === 1
+                ? "Filter regular users"
+                : isFiltered === 2
+                ? "Unfilter users"
+                : "Unfilter users"
+            }
+          >
+            <Typography
+              component="p"
+              id="authority-btn"
+              sx={{
+                ":hover": { transform: "scale(1.3)" },
+              }}
+              onClick={handleAuthFilterClick}
+            >
+              {isFiltered === 0
+                ? "Filter admin users"
+                : isFiltered === 1
+                ? "Filter regular users"
+                : isFiltered === 2
+                ? "Unfilter users"
+                : "Unfilter users"}
+            </Typography>
+          </Tooltip>
         </Grid>
-      )}
+        {mediaQ ? (
+          ""
+        ) : (
+          <Fragment>
+            <Grid order={1} item xs={2}>
+              Name
+            </Grid>
+            <Grid order={2} item xs={2}>
+              Email
+            </Grid>
+            <Grid order={4} item xs={2}>
+              Image
+            </Grid>
+            <Grid order={5} item xs={2}>
+              Delete
+            </Grid>
+            <Grid order={6} item xs={2}>
+              More Info
+            </Grid>
+          </Fragment>
+        )}
+      </Grid>
+
       {/* container of every user cell */}
       <Grid container>
         {usersArrProp.map((user) => (

@@ -26,6 +26,7 @@ const CRMPage = () => {
     idOfItem: "",
     nameOfItem: "",
   });
+  const [originalUsersArr, setOriginalUsersArr] = useState(null);
   const [usersArr, setUsersArr] = useState(null);
   const [cardsArr, setCardsArr] = useState(null);
   const localStorageKey = "isDisplayUsers";
@@ -39,6 +40,7 @@ const CRMPage = () => {
       try {
         let { data } = await axios.get("http://localhost:8181/api/users/users");
         setUsersArr(data);
+        setOriginalUsersArr(data);
         let { data: items } = await axios.get(
           "http://localhost:8181/api/cards/allCards"
         );
@@ -197,7 +199,9 @@ const CRMPage = () => {
         <UsersListComponent
           payloadProp={payload}
           usersArrProp={usersArr}
+          usersOriginalArrProp={originalUsersArr}
           setUsersArrFunc={setUsersArr}
+          setOriginalUsersArrFunc={setOriginalUsersArr}
           setDialogItemStateFunc={setDialogItemState}
           setTypeOfDialogFunc={setTypeOfDialog}
           setOpenDialogStateFunc={setOpenDialogState}
