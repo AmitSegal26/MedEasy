@@ -31,7 +31,6 @@ const LoginPage = () => {
       });
       localStorage.setItem("token", data.token);
       loggedIn();
-      navigate(ROUTES.HOME);
     } catch (err) {
       handleErrorFromAxios(err, undefined, false);
     }

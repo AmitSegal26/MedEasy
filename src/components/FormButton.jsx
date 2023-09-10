@@ -1,13 +1,15 @@
 import { Box, Button } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import COLORS from "../colors/COLORS";
 import { useNavigate } from "react-router-dom";
-import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
-import makeLegitRouteForNavigate from "../utils/hrefAndHistory/makeLegitRouteForNavigate";
 import ROUTES from "../routes/ROUTES";
 
 const FormButton = (props) => {
   const navigate = useNavigate();
+  const [whereToState, setWhereToState] = useState(ROUTES.HOME);
+  useEffect(() => {
+    setWhereToState(localStorage.getItem("prev-page-for-cancel-form-btn"));
+  }, []);
   const styleObjOfBtns = {
     flex: " 1 1 0",
     width: "0",
@@ -15,15 +17,14 @@ const FormButton = (props) => {
     mb: 2,
   };
   const handleCancelClick = () => {
-    if (
-      props.toHomePage ||
-      HISTORY.getHistory().every((item) => item.includes(ROUTES.CREATE)) ||
-      HISTORY.getHistory().every((item) => item.includes(ROUTES.LOGIN))
-    ) {
-      navigate(ROUTES.HOME);
+    navigate(whereToState);
+  };
+  const handleSaveClick = () => {
+    props.handleRegisterClickBtnFunc();
+    if (props.isRegisterPage) {
       return;
     }
-    navigate(makeLegitRouteForNavigate(HISTORY.changeToPrev()));
+    navigate(whereToState);
   };
   return (
     <Box component="div" sx={{ width: "100%", display: "flex", gap: "0.6rem" }}>
@@ -38,7 +39,7 @@ const FormButton = (props) => {
         Cancel
       </Button>
       <Button
-        onClick={props.handleRegisterClickBtnFunc}
+        onClick={handleSaveClick}
         fullWidth
         variant="contained"
         sx={{
@@ -54,5 +55,7 @@ const FormButton = (props) => {
     </Box>
   );
 };
+
+FormButton.defaultProps = { isRegisterPage: false };
 
 export default FormButton;

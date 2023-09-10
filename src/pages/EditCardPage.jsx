@@ -113,7 +113,6 @@ const EditCardPage = () => {
         user_id: userIdOfCard,
       });
       toast.success(`${cardState.title} edited!`);
-      navigate(ROUTES.SHOP);
     } catch (err) {
       handleErrorFromAxios(err, undefined, true);
     }

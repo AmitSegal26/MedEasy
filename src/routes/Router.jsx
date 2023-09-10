@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import ROUTES from "./ROUTES";
 //* pages
 import RegisterPage from "../pages/register/RegisterPage";
@@ -23,13 +23,24 @@ import ProtectedRoute from "../components/protectedRoutes/ProtectedRoute";
 import ProtectedRouteForAdmin from "../components/protectedRoutes/ProtectedRouteForAdmin";
 //* title custom hook
 import useTitle from "../hooks/useTitle";
-//*customHistory class
-import HISTORY from "../utils/hrefAndHistory/handleHistoryChange";
 
 const Router = () => {
   useTitle()();
+  const { pathname } = useLocation();
   window.scrollTo({ top: 0 });
-  HISTORY.setNewPage(window.location.href);
+  switch (pathname) {
+    case ROUTES.CREATE:
+    case ROUTES.PROFILE:
+    case ROUTES.REGISTER:
+    case ROUTES.LOGIN:
+      break;
+    default:
+      if (pathname.split("/")[1] === ROUTES.EDIT.split("/")[1]) {
+        break;
+      }
+      localStorage.setItem("prev-page-for-cancel-form-btn", pathname);
+      break;
+  }
   return (
     <Routes>
       <Route path={ROUTES.HOME} element={<HomePage />} />

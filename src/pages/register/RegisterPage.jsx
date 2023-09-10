@@ -172,7 +172,7 @@ const RegisterPage = () => {
             handleRegisterClickBtnFunc={handleRegisterClickBtn}
             disableBtnProp={disableBtn}
             textOfBtn="Sign Up"
-            toHomePage={true}
+            isRegisterPage={true}
           />
           <AccountEngaging isSignInOrUp={"login"} />
         </Box>

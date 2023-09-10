@@ -201,7 +201,6 @@ const ProfilePage = () => {
       );
       loggedIn();
       toast.success("changes saved");
-      navigate(ROUTES.HOME);
     } catch (err) {
       handleErrorFromAxios(
         err,
@@ -360,7 +359,6 @@ const ProfilePage = () => {
             handleRegisterClickBtnFunc={handleSubmitProfileClick}
             disableBtnProp={disableBtn}
             textOfBtn="Save Changes"
-            toHomePage={true}
           />
         </Grid>
       </Grid>

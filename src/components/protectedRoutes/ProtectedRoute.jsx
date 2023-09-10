@@ -3,13 +3,11 @@ import { Navigate } from "react-router-dom";
 
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
-import HISTORY from "../../utils/hrefAndHistory/handleHistoryChange";
 
 const ProtectedRoute = ({ element, supposedToBeLoggedInThis, isLogOut }) => {
   //* logic section
   const isLoggedIn = useSelector((bigState) => bigState.authSlice.isLoggedIn);
   const handleReject = () => {
-    HISTORY.removePagesAfterFailureAuth();
     return <Navigate to={ROUTES.HOME} />;
   };
   if (supposedToBeLoggedInThis) {

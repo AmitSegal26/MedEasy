@@ -66,7 +66,6 @@ const CreateCardPage = () => {
           : null,
       });
       toast.success("item added");
-      navigate(ROUTES.SHOP);
     } catch (err) {
       handleErrorFromAxios(
         err,
