@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Box,
   Container,
@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import SearchPartial from "../../components/Navbar/SearchPartial";
+import logoPic from "../../assets/imgs/logoForNavbar.png";
 //css
 import "./homePage.css";
 
@@ -34,22 +35,6 @@ const HomePage = () => {
       zIndex: 999,
     },
   };
-  const styleObjForItems2 = {
-    border: { [breakPoint]: "3px solid black" },
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column",
-    gap: "30px",
-    order: -1,
-    borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
-    background: {
-      [breakPoint]:
-        "linear-gradient(24deg, rgba(237,183,65,1) 9%, rgba(252,176,69,1) 26%, rgba(241,81,17,1) 51%, rgba(82,253,29,1) 73%)",
-    },
-  };
   const handleBrowseProductsClick = () => {
     navigate(ROUTES.SHOP);
   };
@@ -60,8 +45,9 @@ const HomePage = () => {
     navigate(ROUTES.CONTACTUS);
   };
   return (
-    <div style={{ height: "85vh" }}>
+    <Fragment>
       <div style={{ backgroundColor: "red" }}>DO BY THE BRIEF!</div>
+      {/* search div */}
       <Box
         component="div"
         sx={{
@@ -83,7 +69,6 @@ const HomePage = () => {
           gridTemplate: {
             [breakPoint]: "repeat(2,1fr)/20% 60% 20%",
           },
-          height: "80%",
           width: "80%",
         }}
       >
@@ -136,24 +121,53 @@ const HomePage = () => {
         <Box
           component="div"
           className={mediaQ ? "item1" : ""}
-          sx={styleObjForItems2}
+          sx={{
+            border: { [breakPoint]: "3px solid black" },
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            flexDirection: { xs: "column", xl: "row" },
+            gap: "30px",
+            order: -1,
+            transition: "all 3 linear",
+            borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
+            background: {
+              [breakPoint]:
+                "linear-gradient(24deg, rgba(237,183,65,1) 9%, rgba(252,176,69,1) 26%, rgba(241,81,17,1) 51%, rgba(82,253,29,1) 73%)",
+            },
+          }}
         >
-          <Typography
+          <Box component="div">
+            <Typography
+              sx={{
+                fontSize: { xs: "1.5rem", [breakPoint]: "4rem" },
+                letterSpacing: "0.2rem",
+              }}
+            >
+              Welcome to MedEasy
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: { xs: "1rem", [breakPoint]: "2rem" },
+                letterSpacing: "0.2rem",
+              }}
+            >
+              The place to buy the best medicines and supplements ever existed!
+            </Typography>
+          </Box>
+          <Box
+            component="img"
+            src={logoPic}
+            alt='the logo saying "med easy"'
             sx={{
-              fontSize: { xs: "1.5rem", [breakPoint]: "4rem" },
-              letterSpacing: "0.2rem",
+              // display: { xs: "none", [breakPoint]: "block" },
+              width: "60%",
+              borderRadius: "10px",
+              m: 2,
             }}
-          >
-            Welcome to MedEasy
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: { xs: "1rem", [breakPoint]: "2rem" },
-              letterSpacing: "0.2rem",
-            }}
-          >
-            The place to buy the best medicines and supplements ever existed!
-          </Typography>
+          />
         </Box>
         <Box
           onClick={handleReadMoreClick}
@@ -186,7 +200,7 @@ const HomePage = () => {
           </Typography>
         </Box>
       </Container>
-    </div>
+    </Fragment>
   );
 };
 
