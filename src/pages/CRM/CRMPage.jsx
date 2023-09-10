@@ -47,6 +47,7 @@ const CRMPage = () => {
         handleErrorFromAxios(err, undefined, false);
       }
     })();
+    localStorage.setItem("prev-page-for-back-arrow-btn", "crm");
   }, []);
 
   //*users functions

@@ -34,6 +34,7 @@ const ProductsPage = () => {
         navigate(ROUTES.HOME);
       }
     })();
+    localStorage.setItem("prev-page-for-back-arrow-btn", "shop");
   }, []);
 
   if (!productsArr) {

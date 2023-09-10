@@ -21,6 +21,7 @@ const CartPage = () => {
         handleErrorFromAxios(err, undefined, false);
       }
     })();
+    localStorage.setItem("prev-page-for-back-arrow-btn", "cart");
   }, []);
   useEffect(() => {
     (async () => {

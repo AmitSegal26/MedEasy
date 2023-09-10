@@ -29,6 +29,7 @@ const SpecificProductPage = () => {
   const { id } = useParams();
   const title = useTitle();
   const navigate = useNavigate();
+  const [prevPage, setprevPage] = useState("");
   const [cardData, setCardData] = useState(null);
   const [openBuyNowPopup, setOpenBuyNowPopup] = useState(false);
   const [numOfStars, setNumOfStars] = useState(0);
@@ -38,6 +39,23 @@ const SpecificProductPage = () => {
     if (validateIdSchema(id)) {
       toast.error("something went wrong, try again later");
       navigate(ROUTES.HOME);
+    }
+    const prevPageFromLocalStorage = localStorage.getItem(
+      "prev-page-for-back-arrow-btn"
+    );
+    switch (prevPageFromLocalStorage) {
+      case "cart":
+        setprevPage(ROUTES.CART);
+        break;
+      case "shop":
+        setprevPage(ROUTES.SHOP);
+        break;
+      case "crm":
+        setprevPage(ROUTES.CRM);
+        break;
+      default:
+        setprevPage(ROUTES.SHOP);
+        break;
     }
     (async () => {
       try {
@@ -174,7 +192,7 @@ const SpecificProductPage = () => {
       />
       <Grid container maxWidth="lg" sx={{ m: 5 }}>
         <Grid item xs={4} sm={3} md={2} lg={1}>
-          <BackArrowButtonComp route={ROUTES.SHOP} />
+          <BackArrowButtonComp route={prevPage} />
         </Grid>
         <Grid item xs={9} sm={10} md={11} lg={12}>
           <Typography
