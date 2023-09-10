@@ -74,28 +74,28 @@ const SpecificUserPage = () => {
             gap: { xs: "", [breakPoint]: "5rem" },
           }}
         >
-          <Typography sx={styleForTypography}>
+          <Typography component="div" sx={styleForTypography}>
             <Box component="span" sx={styleForSpanTitle}>
               Name:
             </Box>
             <br />
             {userData.name.first + " " + userData.name.last}
           </Typography>
-          <Typography sx={styleForTypography}>
+          <Typography component="div" sx={styleForTypography}>
             <Box component="span" sx={styleForSpanTitle}>
               Gender:
             </Box>
             <br />
             {userData.gender}
           </Typography>
-          <Typography sx={styleForTypography}>
+          <Typography component="div" sx={styleForTypography}>
             <Box component="span" sx={styleForSpanTitle}>
               Email:
             </Box>
             <br />
             {userData.email}
           </Typography>
-          <Typography sx={styleForTypography}>
+          <Typography component="div" sx={styleForTypography}>
             <Box component="div" sx={styleForSpanTitle}>
               Type of user:
             </Box>

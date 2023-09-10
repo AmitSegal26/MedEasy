@@ -98,7 +98,7 @@ const SpecificProductPage = () => {
       }
       setNumOfStars(rateStr);
     }
-  }, []);
+  }, [id]);
   const handleStarClick = async (ev) => {
     try {
       if (!cardData || !payload || hasRatedAlready) {
@@ -153,6 +153,7 @@ const SpecificProductPage = () => {
     backgroundColor: "#ff80ff",
     borderRadius: "30px",
   };
+
   if (!cardData) {
     return <CircularProgress />;
   }
