@@ -83,6 +83,11 @@ const ProfilePage = () => {
     }
   }, [picState, picSize]);
   useEffect(() => {
+    if (editMode) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [editMode]);
+  useEffect(() => {
     if (!editMode) {
       setDisableBtn(true);
       return;
@@ -297,62 +302,68 @@ const ProfilePage = () => {
           )}
         </Grid>
       </Grid>
-      <Button
-        variant="contained"
-        sx={{
-          borderRadius: "50px",
-          fontWeight: "bold",
-          p: 2,
-          m: 2,
-          width: "50%",
-          color: COLORS.TEXT1,
-          backgroundColor: COLORS.MAIN,
-          border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
-          ":hover": {
-            backgroundColor: COLORS.INVERTEDFROMMAIN,
-            color: COLORS.SECONDARY,
-          },
-        }}
-        onClick={() => {
-          setEditMode(!editMode);
-        }}
-      >
-        Click here to edit your profile{" "}
-        <EditNoteIcon
-          sx={{ ml: 3, border: 1, borderRadius: 2, fontSize: "2rem" }}
-        />
-      </Button>
-      <Button
-        variant="contained"
-        sx={{
-          borderRadius: "50px",
-          fontWeight: "bold",
-          p: 2,
-          m: 2,
-          width: "20%",
-          color: " COLORS.TEXT1",
-          backgroundColor: "#E74C3C",
-          border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
-          ":hover": {
-            backgroundColor: "#D32F2F",
-            color: COLORS.SECONDARY,
-          },
-        }}
-        onClick={() => {
-          setOpenDialogBox(true);
-        }}
-      >
-        Delete Profile{" "}
-        <DeleteForever
-          sx={{ ml: 3, border: 1, borderRadius: 2, fontSize: "2rem" }}
-        />
-      </Button>
-      <FormButton
-        handleRegisterClickBtnFunc={handleSubmitProfileClick}
-        disableBtnProp={disableBtn}
-        textOfBtn="Save Changes"
-        toHomePage={true}
-      />
+      <Grid container spacing={2} sx={{ transform: "translateX(-10px)" }}>
+        <Grid item xs={12} md={8}>
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: "50px",
+              fontWeight: "bold",
+              p: 2,
+              width: "100%",
+              color: COLORS.TEXT1,
+              backgroundColor: COLORS.MAIN,
+              border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
+              ":hover": {
+                backgroundColor: COLORS.INVERTEDFROMMAIN,
+                color: COLORS.SECONDARY,
+              },
+            }}
+            onClick={() => {
+              setEditMode(!editMode);
+            }}
+          >
+            Click here to edit your profile{" "}
+            <EditNoteIcon
+              sx={{ ml: 3, border: 1, borderRadius: 2, fontSize: "2rem" }}
+            />
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Button
+            variant="contained"
+            sx={{
+              borderRadius: "50px",
+              fontWeight: "bold",
+              p: 2,
+              width: "100%",
+              color: " COLORS.TEXT1",
+              backgroundColor: "#E74C3C",
+              border: `0.2rem solid ${COLORS.INVERTEDFROMMAIN}`,
+              ":hover": {
+                backgroundColor: "#D32F2F",
+                color: COLORS.SECONDARY,
+              },
+            }}
+            onClick={() => {
+              setOpenDialogBox(true);
+            }}
+          >
+            Delete Profile{" "}
+            <DeleteForever
+              sx={{ ml: 3, border: 1, borderRadius: 2, fontSize: "2rem" }}
+            />
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <FormButton
+            handleRegisterClickBtnFunc={handleSubmitProfileClick}
+            disableBtnProp={disableBtn}
+            textOfBtn="Save Changes"
+            toHomePage={true}
+          />
+        </Grid>
+      </Grid>
     </Container>
   );
 };
