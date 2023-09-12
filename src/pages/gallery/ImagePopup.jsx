@@ -1,9 +1,12 @@
 import React from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Box, IconButton } from "@mui/material";
 
 const ImagePopup = ({ title, imgSrc, imgAlt, open, handleClose }) => {
   const handleCloseClick = () => {

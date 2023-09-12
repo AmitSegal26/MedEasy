@@ -25,7 +25,7 @@ const imageList = images.keys().map(
 const GalleryPage = () => {
   const theme = useTheme();
   const [dialogItemState, setDialogItemState] = useState({});
-  const [imageListState, setImageListState] = useState(imageList);
+  const [imageListState] = useState(imageList);
   const mediaLG = useMediaQuery(theme.breakpoints.down("lg"));
   const mediaSM = useMediaQuery(theme.breakpoints.down("sm"));
   const [openPopup, setOpenPopup] = useState(false);

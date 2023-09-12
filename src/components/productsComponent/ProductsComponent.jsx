@@ -99,7 +99,7 @@ const ProductsComponent = ({
       queryParams &&
       Object.keys(queryParams).every((key) => key === "filter")
     ) {
-      //*check if only filter property is in the object of queryParams
+      //*check if only 'filter' property is in the object of queryParams
       let { filter } = queryParams;
       let newCardsArr = JSON.parse(JSON.stringify(originalCardsArrProp));
       if (!newCardsArr) {
@@ -306,7 +306,7 @@ const ProductsComponent = ({
           newProductsArr[i] = { ...data };
         }
       }
-      //*if the user is using the cart page - then remove from the list
+      //*if the user is using the cart page - then remove from the array
       if (payloadProp && pathname === ROUTES.CART) {
         newProductsArr = newProductsArr.filter((card) =>
           card.cart.includes(payloadProp._id)

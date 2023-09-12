@@ -103,7 +103,6 @@ const UsersListComponent = ({
           ? " is now admin"
           : " is not admin anymore"
       );
-      // setUsersArrFunc(newUsersArr);
       setOriginalUsersArrFunc(newUsersArr);
     } catch (err) {
       handleErrorFromAxios(err, "problem changing authority status", false);
@@ -240,7 +239,6 @@ const UsersListComponent = ({
       {/* container of every user cell */}
       <Grid container>
         {usersArrProp.map((user) => (
-          //*user information
           //* user cell
           <Grid
             key={user._id}

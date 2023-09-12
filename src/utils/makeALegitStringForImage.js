@@ -1,4 +1,3 @@
-// import dfltImg from "../assets/imgs/cancelIMG.png";
 import dfltImg from "../assets/imgs/unavailable-image.jpg";
 
 const makeALegitStringForImage = (obj) => {

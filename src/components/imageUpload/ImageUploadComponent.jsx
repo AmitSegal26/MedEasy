@@ -76,12 +76,6 @@ const ImageRemoveComponent = ({
   isEditOrNotFunc,
   handleCancelPicBtnFunc,
 }) => {
-  console.log(
-    alertFileProp,
-    picStateProp,
-    isEditOrNotFunc,
-    handleCancelPicBtnFunc
-  );
   return (
     <Box
       component="div"

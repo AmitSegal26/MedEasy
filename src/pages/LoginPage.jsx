@@ -6,13 +6,10 @@ import validateLoginSchema from "../validations/loginValidate";
 import useLoggedIn from "../hooks/useLoggedIn";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../routes/ROUTES";
 import handleErrorFromAxios from "../utils/handleError";
 import AccountEngaging from "../components/AccountEngaging";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const [disableBtn, setDisableBtn] = useState(false);
   const [inputState, setInputState] = useState({ email: "", password: "" });
   const [inputsErrorState, setinputsErrorState] = useState({});

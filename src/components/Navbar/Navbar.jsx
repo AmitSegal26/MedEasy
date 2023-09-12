@@ -8,7 +8,7 @@ import ROUTES from "../../routes/ROUTES";
 import defaultMale from "../../assets/imgs/maleAvatar.jpg";
 import defaultFemale from "../../assets/imgs/femaleAvatarpng.jpg";
 import defaultOther from "../../assets/imgs/otherAvatar.jpg";
-import errorImg from "../../assets/imgs/cancelIMG.png";
+import errorImg from "../../assets/imgs/unavailable-image.jpg";
 import NavbarLinkComponent from "./NavbarLinkComponent";
 import COLORS from "../../colors/COLORS";
 import ProfileComponent from "./ProfileComponent";

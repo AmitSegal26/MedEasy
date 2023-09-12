@@ -26,6 +26,7 @@ const validation = (schema, userInput) => {
       item.message,
     ];
     /*
+    result:
         errorObjArr.email = [...errorObjArr.email, "invalid email"]
       */
   }

@@ -5,7 +5,6 @@ import ROUTES from "../../routes/ROUTES";
 //css
 import "./navbar.css";
 
-//*<NavlinkComponent  url="stringrek" label="keilu" onClick={handleClick} className="redBackground"/>
 const NavLinkComponent = ({ url, label, ...rest }) => {
   return (
     <NavLink to={url} {...rest} style={{ textDecoration: "none" }}>

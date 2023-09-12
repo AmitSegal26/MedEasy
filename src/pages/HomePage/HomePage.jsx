@@ -162,7 +162,6 @@ const HomePage = () => {
             src={logoPic}
             alt='the logo saying "med easy"'
             sx={{
-              // display: { xs: "none", [breakPoint]: "block" },
               width: "60%",
               borderRadius: "10px",
               m: 2,

@@ -21,11 +21,10 @@ const FormButton = (props) => {
   const handleCancelClick = () => {
     navigate(whereToState);
   };
-  const handleSaveClick = async () => {
+  const handleSaveClick = () => {
+    const { handleFunctionClick } = props;
+    handleFunctionClick();
     // if the function succeeds then return to the previous page, else dont and keep the user fixing the form
-    if (await props.handleFunctionClick()) {
-      navigate(whereToState);
-    }
   };
   return (
     <Box component="div" sx={{ width: "100%", display: "flex", gap: "0.6rem" }}>

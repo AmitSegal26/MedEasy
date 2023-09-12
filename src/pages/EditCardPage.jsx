@@ -1,17 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextFieldComponent from "../components/textField/TextFieldComponent";
 import vaildateCardScheme from "./../validations/cardValidate";
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { CircularProgress, Container, Grid, Typography } from "@mui/material";
 import FormButton from "../components/FormButton";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import COLORS from "../colors/COLORS";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ROUTES from "../routes/ROUTES";
@@ -20,6 +11,10 @@ import makeALegitStringForImage from "../utils/makeALegitStringForImage";
 import makeTitle from "../utils/makeATitle";
 import validateIdSchema from "../validations/idValidate";
 import handleErrorFromAxios from "../utils/handleError";
+import {
+  ImageRemoveComponent,
+  ImageUploadComponent,
+} from "../components/imageUpload/ImageUploadComponent";
 const EditCardPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -117,21 +112,6 @@ const EditCardPage = () => {
       handleErrorFromAxios(err, undefined, true);
     }
   };
-  const handleFileUpload = (ev) => {
-    if (!ev.target) {
-      return;
-    }
-    let reader = new FileReader();
-    reader.onload = () => {
-      const file = ev.target.files[0];
-      if (file.size > 1048576) {
-        setAlertFile(true);
-      }
-      setFileSize(file.size);
-      setCardPic(reader.result);
-    };
-    reader.readAsDataURL(ev.target.files[0]);
-  };
   const handleCancelPicBtn = () => {
     setFileSize(0);
     setAlertFile(false);
@@ -189,79 +169,18 @@ const EditCardPage = () => {
         <Grid item xs={12}>
           Upload a picture for your new medicine!
           {!cardPic ? (
-            <Fragment>
-              <input
-                type="file"
-                id="inputFileProfilePicProfilePage"
-                onChange={handleFileUpload}
-                hidden={true}
-                accept=".jpg,.png,.jpeg,.gif"
-              />
-              <br />
-              <br />
-              <label htmlFor="inputFileProfilePicProfilePage">
-                <Box
-                  sx={{
-                    display: { xs: "none", md: "flex" },
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: "auto",
-                  }}
-                  className="actualBtnForUpload containerOfInput"
-                >
-                  UPLOAD
-                  <CloudUploadIcon />
-                </Box>
-                <CloudUploadIcon
-                  sx={{
-                    display: { xs: "block", md: "none" },
-                    margin: "auto",
-                    backgroundColor: `${COLORS.SECONDARY}`,
-                    borderRadius: "10%",
-                    color: `${COLORS.TEXT1}`,
-                    width: "10vw",
-                    height: "10vw",
-                    padding: "0.5rem",
-                    cursor: "pointer",
-                  }}
-                />
-              </label>
-            </Fragment>
+            <ImageUploadComponent
+              setAlertFileFunc={setAlertFile}
+              setFileSizeFunc={setFileSize}
+              setPicFunc={setCardPic}
+            />
           ) : (
-            <Box
-              component="div"
-              className="container"
-              onClick={handleCancelPicBtn}
-            >
-              <img
-                id="chosenPicture"
-                src={cardPic}
-                alt="Avatar"
-                className={"image"}
-                style={{
-                  width: "90%",
-                  margin: "2rem 0 2rem 0",
-                  borderRadius: "5%",
-                }}
-              />
-              {alertFile ? (
-                <Alert
-                  sx={{ marginTop: "0.8rem" }}
-                  severity="error"
-                  variant="outlined"
-                  onClose={() => {
-                    handleCancelPicBtn();
-                  }}
-                >
-                  image must be less than 1MB
-                </Alert>
-              ) : (
-                ""
-              )}
-              <div className={"middle"}>
-                <div className={"text"}>{"Clear Profile Picture"}</div>
-              </div>
-            </Box>
+            <ImageRemoveComponent
+              alertFileProp={alertFile}
+              picStateProp={cardPic}
+              isEditOrNotFunc={(operat) => operat}
+              handleCancelPicBtnFunc={handleCancelPicBtn}
+            />
           )}
         </Grid>
       </Grid>
