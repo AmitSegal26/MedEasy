@@ -34,6 +34,7 @@ function App() {
     //
     document.addEventListener("mousemove", checkUserInactivity);
     document.addEventListener("keydown", checkUserInactivity);
+    document.addEventListener("wheel", checkUserInactivity);
 
     // Initialize the timer when the component mounts
     checkUserInactivity();
@@ -42,6 +43,7 @@ function App() {
     return () => {
       document.removeEventListener("mousemove", checkUserInactivity);
       document.removeEventListener("keydown", checkUserInactivity);
+      document.removeEventListener("wheel", checkUserInactivity);
     };
   }, []);
   useEffect(() => {
@@ -64,7 +66,7 @@ function App() {
           autoClose: false,
         });
         navigate(ROUTES.LOGOUT);
-      }, milliseconds); // 4 hours in milliseconds
+      }, 2000); // 4 hours in milliseconds
     }
   };
 
