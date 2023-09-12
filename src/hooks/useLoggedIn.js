@@ -24,6 +24,7 @@ const useLoggedIn = () => {
       const payload = jwt_decode(token);
       let fullObjOfRedux = { payload, data };
       dispatch(authActions.login(fullObjOfRedux));
+      return true;
     } catch (err) {
       if (
         err &&
@@ -32,11 +33,12 @@ const useLoggedIn = () => {
         err.response.data.msg === "no user found"
       ) {
         localStorage.clear();
-        return;
+        return false;
       }
       //server error
       //invalid token
       handleErrorFromAxios(err, "problem logging in, try again later", false);
+      return false;
     }
   };
 };

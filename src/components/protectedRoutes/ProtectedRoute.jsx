@@ -22,7 +22,7 @@ const ProtectedRoute = ({ element, supposedToBeLoggedInThis, isLogOut }) => {
       return handleReject();
     }
   } else {
-    //protected for new users or not logged in uesrs
+    //protected for new users or not logged in users
     if (!isLoggedIn) {
       return element;
     } else {

@@ -10,8 +10,11 @@ import { CircularProgress } from "@mui/material";
 import axios from "axios";
 //css
 import "./App.css";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "./routes/ROUTES";
 
 function App() {
+  const navigate = useNavigate();
   const loggedIn = useLoggedIn();
   const [isLoading, setIsLoading] = useState(true);
   const [isFinalLoading, setIsFinalLoading] = useState(true);
@@ -28,10 +31,43 @@ function App() {
         setIsLoading(false);
       }
     })();
+    //
+    document.addEventListener("mousemove", checkUserInactivity);
+    document.addEventListener("keydown", checkUserInactivity);
+
+    // Initialize the timer when the component mounts
+    checkUserInactivity();
+
+    // Clean up event listeners when the component unmounts
+    return () => {
+      document.removeEventListener("mousemove", checkUserInactivity);
+      document.removeEventListener("keydown", checkUserInactivity);
+    };
   }, []);
   useEffect(() => {
     setIsFinalLoading(isLoading);
   }, [isLoading]);
+  let inactivityTimer; // This will store the timer ID
+  const hours = 4; // Replace with your desired number of hours
+  const milliseconds = hours * 60 * 60 * 1000;
+
+  const checkUserInactivity = async () => {
+    if (await loggedIn()) {
+      // Clear the previous timer, if any
+      clearTimeout(inactivityTimer);
+
+      // Set a new timer for 4 seconds
+      inactivityTimer = setTimeout(() => {
+        // User has been inactive for 4 seconds, so trigger your action here
+        // For example, you can display a message or perform some other task
+        toast.warning("You've been logged out due to inactivity", {
+          autoClose: false,
+        });
+        navigate(ROUTES.LOGOUT);
+      }, milliseconds); // 4 hours in milliseconds
+    }
+  };
+
   return (
     <div className="App" style={{ backgroundColor: COLORS.BACKGROUND }}>
       <ToastContainer
