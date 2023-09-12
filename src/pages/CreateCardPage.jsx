@@ -221,7 +221,7 @@ const CreateCardPage = () => {
         </Grid>
       </Grid>
       <FormButton
-        handleRegisterClickBtnFunc={handleAddClick}
+        handleFunctionClick={handleAddClick}
         disableBtnProp={disableBtn}
         textOfBtn="Create Item"
       />

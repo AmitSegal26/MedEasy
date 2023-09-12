@@ -98,7 +98,7 @@ const LoginPage = () => {
           </Grid>
           <Box component="span" sx={{ margin: "1.25rem" }} />
           <FormButton
-            handleRegisterClickBtnFunc={handleLoginBtn}
+            handleFunctionClick={handleLoginBtn}
             disableBtnProp={disableBtn}
             textOfBtn="Sign In"
           />

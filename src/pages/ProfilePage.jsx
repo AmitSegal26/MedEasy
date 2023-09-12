@@ -356,7 +356,7 @@ const ProfilePage = () => {
         </Grid>
         <Grid item xs={12}>
           <FormButton
-            handleRegisterClickBtnFunc={handleSubmitProfileClick}
+            handleFunctionClick={handleSubmitProfileClick}
             disableBtnProp={disableBtn}
             textOfBtn="Save Changes"
           />

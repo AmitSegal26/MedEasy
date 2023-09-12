@@ -266,7 +266,7 @@ const EditCardPage = () => {
         </Grid>
       </Grid>
       <FormButton
-        handleRegisterClickBtnFunc={handleAddClick}
+        handleFunctionClick={handleAddClick}
         disableBtnProp={disableBtn}
         textOfBtn="Save Changes"
       />

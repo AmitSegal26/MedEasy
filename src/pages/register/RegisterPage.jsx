@@ -169,10 +169,9 @@ const RegisterPage = () => {
             alertFileProp={alertFile}
           />
           <FormButton
-            handleRegisterClickBtnFunc={handleRegisterClickBtn}
+            handleFunctionClick={handleRegisterClickBtn}
             disableBtnProp={disableBtn}
             textOfBtn="Sign Up"
-            isRegisterPage={true}
           />
           <AccountEngaging isSignInOrUp={"login"} />
         </Box>

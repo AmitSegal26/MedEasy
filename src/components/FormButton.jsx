@@ -8,7 +8,9 @@ const FormButton = (props) => {
   const navigate = useNavigate();
   const [whereToState, setWhereToState] = useState(ROUTES.HOME);
   useEffect(() => {
-    setWhereToState(localStorage.getItem("prev-page-for-cancel-form-btn"));
+    setWhereToState(
+      localStorage.getItem("prev-page-for-cancel-form-btn") || ROUTES.HOME
+    );
   }, []);
   const styleObjOfBtns = {
     flex: " 1 1 0",
@@ -19,12 +21,11 @@ const FormButton = (props) => {
   const handleCancelClick = () => {
     navigate(whereToState);
   };
-  const handleSaveClick = () => {
-    props.handleRegisterClickBtnFunc();
-    if (props.isRegisterPage) {
-      return;
+  const handleSaveClick = async () => {
+    // if the function succeeds then return to the previous page, else dont and keep the user fixing the form
+    if (await props.handleFunctionClick()) {
+      navigate(whereToState);
     }
-    navigate(whereToState);
   };
   return (
     <Box component="div" sx={{ width: "100%", display: "flex", gap: "0.6rem" }}>
