@@ -32,6 +32,7 @@ function App() {
       }
     })();
     //!BONUS - LOG OUT A USER AFTER $ HOURS OF INACTIVITY
+    //!BONUS - bonus no. 1
     document.addEventListener("wheel", checkUserInactivity);
     document.addEventListener("click", checkUserInactivity);
 

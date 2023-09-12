@@ -5,6 +5,7 @@ import validateIdSchema from "../../validations/idValidate";
 import ROUTES from "../../routes/ROUTES";
 import { toast } from "react-toastify";
 import {
+  Box,
   CircularProgress,
   Container,
   Grid,
@@ -194,6 +195,7 @@ const SpecificProductPage = () => {
         <Grid item xs={4} sm={3} md={2} lg={1}>
           <BackArrowButtonComp route={prevPage} />
         </Grid>
+
         <Grid item xs={9} sm={10} md={11} lg={12}>
           <Typography
             component="h2"
@@ -206,6 +208,20 @@ const SpecificProductPage = () => {
           >
             {makeTitle(cardData.title)}
           </Typography>
+          {/* //!BONUS: bonus no.4 - show the admin o the content page how many has added this item to their cart */}
+          {payload && payload.isAdmin ? (
+            <Typography>
+              <Box component="span" sx={{ fontWeight: "bold", color: "red" }}>
+                This information is for admins only!
+              </Box>
+              <br />
+              {`So far, ${cardData && cardData.cart && cardData.cart.length} has
+              added this item to their cart!`}
+            </Typography>
+          ) : (
+            ""
+          )}
+
           <Typography
             component="p"
             sx={{
