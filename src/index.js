@@ -13,7 +13,6 @@ import store from "./store/bigRedux";
 import axios from "axios";
 //css
 import "./index.css";
-axios.defaults.baseURL = "/api";
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {

@@ -31,19 +31,16 @@ function App() {
         setIsLoading(false);
       }
     })();
-    //
-    document.addEventListener("mousemove", checkUserInactivity);
-    document.addEventListener("keydown", checkUserInactivity);
+    //!BONUS - LOG OUT A USER AFTER $ HOURS OF INACTIVITY
     document.addEventListener("wheel", checkUserInactivity);
+    document.addEventListener("click", checkUserInactivity);
 
     // Initialize the timer when the component mounts
     checkUserInactivity();
-
     // Clean up event listeners when the component unmounts
     return () => {
-      document.removeEventListener("mousemove", checkUserInactivity);
-      document.removeEventListener("keydown", checkUserInactivity);
       document.removeEventListener("wheel", checkUserInactivity);
+      document.removeEventListener("click", checkUserInactivity);
     };
   }, []);
   useEffect(() => {
