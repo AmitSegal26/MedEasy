@@ -62,11 +62,14 @@ function App() {
       inactivityTimer = setTimeout(() => {
         // User has been inactive for 4 seconds, so trigger your action here
         // For example, you can display a message or perform some other task
-        toast.warning("You've been logged out due to inactivity", {
-          autoClose: false,
-        });
+        toast.warning(
+          "You've been logged out due to inactivity (click to hide)",
+          {
+            autoClose: false,
+          }
+        );
         navigate(ROUTES.LOGOUT);
-      }, 2000); // 4 hours in milliseconds
+      }, milliseconds); // 4 hours in milliseconds
     }
   };
 
