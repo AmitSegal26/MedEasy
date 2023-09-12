@@ -65,12 +65,14 @@ const CreateCardPage = () => {
           : null,
       });
       toast.success("item added");
+      return true;
     } catch (err) {
       handleErrorFromAxios(
         err,
         "problem uploading new card, try again later",
         true
       );
+      return false;
     }
   };
   const handleCancelPicBtn = () => {

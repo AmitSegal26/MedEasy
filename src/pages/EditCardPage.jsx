@@ -108,8 +108,10 @@ const EditCardPage = () => {
         user_id: userIdOfCard,
       });
       toast.success(`${cardState.title} edited!`);
+      return true;
     } catch (err) {
       handleErrorFromAxios(err, undefined, true);
+      return false;
     }
   };
   const handleCancelPicBtn = () => {

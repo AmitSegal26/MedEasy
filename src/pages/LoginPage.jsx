@@ -28,8 +28,10 @@ const LoginPage = () => {
       });
       localStorage.setItem("token", data.token);
       loggedIn();
+      return true;
     } catch (err) {
       handleErrorFromAxios(err, undefined, false);
+      return false;
     }
   };
   const handleInputChange = (ev) => {

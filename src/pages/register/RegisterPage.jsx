@@ -84,12 +84,14 @@ const RegisterPage = () => {
       });
       toast.success("user registered");
       navigate(ROUTES.LOGIN);
+      return false;
     } catch (err) {
       handleErrorFromAxios(
         err,
         "problem signing your user up, please try again later",
         true
       );
+      return false;
     }
   };
 

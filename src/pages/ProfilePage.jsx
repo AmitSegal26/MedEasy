@@ -201,12 +201,14 @@ const ProfilePage = () => {
       );
       loggedIn();
       toast.success("changes saved");
+      return true;
     } catch (err) {
       handleErrorFromAxios(
         err,
         "problem editing your profile for now, try again later",
         true
       );
+      return false;
     }
   };
   const handleDeleteProfileClick = async () => {
