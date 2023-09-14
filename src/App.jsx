@@ -42,18 +42,15 @@ function App() {
     setIsFinalLoading(isLoading);
   }, [isLoading]);
   let inactivityTimer; // This will store the timer ID
-  const hours = 4; // Replace with your desired number of hours
+  const hours = 4;
   const milliseconds = hours * 60 * 60 * 1000;
 
   const checkUserInactivity = async () => {
     if (await loggedIn()) {
       // Clear the previous timer, if any
       clearTimeout(inactivityTimer);
-
-      // Set a new timer for 4 seconds
       inactivityTimer = setTimeout(() => {
-        // User has been inactive for 4 seconds, so trigger your action here
-        // For example, you can display a message or perform some other task
+        // User has been inactive for 4 hours, so trigger your action here
         toast.warning(
           "You've been logged out due to inactivity (click to hide)",
           {
