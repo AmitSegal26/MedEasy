@@ -21,8 +21,12 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        await loggedIn();
         await axios.get("http://localhost:8181/");
+        await loggedIn();
+        document.addEventListener("wheel", checkUserInactivity);
+        document.addEventListener("click", checkUserInactivity);
+
+        checkUserInactivity();
         setIsLoading(false);
       } catch (err) {
         toast.error(
@@ -33,16 +37,6 @@ function App() {
     })();
     //!BONUS - LOG OUT A USER AFTER $ HOURS OF INACTIVITY
     //!BONUS - bonus no. 1
-    document.addEventListener("wheel", checkUserInactivity);
-    document.addEventListener("click", checkUserInactivity);
-
-    // Initialize the timer when the component mounts
-    checkUserInactivity();
-    // Clean up event listeners when the component unmounts
-    return () => {
-      document.removeEventListener("wheel", checkUserInactivity);
-      document.removeEventListener("click", checkUserInactivity);
-    };
   }, []);
   useEffect(() => {
     setIsFinalLoading(isLoading);
