@@ -46,7 +46,6 @@ const HomePage = () => {
   };
   return (
     <Fragment>
-      <div style={{ backgroundColor: "red" }}>DO BY THE BRIEF!</div>
       {/* search div */}
       <Box
         component="div"

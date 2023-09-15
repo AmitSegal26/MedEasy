@@ -11,3 +11,28 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+@media (min-width: 1900px) {
+  #main::before {
+    overflow: hidden;
+    content: "";
+    background: linear-gradient(-45deg, #22404a, #1f4b5b, #e0b4a4);
+    width: 300px;
+    height: 500px;
+    position: fixed;
+    right: 0;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    filter: blur(40px);
+    /* animation: rotateDiv 7s infinite; */
+    z-index: 0;
+  }
+  @keyframes rotateDiv {
+    0%,
+    100% {
+      transform: rotate(0);
+    }
+    10% {
+      transform: rotate(360deg);
+    }
+  }
+}

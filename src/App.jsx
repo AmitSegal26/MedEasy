@@ -77,6 +77,7 @@ function App() {
         <Navbar />
       </header>
       <main
+        id="main"
         style={{
           marginTop: "7rem",
           minHeight: "78.5vh",
