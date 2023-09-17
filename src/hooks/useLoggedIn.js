@@ -16,7 +16,7 @@ const useLoggedIn = () => {
       );
       if (!data) {
         localStorage.clear();
-        throw "invalid token";
+        throw new Error("invalid token");
       }
       delete data.__v;
       delete data.createdAt;

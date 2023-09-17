@@ -23,6 +23,8 @@ function App() {
       try {
         await axios.get("http://localhost:8181/");
         await loggedIn();
+        //!BONUS - LOG OUT A USER AFTER $ HOURS OF INACTIVITY
+        //!BONUS - bonus no. 1
         document.addEventListener("wheel", checkUserInactivity);
         document.addEventListener("click", checkUserInactivity);
 
@@ -35,8 +37,6 @@ function App() {
         setIsLoading(false);
       }
     })();
-    //!BONUS - LOG OUT A USER AFTER $ HOURS OF INACTIVITY
-    //!BONUS - bonus no. 1
   }, []);
   useEffect(() => {
     setIsFinalLoading(isLoading);
@@ -46,20 +46,22 @@ function App() {
   const milliseconds = hours * 60 * 60 * 1000;
 
   const checkUserInactivity = async () => {
-    if (await loggedIn()) {
-      // Clear the previous timer, if any
-      clearTimeout(inactivityTimer);
-      inactivityTimer = setTimeout(() => {
-        // User has been inactive for 4 hours, so trigger your action here
-        toast.warning(
-          "You've been logged out due to inactivity (click to hide)",
-          {
-            autoClose: false,
-          }
-        );
-        navigate(ROUTES.LOGOUT);
-      }, milliseconds); // 4 hours in milliseconds
-    }
+    try {
+      if (await loggedIn()) {
+        // Clear the previous timer, if any
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(() => {
+          // User has been inactive for 4 hours, so trigger your action here
+          toast.warning(
+            "You've been logged out due to inactivity (click to hide)",
+            {
+              autoClose: false,
+            }
+          );
+          navigate(ROUTES.LOGOUT);
+        }, milliseconds); // 4 hours in milliseconds
+      }
+    } catch (error) {}
   };
 
   return (
