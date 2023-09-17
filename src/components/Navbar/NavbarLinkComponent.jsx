@@ -11,7 +11,7 @@ const NavLinkComponent = ({ url, label, ...rest }) => {
       {({ isActive }) => (
         <Typography
           sx={{
-            p: 2,
+            p: 1.5,
             m: 2,
             display: "block",
             backgroundColor:
