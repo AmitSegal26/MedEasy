@@ -1,38 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardActionArea,
-  CardHeader,
-  CardMedia,
-  Container,
-  Divider,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../routes/ROUTES";
+import { Box, Container, Divider, Typography } from "@mui/material";
 import SearchPartial from "../../components/Navbar/SearchPartial";
+import CardHomeComponent from "./CardHomeComponent";
+import ButtonsOfHomePage from "./ButtonsOfHomePage";
+// axios
 import axios from "axios";
-import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
-import makeTitle from "../../utils/makeATitle";
-import COLORS from "../../colors/COLORS";
-import logoPic from "../../assets/imgs/MedEasyIcon.png";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import CollectionsIcon from "@mui/icons-material/Collections";
-import HelpCenterIcon from "@mui/icons-material/HelpCenter";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
 //css
 import "./homePage.css";
 
 const HomePage = () => {
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
   const [cardsArrForHomePage, setCardsArrForHomePage] = useState(null);
   useEffect(() => {
     (async () => {
@@ -50,44 +26,6 @@ const HomePage = () => {
     })();
   }, []);
   const breakPoint = "md";
-  const handleBrowseProductsClick = () => {
-    navigate(ROUTES.SHOP);
-  };
-  const handleReadMoreClick = () => {
-    navigate(ROUTES.ABOUT);
-  };
-  const handleTalkToUsClick = () => {
-    navigate(ROUTES.CONTACTUS);
-  };
-  const handleGalleryClick = () => {
-    navigate(ROUTES.GALLERY);
-  };
-  const arrOfLinks = [
-    {
-      icon: <ShoppingBasketIcon />,
-      color: "success",
-      text: "To our shop",
-      func: handleBrowseProductsClick,
-    },
-    {
-      icon: <HelpCenterIcon />,
-      color: "info",
-      text: "More about us",
-      func: handleReadMoreClick,
-    },
-    {
-      icon: <ContactMailIcon />,
-      color: "secondary",
-      text: "Talk to us",
-      func: handleTalkToUsClick,
-    },
-    {
-      icon: <CollectionsIcon />,
-      color: "warning",
-      text: "View our gallery",
-      func: handleGalleryClick,
-    },
-  ];
   return (
     <Fragment>
       {/* banner */}
@@ -125,7 +63,10 @@ const HomePage = () => {
           supplements!
         </Typography>
         <Divider flexItem />
-        <Typography variant="h6" sx={{ maxWidth: "500px", mt: 2, mb: 10 }}>
+        <Typography
+          variant="h6"
+          sx={{ maxWidth: "500px", mt: 2, mb: 10, p: 2 }}
+        >
           We are proud to hear that MedEasy is a company known for providing the
           best quality medicines and supplements in the world. High-quality
           medications and supplements are essential for ensuring the health and
@@ -133,35 +74,8 @@ const HomePage = () => {
           healthcare industry to prioritize the safety, efficacy, and purity of
           their products to meet the needs and expectations of consumers.
         </Typography>
-        <Box
-          component="div"
-          sx={{
-            width: "80%",
-            gap: "2rem",
-            display: "flex",
-            justifyContent: "space-around",
-            flexWrap: "wrap",
-            mb: 5,
-          }}
-        >
-          {arrOfLinks.map((btn) => (
-            <Tooltip disableInteractive title={btn.text} key={btn.text}>
-              <Button
-                onClick={btn.func}
-                sx={{
-                  width: { xs: "100px", [breakPoint]: "200px" },
-                  p: 3,
-                  fontSize: "2rem",
-                  backgroundColor: COLORS.INVERTEDFROMMAIN,
-                }}
-                variant="contained"
-                color={btn.color}
-              >
-                {btn.icon}
-              </Button>
-            </Tooltip>
-          ))}
-        </Box>
+        {/* Buttons of pages for home page */}
+        <ButtonsOfHomePage breakPointProp={breakPoint} />
         {cardsArrForHomePage ? (
           <Fragment>
             <Typography component="h4" variant="h4">
@@ -181,51 +95,11 @@ const HomePage = () => {
               }}
             >
               {cardsArrForHomePage.map((card, i) => (
-                <Fragment>
-                  <Card
-                    raised
-                    sx={{
-                      minWidth: "250px",
-                      maxWidth: "320px",
-                      transition: "all 0.3s ease-in-out",
-                      borderRadius: "10px",
-                      ":hover": {
-                        transform: "scale(1.05)",
-                        backgroundColor: COLORS.MAIN,
-                      },
-                    }}
-                  >
-                    <CardActionArea>
-                      <Typography
-                        component="h5"
-                        variant="h6"
-                        color={COLORS.INVERTEDFROMMAIN}
-                      >
-                        Click to view item
-                      </Typography>
-                      <CardHeader
-                        sx={{ height: "30px" }}
-                        avatar={
-                          <Avatar
-                            src={logoPic}
-                            sx={{ height: "30px", width: "30px" }}
-                          />
-                        }
-                        title={makeTitle(card.title)}
-                      />
-                      <CardMedia
-                        component="img"
-                        src={makeALegitStringForImage(card)}
-                        alt={card.image.alt || card.title}
-                      />
-                    </CardActionArea>
-                  </Card>
-                  {i === cardsArrForHomePage.length - 1 ? (
-                    ""
-                  ) : (
-                    <Divider flexItem sx={{ borderWidth: "0.1rem", m: 2 }} />
-                  )}
-                </Fragment>
+                <CardHomeComponent
+                  cardProp={card}
+                  index={i}
+                  cardsArrForHomePageProp={cardsArrForHomePage}
+                />
               ))}
             </Box>
           </Fragment>
