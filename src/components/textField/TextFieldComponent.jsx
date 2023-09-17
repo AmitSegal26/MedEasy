@@ -55,7 +55,9 @@ const TextFieldComponent = ({
         name={inputType}
         multiline={inputType === "description"}
         autoComplete={inputType}
-        value={isForCreateProduct ? null : isRandPass ? randPass : inputValue}
+        value={
+          isForCreateProduct ? undefined : isRandPass ? randPass : inputValue
+        }
         onChange={onInputChange}
         disabled={disabledProp}
         InputProps={{
