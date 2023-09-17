@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   CardActionArea,
-  CardContent,
   CardHeader,
   CardMedia,
   Container,
@@ -41,8 +40,8 @@ const HomePage = () => {
         let { data } = await axios.get(
           "http://localhost:8181/api/cards/allCards"
         );
-        if (data.length >= 2) {
-          data.length = 2;
+        if (data.length >= 3) {
+          data.length = 3;
         }
         setCardsArrForHomePage(data);
       } catch (err) {
@@ -174,7 +173,7 @@ const HomePage = () => {
               sx={{
                 mt: 2,
                 mb: 10,
-                width: "40vw",
+                width: "70vw",
                 display: "flex",
                 flexDirection: { xs: "column", [breakPoint]: "row" },
                 alignItems: "center",
@@ -186,7 +185,8 @@ const HomePage = () => {
                   <Card
                     raised
                     sx={{
-                      width: "320px",
+                      minWidth: "250px",
+                      maxWidth: "320px",
                       transition: "all 0.3s ease-in-out",
                       borderRadius: "10px",
                       ":hover": {
