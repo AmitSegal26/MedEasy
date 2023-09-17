@@ -17,6 +17,8 @@ const FormButton = (props) => {
     width: "0",
     mt: 3,
     mb: 2,
+    fontWeight: "bold",
+    color: COLORS.TEXT1,
   };
   const handleCancelClick = () => {
     navigate(whereToState);
@@ -45,7 +47,7 @@ const FormButton = (props) => {
         fullWidth
         variant="contained"
         sx={{
-          backgroundColor: `${COLORS.INVERTEDFROMMAIN}`,
+          backgroundColor: `${COLORS.SECONDARY}`,
           ...styleObjOfBtns,
         }}
         disabled={props.disableBtnProp}

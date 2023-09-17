@@ -24,25 +24,25 @@ const ButtonsOfHomePage = ({ breakPointProp }) => {
   };
   const arrOfLinks = [
     {
-      icon: <ShoppingBasketIcon />,
+      icon: <ShoppingBasketIcon sx={{ color: COLORS.TEXT1 }} />,
       color: "success",
       text: "To our shop",
       func: handleBrowseProductsClick,
     },
     {
-      icon: <HelpCenterIcon />,
+      icon: <HelpCenterIcon sx={{ color: COLORS.TEXT1 }} />,
       color: "info",
       text: "More about us",
       func: handleReadMoreClick,
     },
     {
-      icon: <ContactMailIcon />,
+      icon: <ContactMailIcon sx={{ color: COLORS.TEXT1 }} />,
       color: "secondary",
       text: "Talk to us",
       func: handleTalkToUsClick,
     },
     {
-      icon: <CollectionsIcon />,
+      icon: <CollectionsIcon sx={{ color: COLORS.TEXT1 }} />,
       color: "warning",
       text: "View our gallery",
       func: handleGalleryClick,
@@ -68,7 +68,7 @@ const ButtonsOfHomePage = ({ breakPointProp }) => {
               width: { xs: "100px", [breakPointProp]: "200px" },
               p: 3,
               fontSize: "2rem",
-              backgroundColor: COLORS.INVERTEDFROMMAIN,
+              backgroundColor: COLORS.SECONDARY,
             }}
             variant="contained"
             color={btn.color}
