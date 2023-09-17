@@ -1,7 +1,16 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
+  Avatar,
   Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  CardMedia,
   Container,
+  Divider,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -9,32 +18,39 @@ import {
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import SearchPartial from "../../components/Navbar/SearchPartial";
-import logoPic from "../../assets/imgs/logoForNavbar.png";
+import axios from "axios";
+import makeALegitStringForImage from "../../utils/makeALegitStringForImage";
+import makeTitle from "../../utils/makeATitle";
+import COLORS from "../../colors/COLORS";
+import logoPic from "../../assets/imgs/MedEasyIcon.png";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import CollectionsIcon from "@mui/icons-material/Collections";
+import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
 //css
 import "./homePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const mediaQ = useMediaQuery(theme.breakpoints.up("md"));
+  const mediaQ = useMediaQuery(theme.breakpoints.down("md"));
+  const [cardsArrForHomePage, setCardsArrForHomePage] = useState(null);
+  useEffect(() => {
+    (async () => {
+      try {
+        let { data } = await axios.get(
+          "http://localhost:8181/api/cards/allCards"
+        );
+        if (data.length >= 2) {
+          data.length = 2;
+        }
+        setCardsArrForHomePage(data);
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
   const breakPoint = "md";
-  const styleObjForItems = {
-    border: "3px solid black",
-    background: "#D8ACAF",
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "5px",
-    transition: "all 0.2s linear",
-    cursor: "pointer",
-    ":hover": {
-      backgroundColor: "rgba(74, 194, 47, 1)",
-      transform: "scale(1.05)",
-      zIndex: 999,
-    },
-  };
   const handleBrowseProductsClick = () => {
     navigate(ROUTES.SHOP);
   };
@@ -44,8 +60,43 @@ const HomePage = () => {
   const handleTalkToUsClick = () => {
     navigate(ROUTES.CONTACTUS);
   };
+  const handleGalleryClick = () => {
+    navigate(ROUTES.GALLERY);
+  };
+  const arrOfLinks = [
+    {
+      icon: <ShoppingBasketIcon />,
+      color: "success",
+      text: "To our shop",
+      func: handleBrowseProductsClick,
+    },
+    {
+      icon: <HelpCenterIcon />,
+      color: "info",
+      text: "More about us",
+      func: handleReadMoreClick,
+    },
+    {
+      icon: <ContactMailIcon />,
+      color: "secondary",
+      text: "Talk to us",
+      func: handleTalkToUsClick,
+    },
+    {
+      icon: <CollectionsIcon />,
+      color: "warning",
+      text: "View our gallery",
+      func: handleGalleryClick,
+    },
+  ];
   return (
     <Fragment>
+      {/* banner */}
+      <Box component="div" className="banner">
+        <Typography gutterBottom component="h1">
+          Welcome to MedEasy
+        </Typography>
+      </Box>
       {/* search div */}
       <Box
         component="div"
@@ -58,145 +109,129 @@ const HomePage = () => {
       >
         <SearchPartial value={""} />
       </Box>
+      {/* Content */}
       <Container
-        component="div"
-        id="container"
         maxWidth="xl"
-        sx={{
-          display: "grid",
-          gap: "1rem",
-          gridTemplate: {
-            [breakPoint]: "repeat(2,1fr)/20% 60% 20%",
-          },
-          width: "80%",
-        }}
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
-        <Box
-          onClick={handleTalkToUsClick}
-          component="div"
-          className={mediaQ ? "item" : ""}
+        <Typography
+          gutterBottom
+          component="h2"
+          variant="h4"
           sx={{
-            ...styleObjForItems,
-            gridArea: { [breakPoint]: "1/1/3/2" },
-            borderRadius: { [breakPoint]: "50px 10px 10px 50px" },
+            mt: 3,
           }}
         >
-          <Typography
-            sx={{
-              display: "flex",
-              flexDirection: { [breakPoint]: "column" },
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              height: "90%",
-              fontSize: { xs: "1rem", [breakPoint]: "4rem" },
-            }}
-          >
-            <Box
-              component="span"
-              sx={{
-                transform: { [breakPoint]: "rotate(35deg)" },
-                marginRight: { [breakPoint]: "0", xs: "1.2rem" },
-              }}
-            >
-              Talk
-            </Box>
-            <Box
-              component="span"
-              sx={{
-                transform: { [breakPoint]: "rotate(-35deg)" },
-                marginRight: { [breakPoint]: "0", xs: "1.2rem" },
-              }}
-            >
-              To
-            </Box>
-            <Box
-              component="span"
-              sx={{ transform: { [breakPoint]: "rotate(35deg)" } }}
-            >
-              Us!
-            </Box>
-          </Typography>
-        </Box>
+          The place to get yourself the best quality of medicines and
+          supplements!
+        </Typography>
+        <Divider flexItem />
+        <Typography variant="h6" sx={{ maxWidth: "500px", mt: 2, mb: 10 }}>
+          We are proud to hear that MedEasy is a company known for providing the
+          best quality medicines and supplements in the world. High-quality
+          medications and supplements are essential for ensuring the health and
+          well-being of individuals. It's important for companies in the
+          healthcare industry to prioritize the safety, efficacy, and purity of
+          their products to meet the needs and expectations of consumers.
+        </Typography>
         <Box
           component="div"
-          className={mediaQ ? "item1" : ""}
           sx={{
-            border: { [breakPoint]: "3px solid black" },
-            width: "100%",
-            height: "100%",
+            width: "80%",
+            gap: "2rem",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            flexDirection: { xs: "column", xl: "row" },
-            gap: "30px",
-            order: -1,
-            transition: "all 3 linear",
-            borderRadius: { [breakPoint]: " 10px 10px 10px 10px " },
-            background: {
-              [breakPoint]:
-                "linear-gradient(24deg, rgba(237,183,65,1) 9%, rgba(252,176,69,1) 26%, rgba(241,81,17,1) 51%, rgba(82,253,29,1) 73%)",
-            },
+            justifyContent: "space-around",
+            flexWrap: "wrap",
+            mb: 5,
           }}
         >
-          <Box component="div">
-            <Typography
+          {arrOfLinks.map((btn) => (
+            <Tooltip disableInteractive title={btn.text} key={btn.text}>
+              <Button
+                onClick={btn.func}
+                sx={{
+                  width: { xs: "100px", [breakPoint]: "200px" },
+                  p: 3,
+                  fontSize: "2rem",
+                  backgroundColor: COLORS.INVERTEDFROMMAIN,
+                }}
+                variant="contained"
+                color={btn.color}
+              >
+                {btn.icon}
+              </Button>
+            </Tooltip>
+          ))}
+        </Box>
+        {cardsArrForHomePage ? (
+          <Fragment>
+            <Typography component="h4" variant="h4">
+              Some of our items:
+            </Typography>
+            {/* direct container of cards */}
+            <Box
+              component="div"
               sx={{
-                fontSize: { xs: "1.5rem", [breakPoint]: "4rem" },
-                letterSpacing: "0.2rem",
+                mt: 2,
+                mb: 10,
+                width: "40vw",
+                display: "flex",
+                flexDirection: { xs: "column", [breakPoint]: "row" },
+                alignItems: "center",
+                justifyContent: "space-around",
               }}
             >
-              Welcome to MedEasy
-            </Typography>
-            <Typography
-              sx={{
-                fontSize: { xs: "1rem", [breakPoint]: "2rem" },
-                letterSpacing: "0.2rem",
-              }}
-            >
-              The place to buy the best medicines and supplements ever existed!
-            </Typography>
-          </Box>
-          <Box
-            component="img"
-            src={logoPic}
-            alt='the logo saying "med easy"'
-            sx={{
-              width: "60%",
-              borderRadius: "10px",
-              m: 2,
-            }}
-          />
-        </Box>
-        <Box
-          onClick={handleReadMoreClick}
-          component="div"
-          className={mediaQ ? "item" : ""}
-          sx={{
-            ...styleObjForItems,
-            borderRadius: { [breakPoint]: " 10px 50px 10px 10px " },
-          }}
-        >
-          <Typography>Click here to read more about the website!</Typography>
-        </Box>
-        <Box
-          onClick={handleBrowseProductsClick}
-          component="div"
-          className={mediaQ ? "item" : ""}
-          sx={{
-            ...styleObjForItems,
-            gridArea: { [breakPoint]: "2/2/3/4" },
-            borderRadius: { [breakPoint]: " 10px 10px 50px 10px " },
-          }}
-        >
-          <Typography
-            sx={{
-              fontSize: { xs: "1.5rem", [breakPoint]: "4rem" },
-              letterSpacing: "0.2rem",
-            }}
-          >
-            Browse Products!
-          </Typography>
-        </Box>
+              {cardsArrForHomePage.map((card, i) => (
+                <Fragment>
+                  <Card
+                    raised
+                    sx={{
+                      width: "320px",
+                      transition: "all 0.3s ease-in-out",
+                      borderRadius: "10px",
+                      ":hover": {
+                        transform: "scale(1.05)",
+                        backgroundColor: COLORS.MAIN,
+                      },
+                    }}
+                  >
+                    <CardActionArea>
+                      <Typography
+                        component="h5"
+                        variant="h6"
+                        color={COLORS.INVERTEDFROMMAIN}
+                      >
+                        Click to view item
+                      </Typography>
+                      <CardHeader
+                        sx={{ height: "30px" }}
+                        avatar={
+                          <Avatar
+                            src={logoPic}
+                            sx={{ height: "30px", width: "30px" }}
+                          />
+                        }
+                        title={makeTitle(card.title)}
+                      />
+                      <CardMedia
+                        component="img"
+                        src={makeALegitStringForImage(card)}
+                        alt={card.image.alt || card.title}
+                      />
+                    </CardActionArea>
+                  </Card>
+                  {i === cardsArrForHomePage.length - 1 ? (
+                    ""
+                  ) : (
+                    <Divider flexItem sx={{ borderWidth: "0.1rem", m: 2 }} />
+                  )}
+                </Fragment>
+              ))}
+            </Box>
+          </Fragment>
+        ) : (
+          ""
+        )}
       </Container>
     </Fragment>
   );

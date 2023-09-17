@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -52,6 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchPartial = ({ value }) => {
+  const { pathname } = useLocation();
   const [searchInput, setSearchInput] = useState(value);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -73,7 +74,12 @@ const SearchPartial = ({ value }) => {
     navigate(`${href}?filter=${searchInput}`);
   };
   return (
-    <form onSubmit={handleSearchSubmit}>
+    <form
+      onSubmit={handleSearchSubmit}
+      style={{
+        transform: pathname === ROUTES.HOME ? "translateY(-70px)" : "none",
+      }}
+    >
       <div style={{ width: mediaQ ? "30vw" : "15vw", marginBottom: "0.3rem" }}>
         <Search>
           <SearchIconWrapper>
