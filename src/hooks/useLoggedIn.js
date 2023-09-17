@@ -27,10 +27,11 @@ const useLoggedIn = () => {
       return true;
     } catch (err) {
       if (
-        err &&
-        err.response &&
-        err.response.data &&
-        err.response.data.msg === "no user found"
+        (err &&
+          err.response &&
+          err.response.data &&
+          err.response.data.msg === "no user found") ||
+        err.response.data.msg === "invalid token"
       ) {
         localStorage.clear();
         return false;
